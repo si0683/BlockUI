@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlockUI — building blocks for beautiful websites</title>
+  <meta name="description" content="Build polished one-page websites with plain HTML classes and attributes: 5 styles, 11 colours, photos by keyword, cart, forms, sliders, maps, icons. No build step. Works great with AI.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
+  <link rel="stylesheet" href="blockui.css">
+  <style>
+    .code { margin: 0; padding: 18px 20px; border-radius: var(--bui-radius); background: #0f172a; color: #e2e8f0; font: 14px/1.6 ui-monospace, Consolas, monospace; overflow-x: auto; text-align: left; white-space: pre; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0 18px; }
+    .chips button { padding: 8px 14px; border: 2px solid var(--bui-line); border-radius: 999px; background: var(--bui-surface); color: var(--bui-text); font: 700 0.9rem var(--bui-font-text); cursor: pointer; }
+    .chips button.on { border-color: var(--bui-main); color: var(--bui-main); }
+    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  </style>
+</head>
+<body>
+
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span>🧱</span><span>BlockUI</span></a>
+    <nav class="bui-nav">
+      <a href="#features">Features</a>
+      <a href="#playground">Styles</a>
+      <a href="#examples">Examples</a>
+      <a href="#ai">AI</a>
+      <a href="https://github.com/si0683/BlockUI">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<section class="bui-hero" id="top">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">v2.0 · MIT · no build step</span>
+      <h1>Beautiful websites from plain HTML</h1>
+      <p>Compose a landing page from ready-made blocks. Styles, photos, cart, order dialog, forms, sliders, maps and icons work through classes and attributes — and AI models write it fluently.</p>
+      <div class="bui-row">
+        <a class="bui-btn bui-btn-big" href="#start">Get started</a>
+        <a class="bui-btn bui-btn-ghost bui-btn-big" href="AI.md">Docs</a>
+      </div>
+      <ul class="bui-facts">
+        <li><b>5 × 11</b><span>styles × colours</span></li>
+        <li><b>270</b><span>photos by keyword</span></li>
+        <li><b>200k+</b><span>icons</span></li>
+      </ul>
+    </div>
+    <div class="bui-hero-picture">
+      <img data-photo="computer" alt="Code on a screen">
+      <span class="bui-sticker">2 lines to start</span>
+    </div>
+  </div>
+</section>
+
+<section class="bui-section bui-section-alt" id="start">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Get started</span><h2>Two lines, then just HTML</h2><p>CDN for CodePen and static sites, npm for bundlers. TypeScript types included.</p></div>
+    <div class="bui-grid bui-grid-2">
+<pre class="code">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"&gt;&lt;/script&gt;
+
+&lt;section class="bui-hero"&gt;
+  &lt;div class="bui-container"&gt;
+    &lt;div&gt;
+      &lt;h1 data-name&gt;Margherita&lt;/h1&gt;
+      &lt;button class="bui-btn" data-open="order"&gt;Order&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;img data-photo="pizza"&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre>
+<pre class="code">npm install blockuijs
+
+import BlockUI from 'blockuijs';
+import 'blockuijs/blockui.css';
+
+BlockUI.start({
+  name: 'Margherita',
+  style: 'cozy',     // clean, bright, dark, modern, cozy
+  color: 'red',      // 11 colours or any #hex
+  rain: '🍕'
+});</pre>
+    </div>
+  </div>
+</section>
+
+<section class="bui-section" id="features">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Features</span><h2>Everything a landing page needs</h2></div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:palette"></div><h3>Styles &amp; colours</h3><p>5 complete styles × 11 colours or any hex — fonts, shadows and shapes included.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:image-search"></div><h3>Photos by keyword</h3><p><code>data-photo="pizza"</code> — 68 topics of free Unsplash photos.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:cart"></div><h3>Cart &amp; orders</h3><p><code>data-add</code> and <code>data-open</code> — the cart and order dialog build themselves.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:form-select"></div><h3>Forms</h3><p>Floating labels, validation, thank-you toast and confetti.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:view-carousel"></div><h3>Sliders</h3><p>Wrap any cards in <code>.bui-slider</code> — Swiper loads on demand.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:map-marker-radius"></div><h3>Maps</h3><p><code>data-map="address"</code> — OpenStreetMap with a marker, no API key.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:emoticon-outline"></div><h3>Icons &amp; avatars</h3><p>200,000+ Iconify icons and DiceBear avatars from a name.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:tailwind"></div><h3>Tailwind mode</h3><p>Design with Tailwind + daisyUI, keep BlockUI's behaviour.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:translate"></div><h3>i18n &amp; types</h3><p>English and Russian texts, TypeScript types, ES module, SSR-safe.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="bui-section bui-section-alt" id="playground">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Playground</span><h2>Switch this page's style and colour</h2><p>One line of config: <code>BlockUI.start({ style, color })</code></p></div>
+    <div class="chips" id="styles"></div>
+    <div class="chips" id="colors"></div>
+    <div class="bui-grid">
+      <div class="bui-product">
+        <div class="bui-product-image"><img data-photo="pizza 2" alt="Pizza"><span class="bui-tag">Hit</span></div>
+        <div class="bui-product-body"><h3>Margherita</h3><p>Tomatoes, mozzarella and fresh basil</p>
+          <div class="bui-product-footer"><span class="bui-price">$9</span><button class="bui-btn bui-btn-small" data-add="Margherita" data-price="9">Add to cart</button></div></div>
+      </div>
+      <div class="bui-plan bui-popular">
+        <h3>Pro</h3><div class="bui-price">$29</div><p class="bui-muted">per month</p>
+        <ul class="bui-checks"><li>Unlimited pages</li><li>Custom domain</li><li>Priority support</li></ul>
+        <button class="bui-btn" data-open="order" data-pick="Pro">Choose</button>
+      </div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>I shipped a client landing page in one evening.</blockquote><div class="bui-author"><img data-avatar="Sophia" alt="Sophia"><span>Sophia<small>freelance designer</small></span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="bui-section" id="examples">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Examples</span><h2>Live demos — 3 files each</h2></div>
+    <div class="bui-grid bui-grid-4">
+      <a class="bui-product" href="examples/coffee/"><div class="bui-product-image"><img data-photo="coffee 2" alt="Coffee shop"></div><div class="bui-product-body"><h3>Bean &amp; Brew</h3><p>Coffee shop: cart, review slider, map</p></div></a>
+      <a class="bui-product" href="examples/robots/"><div class="bui-product-image"><img data-photo="robot 2" alt="Robotics school"></div><div class="bui-product-body"><h3>RoboCode</h3><p>School: pricing, countdown, inline form</p></div></a>
+      <a class="bui-product" href="examples/pets/"><div class="bui-product-image"><img data-photo="dog 3" alt="Animal shelter"></div><div class="bui-product-body"><h3>Paws</h3><p>Shelter: gallery, emoji rain, map</p></div></a>
+      <a class="bui-product" href="examples/yoga/"><div class="bui-product-image"><img data-photo="yoga 2" alt="Yoga studio"></div><div class="bui-product-body"><h3>Lotus</h3><p>Yoga studio in Tailwind + daisyUI mode</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="bui-section" id="ai">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Let AI build the site</h2>
+      <p>Paste the prompt template into ChatGPT, Claude, Qwen or GigaChat, describe your business — get a finished site in 3 files.</p>
+      <div class="bui-row" style="justify-content:center">
+        <a class="bui-btn bui-btn-light bui-btn-big" href="PROMPT.md">Prompt template</a>
+        <a class="bui-btn bui-btn-light bui-btn-big" href="PROMPT.ru.md">Промт на русском</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bui-footer">© <span data-year></span> BlockUI · MIT License · <a href="https://github.com/si0683/BlockUI">GitHub</a> · <a href="THIRD_PARTY.md">Credits</a> · Sister project: <a href="https://si0683.github.io/ArcadeJS/">ArcadeJS</a> for games</footer>
+
+<script src="blockui.js"></script>
+<script>
+  // Landing page settings + the style/colour playground
+  const state = { style: 'modern', color: 'purple' };
+  BlockUI.start({ name: 'BlockUI', lang: 'en', style: state.style, color: state.color, thanks: 'Thanks! This is a demo form 😊' });
+
+  const STYLES = ['clean', 'bright', 'dark', 'modern', 'cozy'];
+  const COLORS = { red: '#dc2626', orange: '#f97316', yellow: '#eab308', green: '#16a34a', teal: '#0d9488', sky: '#0ea5e9', blue: '#2563eb', purple: '#7c3aed', pink: '#db2777', black: '#111827', brown: '#92400e' };
+  function chips(box, items, key, label) {
+    box.innerHTML = '';
+    items.forEach(id => {
+      const b = document.createElement('button');
+      b.innerHTML = label(id);
+      b.className = state[key] === id ? 'on' : '';
+      b.onclick = () => { state[key] = id; BlockUI.start({ style: state.style, color: state.color, dark: state.style === 'dark' }); render(); };
+      box.appendChild(b);
+    });
+  }
+  function render() {
+    chips(document.getElementById('styles'), STYLES, 'style', id => id);
+    chips(document.getElementById('colors'), Object.keys(COLORS), 'color', id => '<span class="swatch" style="background:' + COLORS[id] + '"></span>' + id);
+  }
+  render();
+</script>
+</body>
+</html>

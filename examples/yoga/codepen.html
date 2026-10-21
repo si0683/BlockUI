@@ -1,134 +1,134 @@
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
 
-<!-- ШАПКА: navbar из daisyUI -->
+<!-- HEADER: daisyUI navbar -->
 <div class="navbar bg-base-100/90 backdrop-blur shadow-sm sticky top-0 z-50 px-4">
   <div class="flex-1">
-    <a href="#top" class="text-2xl font-bold text-primary">🧘 <span data-name>Лотос</span></a>
+    <a href="#top" class="text-2xl font-bold text-primary">🧘 <span data-name>Lotus</span></a>
   </div>
   <ul class="menu menu-horizontal hidden md:flex gap-1">
-    <li><a href="#classes">Занятия</a></li>
-    <li><a href="#prices">Цены</a></li>
-    <li><a href="#faq">Вопросы</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#prices">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
   </ul>
-  <button class="btn btn-ghost btn-circle text-xl" data-theme-toggle aria-label="Тема">🌗</button>
-  <button class="btn btn-primary ml-2" data-open="order">Записаться</button>
+  <button class="btn btn-ghost btn-circle text-xl" data-theme-toggle aria-label="Theme">🌗</button>
+  <button class="btn btn-primary ml-2" data-open="order">Book</button>
 </div>
 
-<!-- 1. ГЛАВНЫЙ ЭКРАН: hero с фото на фоне -->
-<section class="hero min-h-[80vh]" id="top" data-photo="йога">
+<!-- 1. HERO with a background photo -->
+<section class="hero min-h-[80vh]" id="top" data-photo="yoga">
   <div class="hero-overlay bg-black/50"></div>
   <div class="hero-content text-center text-white">
     <div class="max-w-xl">
-      <span class="badge badge-secondary mb-4">Первое занятие бесплатно</span>
-      <h1 class="text-5xl md:text-6xl font-bold mb-5">Студия <span data-name>Лотос</span></h1>
-      <p class="text-lg mb-8">Йога для начинающих и опытных: спокойствие, гибкость и хорошее настроение.</p>
-      <button class="btn btn-primary btn-lg" data-open="order">Попробовать бесплатно</button>
+      <span class="badge badge-secondary mb-4">First class is free</span>
+      <h1 class="text-5xl md:text-6xl font-bold mb-5"><span data-name>Lotus</span> studio</h1>
+      <p class="text-lg mb-8">Yoga for beginners and pros: calm, flexibility and a great mood.</p>
+      <button class="btn btn-primary btn-lg" data-open="order">Try it for free</button>
     </div>
   </div>
 </section>
 
-<!-- 2. ЦИФРЫ: stats из daisyUI + счётчики BlockUI -->
+<!-- 2. NUMBERS: daisyUI stats + BlockUI counters -->
 <section class="py-16 px-4 flex justify-center" data-reveal>
   <div class="stats stats-vertical md:stats-horizontal shadow bg-base-100">
-    <div class="stat place-items-center"><div class="stat-title">Учеников</div><div class="stat-value text-primary" data-count="850" data-suffix="+">0</div></div>
-    <div class="stat place-items-center"><div class="stat-title">Занятий в неделю</div><div class="stat-value text-secondary" data-count="42">0</div></div>
-    <div class="stat place-items-center"><div class="stat-title">Лет опыта</div><div class="stat-value" data-count="12">0</div></div>
+    <div class="stat place-items-center"><div class="stat-title">Students</div><div class="stat-value text-primary" data-count="850" data-suffix="+">0</div></div>
+    <div class="stat place-items-center"><div class="stat-title">Classes a week</div><div class="stat-value text-secondary" data-count="42">0</div></div>
+    <div class="stat place-items-center"><div class="stat-title">Years of practice</div><div class="stat-value" data-count="12">0</div></div>
   </div>
 </section>
 
-<!-- 3. ЗАНЯТИЯ: карточки daisyUI, кнопка выбирает занятие в окне записи -->
+<!-- 3. CLASSES: daisyUI cards; the button preselects the class in the dialog -->
 <section class="py-16 px-4 bg-base-200" id="classes" data-reveal>
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-bold text-center mb-3">Наши занятия</h2>
-    <p class="text-center opacity-70 mb-10">Выберите формат по душе</p>
+    <h2 class="text-4xl font-bold text-center mb-3">Our classes</h2>
+    <p class="text-center opacity-70 mb-10">Pick what suits you</p>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="card bg-base-100 shadow-xl">
-        <figure><img data-photo="йога 2" alt="Хатха-йога" class="h-56 w-full object-cover"></figure>
+        <figure><img data-photo="yoga 2" alt="Hatha yoga" class="h-56 w-full object-cover"></figure>
         <div class="card-body">
-          <h3 class="card-title">Хатха-йога <span class="badge badge-accent">хит</span></h3>
-          <p>Спокойная практика для любого уровня.</p>
-          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Хатха-йога">Записаться</button></div>
+          <h3 class="card-title">Hatha yoga <span class="badge badge-accent">popular</span></h3>
+          <p>A calm practice for every level.</p>
+          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Hatha yoga">Book</button></div>
         </div>
       </div>
       <div class="card bg-base-100 shadow-xl">
-        <figure><img data-photo="йога 3" alt="Растяжка" class="h-56 w-full object-cover"></figure>
+        <figure><img data-photo="yoga 3" alt="Stretching" class="h-56 w-full object-cover"></figure>
         <div class="card-body">
-          <h3 class="card-title">Растяжка</h3>
-          <p>Гибкость и лёгкость в теле за месяц.</p>
-          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Растяжка">Записаться</button></div>
+          <h3 class="card-title">Stretching</h3>
+          <p>Flexibility and lightness in a month.</p>
+          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Stretching">Book</button></div>
         </div>
       </div>
       <div class="card bg-base-100 shadow-xl">
-        <figure><img data-photo="йога 4" alt="Медитация" class="h-56 w-full object-cover"></figure>
+        <figure><img data-photo="yoga 4" alt="Meditation" class="h-56 w-full object-cover"></figure>
         <div class="card-body">
-          <h3 class="card-title">Медитация</h3>
-          <p>Учимся отдыхать и дышать спокойно.</p>
-          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Медитация">Записаться</button></div>
+          <h3 class="card-title">Meditation</h3>
+          <p>Learn to rest and breathe calmly.</p>
+          <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Meditation">Book</button></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. ЦЕНЫ -->
+<!-- 4. PRICING -->
 <section class="py-16 px-4" id="prices" data-reveal>
   <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
     <div class="card bg-base-100 border border-base-300">
       <div class="card-body items-center text-center">
-        <h3 class="card-title">Разовое занятие</h3>
-        <div class="text-4xl font-bold text-primary my-2">700 ₽</div>
-        <ul class="text-left space-y-1 mb-4"><li>✅ Любое направление</li><li>✅ Коврик бесплатно</li></ul>
-        <button class="btn btn-outline btn-primary" data-open="order" data-pick="Разовое занятие">Выбрать</button>
+        <h3 class="card-title">Drop-in class</h3>
+        <div class="text-4xl font-bold text-primary my-2">$15</div>
+        <ul class="text-left space-y-1 mb-4"><li>✅ Any class</li><li>✅ Free mat</li></ul>
+        <button class="btn btn-outline btn-primary" data-open="order" data-pick="Drop-in class">Choose</button>
       </div>
     </div>
     <div class="card bg-primary text-primary-content shadow-xl">
       <div class="card-body items-center text-center">
-        <h3 class="card-title">Абонемент на месяц</h3>
-        <div class="text-4xl font-bold my-2">4 900 ₽</div>
-        <ul class="text-left space-y-1 mb-4"><li>✅ Безлимит занятий</li><li>✅ Чай после практики</li><li>✅ Заморозка на неделю</li></ul>
-        <button class="btn" data-open="order" data-pick="Абонемент">Выбрать</button>
+        <h3 class="card-title">Monthly pass</h3>
+        <div class="text-4xl font-bold my-2">$99</div>
+        <ul class="text-left space-y-1 mb-4"><li>✅ Unlimited classes</li><li>✅ Tea after practice</li><li>✅ One-week freeze</li></ul>
+        <button class="btn" data-open="order" data-pick="Monthly pass">Choose</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 5. ВОПРОСЫ: collapse из daisyUI -->
+<!-- 5. FAQ: daisyUI collapse -->
 <section class="py-16 px-4 bg-base-200" id="faq" data-reveal>
   <div class="max-w-3xl mx-auto space-y-3">
-    <h2 class="text-4xl font-bold text-center mb-8">Частые вопросы</h2>
-    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq" checked><div class="collapse-title font-semibold">Нужна ли подготовка?</div><div class="collapse-content">Нет! Начать можно с любого уровня.</div></div>
-    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq"><div class="collapse-title font-semibold">Что взять с собой?</div><div class="collapse-content">Удобную одежду и бутылку воды. Коврик дадим.</div></div>
-    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq"><div class="collapse-title font-semibold">Есть ли занятия для детей?</div><div class="collapse-content">Да, детская йога по субботам для 6–12 лет.</div></div>
+    <h2 class="text-4xl font-bold text-center mb-8">FAQ</h2>
+    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq" checked><div class="collapse-title font-semibold">Do I need experience?</div><div class="collapse-content">No! You can start at any level.</div></div>
+    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq"><div class="collapse-title font-semibold">What should I bring?</div><div class="collapse-content">Comfortable clothes and a water bottle. We have mats.</div></div>
+    <div class="collapse collapse-plus bg-base-100"><input type="radio" name="faq"><div class="collapse-title font-semibold">Are there classes for kids?</div><div class="collapse-content">Yes, kids yoga on Saturdays for ages 6–12.</div></div>
   </div>
 </section>
 
-<!-- 6. КОНТАКТЫ -->
+<!-- 6. CONTACTS -->
 <footer class="flex flex-col items-center text-center gap-4 p-10 bg-base-300">
-  <p class="text-xl font-bold max-w-full">Приходите на пробное занятие!</p>
-  <p class="max-w-full">📞 +7 (900) 222-11-00 · ✉️ yoga@example.com · 📍 г. Москва, ул. Спокойная, 4</p>
+  <p class="text-xl font-bold max-w-full">Come to a free trial class!</p>
+  <p class="max-w-full">📞 +1 (555) 014-2200 · ✉️ yoga@example.com · 📍 Soho, London</p>
   <div class="flex gap-3">
-    <a class="btn btn-circle bg-[#0077ff] text-white border-0" href="https://vk.com/" target="_blank" rel="noopener">VK</a>
-    <a class="btn btn-circle bg-gradient-to-br from-[#2f80ff] to-[#a646ff] text-white border-0 text-xs" href="https://max.ru/" target="_blank" rel="noopener">MAX</a>
+    <a class="btn btn-circle btn-primary" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><span data-icon="mdi:instagram"></span></a>
+    <a class="btn btn-circle btn-primary" href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><span data-icon="mdi:youtube"></span></a>
   </div>
-  <p class="opacity-60 max-w-full">© <span data-year></span> «<span data-name>Лотос</span>». Учебный сайт: контакты вымышленные.</p>
+  <p class="opacity-60 max-w-full">© <span data-year></span> <span data-name>Lotus</span>. Demo site: contacts are fictional.</p>
 </footer>
 
-<!-- ОКНО ЗАПИСИ: dialog из daisyUI, BlockUI откроет его по data-open="order" и проверит форму -->
+<!-- BOOKING DIALOG: daisyUI dialog; BlockUI opens it via data-open="order" and validates the form -->
 <dialog id="order" class="modal">
   <div class="modal-box">
     <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button></form>
-    <h3 class="text-2xl font-bold">Запись на занятие</h3>
-    <p class="opacity-70 mb-4">Оставьте контакты — подберём удобное время.</p>
+    <h3 class="text-2xl font-bold">Book a class</h3>
+    <p class="opacity-70 mb-4">Leave your contacts — we will find a convenient time.</p>
     <form data-form class="flex flex-col gap-3">
-      <input name="name" required class="input w-full" placeholder="Ваше имя">
-      <input name="phone" type="tel" required class="input w-full" placeholder="Телефон">
-      <select name="item" class="select w-full"><option>Хатха-йога</option><option>Растяжка</option><option>Медитация</option><option>Разовое занятие</option><option>Абонемент</option></select>
-      <button class="btn btn-primary" type="submit">Записаться</button>
+      <input name="name" required class="input w-full" placeholder="Your name">
+      <input name="phone" type="tel" required class="input w-full" placeholder="Phone">
+      <select name="item" class="select w-full"><option>Hatha yoga</option><option>Stretching</option><option>Meditation</option><option>Drop-in class</option><option>Monthly pass</option></select>
+      <button class="btn btn-primary" type="submit">Book</button>
     </form>
   </div>
-  <form method="dialog" class="modal-backdrop"><button>Закрыть</button></form>
+  <form method="dialog" class="modal-backdrop"><button>Close</button></form>
 </dialog>

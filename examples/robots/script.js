@@ -1,15 +1,13 @@
-/* Школа робототехники «РобоКод» на BlockUI.
-   Окно записи, проверка формы, счётчики и таймер акции — уже в BlockUI. */
+/* RoboCode robotics school on BlockUI.
+   Sign-up dialog, form validation, counters and countdown come from BlockUI. */
 
-// ===== 0. ЛАБОРАТОРИЯ САЙТА 🧪 =====
-const LAB = {
-  name: 'РобоКод',            // название
-  style: 'современный',       // простой / яркий / тёмный / современный / уютный
-  color: 'синий',             // главный цвет
-  rain: '',                   // эмодзи-дождь, например '🤖'
-  dark: false,                // true — сразу тёмная тема
-  thanks: 'Заявка принята! Мы позвоним в течение часа 🤖', // сообщение после записи
-  orderTitle: 'Запись на занятие'                           // заголовок окна записи
+const CONFIG = {
+  name: 'RoboCode',
+  style: 'modern',          // clean, bright, dark, modern, cozy
+  color: 'blue',
+  lang: 'en',
+  thanks: 'Request received! We will call you within an hour 🤖',
+  orderTitle: 'Sign up for a class'
 };
 
-BlockUI.start(LAB);
+BlockUI.start(CONFIG);

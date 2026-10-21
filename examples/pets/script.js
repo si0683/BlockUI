@@ -1,16 +1,15 @@
-/* Приют «Лапки» на BlockUI.
-   Галерея, окно знакомства с питомцем, счётчики — уже в BlockUI. */
+/* Paws animal shelter on BlockUI.
+   Gallery, meet-a-pet dialog, counters, icons and map come from BlockUI. */
 
-// ===== 0. ЛАБОРАТОРИЯ САЙТА 🧪 =====
-const LAB = {
-  name: 'Лапки',              // название
-  style: 'яркий',             // простой / яркий / тёмный / современный / уютный
-  color: 'зелёный',           // главный цвет
-  rain: '🐾',                 // эмодзи-дождь на главном экране ('' — без дождя)
-  dark: false,                // true — сразу тёмная тема
-  thanks: 'Спасибо! Мы позвоним и договоримся о встрече 🐾',
-  orderTitle: 'Знакомство с питомцем',
-  orderText: 'Оставьте имя и телефон — договоримся о встрече.'
+const CONFIG = {
+  name: 'Paws',
+  style: 'bright',          // clean, bright, dark, modern, cozy
+  color: 'green',
+  lang: 'en',
+  rain: '🐾',               // emoji rain in the hero ('' = none)
+  thanks: 'Thank you! We will call you to arrange a visit 🐾',
+  orderTitle: 'Meet a pet',
+  orderText: 'Leave your name and phone — we will arrange a meeting.'
 };
 
-BlockUI.start(LAB);
+BlockUI.start(CONFIG);

@@ -1,0 +1,28 @@
+{
+  "name": "blockuijs",
+  "version": "2.0.0",
+  "description": "Building blocks for beautiful websites: 5 styles × 11 colours, photos by keyword, cart, order dialog, forms, sliders, maps, icons, avatars — with plain HTML attributes. Optional Tailwind + daisyUI mode.",
+  "keywords": ["ui", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
+  "homepage": "https://si0683.github.io/BlockUI/",
+  "repository": { "type": "git", "url": "git+https://github.com/si0683/BlockUI.git" },
+  "bugs": { "url": "https://github.com/si0683/BlockUI/issues" },
+  "license": "MIT",
+  "author": "si0683",
+  "main": "blockui.js",
+  "module": "blockui.mjs",
+  "types": "blockui.d.ts",
+  "style": "blockui.css",
+  "unpkg": "blockui.js",
+  "jsdelivr": "blockui.js",
+  "exports": {
+    ".": {
+      "types": "./blockui.d.ts",
+      "import": "./blockui.mjs",
+      "default": "./blockui.js"
+    },
+    "./blockui.css": "./blockui.css",
+    "./blockui.js": "./blockui.js"
+  },
+  "files": ["blockui.js", "blockui.mjs", "blockui.css", "blockui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
+  "sideEffects": ["blockui.js", "blockui.mjs", "*.css"]
+}

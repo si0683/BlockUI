@@ -1,36 +1,34 @@
-"""Собирает служебные части BlockUI.
-
-Запускать из папки BlockUI:
+"""Build helper for BlockUI. Run from the repository root:
 
     python tools/build.py
 
-Что делает:
-1. Вписывает каталог фото (tools/photos.json) и слова для поиска тем
-   в blockui.js между метками PHOTOS:START и PHOTOS:END.
-2. Для каждого примера examples/<сайт>/ создаёт codepen.html —
-   часть index.html между метками «Для CodePen» (подключение BlockUI + разметка).
-3. Пишет список тем фото в AI.md между метками TOPICS:START и TOPICS:END.
+What it does:
+1. Writes the photo catalogue (tools/photos.json) and topic keywords into blockui.js
+   between PHOTOS:START and PHOTOS:END.
+2. Writes examples/<site>/codepen.html — the part of index.html between the CodePen markers.
+3. Writes the topic list into AI.md between TOPICS:START and TOPICS:END.
+4. Writes blockui.mjs — the ES module entry for npm / bundlers.
 """
 import json
 import re
 import sys
 from pathlib import Path
 
-sys.stdout.reconfigure(encoding='utf-8')  # русский текст в консоли Windows
+sys.stdout.reconfigure(encoding='utf-8')
 
 ROOT = Path(__file__).resolve().parent.parent
 PHOTOS_PER_TOPIC = 4
 
-# Фото, которые не подошли (тёмные, чёрно-белые, не по теме): номер в списке photos.json
+# Photos rejected after review (too dark, black-and-white, off-topic): index in photos.json
 EXCLUDE = {
     'food': [5], 'fruits': [4], 'horse': [4], 'birds': [0], 'lego': [1, 3, 4], 'art': [2, 4, 5],
     'yoga': [1], 'chess': [1], 'hockey': [1], 'phone': [1, 2], 'winter': [1, 5], 'barber': [1, 2],
     'party': [1], 'newyear': [1, 3], 'cinema': [1], 'dinosaur': [4, 5],
 }
 
-# Тема → начала слов (русские и английские), по которым она находится.
-# Ищется самое длинное совпадение: «игрушки» → toys, а не games.
-# ~ — общее слово (школа, спорт, дети): проигрывает любому точному, «школа танцев» → dance.
+# Topic → word stems (English and Russian) that select it.
+# The longest match wins: 'toys' beats 'games' for «игрушки».
+# ~ marks a generic stem (school, sport, kids): any specific stem wins, so 'dance school' → dance.
 WORDS = {
     'pizza': ['пицц', 'pizza'], 'coffee': ['коф', 'кафе', 'капуч', 'кофейн', 'coffee', 'cafe'],
     'cake': ['торт', 'кондитер', 'пирожн', 'десерт', 'cake'], 'bakery': ['пекар', 'хлеб', 'булоч', 'выпеч', 'bakery'],
@@ -67,24 +65,8 @@ WORDS = {
     'photo': ['фото', 'фотограф', 'камер', 'photo'], 'dinosaur': ['динозавр', 'dinosaur'],
 }
 
-# Русское название темы для справочника AI.md
-TITLES = {
-    'pizza': 'пицца', 'coffee': 'кофе, кафе', 'cake': 'торты, десерты', 'bakery': 'пекарня, хлеб', 'burger': 'бургеры',
-    'sushi': 'суши', 'icecream': 'мороженое', 'fruits': 'фрукты, овощи', 'food': 'еда, ресторан', 'candy': 'конфеты',
-    'flowers': 'цветы', 'dog': 'собаки', 'cat': 'кошки', 'horse': 'лошади', 'pets': 'питомцы, зоомагазин',
-    'zoo': 'зоопарк, животные', 'fish': 'рыбы, аквариум', 'birds': 'птицы', 'books': 'книги, библиотека',
-    'school': 'школа, курсы', 'kids': 'дети', 'toys': 'игрушки', 'lego': 'конструктор', 'art': 'рисование, искусство',
-    'music': 'музыка, концерт', 'guitar': 'гитара', 'piano': 'пианино', 'dance': 'танцы', 'football': 'футбол',
-    'basketball': 'баскетбол', 'swimming': 'плавание, бассейн', 'fitness': 'фитнес, спорт', 'yoga': 'йога',
-    'chess': 'шахматы', 'bike': 'велосипеды', 'skate': 'скейт, самокат', 'hockey': 'хоккей, коньки',
-    'games': 'видеоигры', 'computer': 'программирование', 'robot': 'роботы', 'space': 'космос', 'science': 'наука',
-    'phone': 'телефоны, гаджеты', 'travel': 'путешествия, пляж', 'mountains': 'горы', 'camping': 'поход, кемпинг',
-    'sea': 'море', 'forest': 'лес, природа', 'winter': 'зима, снег', 'city': 'город', 'car': 'машины',
-    'train': 'поезда', 'plane': 'самолёты', 'clothes': 'одежда, мода', 'shoes': 'обувь, кроссовки',
-    'beauty': 'салон красоты', 'barber': 'барбершоп', 'hotel': 'отель', 'party': 'праздник, день рождения',
-    'newyear': 'Новый год', 'doctor': 'врач, клиника', 'vet': 'ветеринар', 'farm': 'ферма', 'garden': 'сад, огород',
-    'cooking': 'кулинария', 'cinema': 'кино', 'photo': 'фотография', 'dinosaur': 'динозавры',
-}
+# English topic names for the AI.md topic list
+TITLES = {'pizza': 'pizza', 'coffee': 'coffee, cafe', 'cake': 'cakes, desserts', 'bakery': 'bakery, bread', 'burger': 'burgers', 'sushi': 'sushi', 'icecream': 'ice cream', 'fruits': 'fruit, vegetables', 'food': 'food, restaurant', 'candy': 'candy', 'flowers': 'flowers', 'dog': 'dogs', 'cat': 'cats', 'horse': 'horses', 'pets': 'pets, pet shop', 'zoo': 'zoo, animals', 'fish': 'fish, aquarium', 'birds': 'birds', 'books': 'books, library', 'school': 'school, courses', 'kids': 'kids', 'toys': 'toys', 'lego': 'building bricks', 'art': 'art, painting', 'music': 'music, concert', 'guitar': 'guitar', 'piano': 'piano', 'dance': 'dance', 'football': 'football', 'basketball': 'basketball', 'swimming': 'swimming, pool', 'fitness': 'fitness, sport', 'yoga': 'yoga', 'chess': 'chess', 'bike': 'bikes', 'skate': 'skateboard, scooter', 'hockey': 'hockey, skates', 'games': 'video games', 'computer': 'programming, computers', 'robot': 'robots', 'space': 'space', 'science': 'science, lab', 'phone': 'phones, gadgets', 'travel': 'travel, beach', 'mountains': 'mountains', 'camping': 'camping, hiking', 'sea': 'sea', 'forest': 'forest, nature', 'winter': 'winter, snow', 'city': 'city', 'car': 'cars', 'train': 'trains', 'plane': 'planes', 'clothes': 'clothes, fashion', 'shoes': 'shoes, sneakers', 'beauty': 'beauty salon', 'barber': 'barbershop', 'hotel': 'hotel', 'party': 'party, birthday', 'newyear': 'New Year, Christmas', 'doctor': 'doctor, clinic', 'vet': 'vet', 'farm': 'farm', 'garden': 'garden', 'cooking': 'cooking', 'cinema': 'cinema', 'photo': 'photography', 'dinosaur': 'dinosaurs'}
 
 
 def build_photos():
@@ -95,7 +77,7 @@ def build_photos():
         photos[key] = keep
     missing = set(photos) ^ set(WORDS)
     if missing:
-        raise SystemExit(f'Темы без слов или без фото: {sorted(missing)}')
+        raise SystemExit(f'Topics without words or photos: {sorted(missing)}')
     lines = ['  const PHOTOS = {']
     lines += [f"    {k}: [{', '.join(repr(p) for p in v)}]," for k, v in photos.items()]
     lines[-1] = lines[-1].rstrip(',')
@@ -109,7 +91,7 @@ def build_photos():
     start, end = '  // PHOTOS:START\n', '  // PHOTOS:END'
     js = js.split(start)[0] + start + block + '\n' + end + js.split(end, 1)[1]
     js_path.write_text(js, encoding='utf-8', newline='\n')
-    print(f'blockui.js: {len(photos)} тем, {sum(map(len, photos.values()))} фото')
+    print(f'blockui.js: {len(photos)} topics, {sum(map(len, photos.values()))} photos')
     return photos
 
 
@@ -124,24 +106,39 @@ def build_topics_doc(photos):
     topics = ' · '.join(TITLES[k] for k in photos)
     text = text.split(start)[0] + start + '\n' + topics + '\n' + end + text.split(end, 1)[1]
     ai.write_text(text, encoding='utf-8', newline='\n')
-    print('AI.md: список тем обновлён')
+    print('AI.md: topic list updated')
 
 
 def build_codepen():
     for index in sorted((ROOT / 'examples').glob('*/index.html')):
         lines = index.read_text(encoding='utf-8').split('\n')
-        s = next(i for i, l in enumerate(lines) if '↓↓↓ Для CodePen' in l)
-        e = next(i for i, l in enumerate(lines) if '↑↑↑ Для CodePen' in l)
+        s = next(i for i, l in enumerate(lines) if '↓↓↓ CodePen' in l)
+        e = next(i for i, l in enumerate(lines) if '↑↑↑ CodePen' in l)
         while '-->' not in lines[s]:
             s += 1
         body = '\n'.join(lines[s + 1:e]).strip('\n')
         if 'script.js' in body or 'style.css' in body:
-            raise SystemExit(f'{index}: в части для CodePen не должно быть script.js и style.css')
+            raise SystemExit(f'{index}: the CodePen part must not include script.js or style.css')
         (index.parent / 'codepen.html').write_text(body + '\n', encoding='utf-8', newline='\n')
-        print(f'{index.parent.name}/codepen.html: готово')
+        print(f'{index.parent.name}/codepen.html: ok')
+
+
+def build_esm():
+    """blockui.mjs — ES module entry that re-exports window.BlockUI."""
+    version = re.search(r"VERSION = '([\d.]+)'", (ROOT / 'blockui.js').read_text(encoding='utf-8')).group(1)
+    (ROOT / 'blockui.mjs').write_text(
+        f"/*! BlockUI {version} — ES module entry. MIT License. https://github.com/si0683/BlockUI */\n"
+        "// BlockUI is a browser script that defines window.BlockUI; this file re-exports it.\n"
+        "import './blockui.js';\n\n"
+        "const BlockUI = typeof window !== 'undefined' ? window.BlockUI : undefined;\n"
+        "export default BlockUI;\n"
+        "export const start = (options) => BlockUI.start(options);\n"
+        f"export const version = '{version}';\n", encoding='utf-8', newline='\n')
+    print('blockui.mjs: ok')
 
 
 if __name__ == '__main__':
     found = build_photos()
     build_topics_doc(found)
     build_codepen()
+    build_esm()

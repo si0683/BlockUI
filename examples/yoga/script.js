@@ -1,14 +1,14 @@
-/* Студия йоги «Лотос»: BlockUI в режиме Tailwind + daisyUI.
-   Оформление — классы Tailwind и компоненты daisyUI в HTML,
-   поведение (окно записи, проверка формы, фото, счётчики) — BlockUI. */
+/* Lotus yoga studio: BlockUI in Tailwind + daisyUI mode.
+   Design — Tailwind classes and daisyUI components in the HTML;
+   behaviour (booking dialog, validation, photos, counters, icons) — BlockUI. */
 
-// ===== 0. ЛАБОРАТОРИЯ САЙТА 🧪 =====
-const LAB = {
-  name: 'Лотос',              // название
-  tailwind: true,             // режим Tailwind + daisyUI
-  theme: 'emerald',           // тема daisyUI: cupcake, retro, emerald, valentine, synthwave, corporate, forest…
-  darkTheme: 'night',         // тема для кнопки 🌗
-  thanks: 'Вы записаны! Намасте 🧘'
+const CONFIG = {
+  name: 'Lotus',
+  tailwind: true,           // Tailwind + daisyUI mode
+  theme: 'emerald',         // daisyUI theme: cupcake, retro, emerald, valentine, synthwave, corporate, forest…
+  darkTheme: 'night',       // theme for the 🌗 toggle
+  lang: 'en',
+  thanks: "You're booked! Namaste 🧘"
 };
 
-BlockUI.start(LAB);
+BlockUI.start(CONFIG);

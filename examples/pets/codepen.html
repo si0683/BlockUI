@@ -1,113 +1,110 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
 
 <header class="bui-header">
   <div class="bui-container">
-    <a class="bui-logo" href="#top"><span>🐾</span><span data-name>Лапки</span></a>
+    <a class="bui-logo" href="#top"><span>🐾</span><span data-name>Paws</span></a>
     <nav class="bui-nav">
-      <a href="#pets">Питомцы</a>
-      <a href="#gallery">Фото</a>
-      <a href="#help">Помочь</a>
-      <a href="#contacts">Контакты</a>
+      <a href="#pets">Pets</a>
+      <a href="#gallery">Photos</a>
+      <a href="#help">Help</a>
+      <a href="#contacts">Contacts</a>
     </nav>
   </div>
 </header>
 
-<!-- 1. ГЛАВНЫЙ ЭКРАН по центру -->
+<!-- 1. CENTERED HERO -->
 <section class="bui-hero bui-hero-center" id="top">
   <div class="bui-container">
-    <span class="bui-badge">🏡 Каждому хвостику — свой дом</span>
-    <h1>Приют <span data-name>Лапки</span></h1>
-    <p>Мы заботимся о кошках и собаках и помогаем им найти любящую семью.</p>
+    <span class="bui-badge">🏡 Every tail deserves a home</span>
+    <h1><span data-name>Paws</span> shelter</h1>
+    <p>We care for cats and dogs and help them find a loving family.</p>
     <div class="bui-row">
-      <a class="bui-btn bui-btn-big" href="#pets">Найти друга</a>
-      <a class="bui-btn bui-btn-ghost bui-btn-big" href="#help">Помочь приюту</a>
+      <a class="bui-btn bui-btn-big" href="#pets">Find a friend</a>
+      <a class="bui-btn bui-btn-ghost bui-btn-big" href="#help">Help the shelter</a>
     </div>
   </div>
 </section>
 
-<!-- 2. ПИТОМЦЫ: кнопка открывает окно и выбирает питомца -->
+<!-- 2. PETS: the button opens the dialog with the pet preselected -->
 <section class="bui-section bui-section-alt" id="pets">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Питомцы</span><h2>Ищут дом</h2><p>Познакомьтесь с нашими друзьями</p></div>
+    <div class="bui-head"><span class="bui-label">Pets</span><h2>Looking for a home</h2><p>Meet our friends</p></div>
     <div class="bui-grid">
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="собака" alt="Собака Бобик"><span class="bui-tag">2 года</span></div>
-        <div class="bui-product-body"><h3>Бобик</h3><p>Весёлый, любит бегать и играть с мячиком.</p>
-          <div class="bui-product-footer"><span class="bui-price">🐶 Пёс</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Бобик">Познакомиться</button></div></div>
+        <div class="bui-product-image"><img data-photo="dog" alt="Buddy the dog"><span class="bui-tag">2 years</span></div>
+        <div class="bui-product-body"><h3>Buddy</h3><p>Cheerful, loves running and playing fetch.</p>
+          <div class="bui-product-footer"><span class="bui-price">🐶 Dog</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Buddy">Meet Buddy</button></div></div>
       </div>
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="кошка" alt="Кошка Мурка"><span class="bui-tag">1 год</span></div>
-        <div class="bui-product-body"><h3>Мурка</h3><p>Ласковая и спокойная, любит спать на коленях.</p>
-          <div class="bui-product-footer"><span class="bui-price">🐱 Кошка</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Мурка">Познакомиться</button></div></div>
+        <div class="bui-product-image"><img data-photo="cat" alt="Luna the cat"><span class="bui-tag">1 year</span></div>
+        <div class="bui-product-body"><h3>Luna</h3><p>Gentle and calm, loves sleeping on laps.</p>
+          <div class="bui-product-footer"><span class="bui-price">🐱 Cat</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Luna">Meet Luna</button></div></div>
       </div>
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="собака 2" alt="Щенок Тузик"><span class="bui-tag">3 месяца</span></div>
-        <div class="bui-product-body"><h3>Тузик</h3><p>Маленький непоседа ищет большую семью.</p>
-          <div class="bui-product-footer"><span class="bui-price">🐶 Щенок</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Тузик">Познакомиться</button></div></div>
+        <div class="bui-product-image"><img data-photo="dog 2" alt="Max the puppy"><span class="bui-tag">3 months</span></div>
+        <div class="bui-product-body"><h3>Max</h3><p>A tiny bundle of energy looking for a big family.</p>
+          <div class="bui-product-footer"><span class="bui-price">🐶 Puppy</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Max">Meet Max</button></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3. ГАЛЕРЕЯ: клик открывает фото крупно -->
+<!-- 3. GALLERY: click opens a lightbox -->
 <section class="bui-section" id="gallery">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Фото</span><h2>Жизнь в приюте</h2></div>
+    <div class="bui-head"><span class="bui-label">Photos</span><h2>Life at the shelter</h2></div>
     <div class="bui-gallery">
-      <img data-photo="собака 3"><img data-photo="кошка 2"><img data-photo="собака 4">
-      <img data-photo="кошка 3"><img data-photo="питомцы"><img data-photo="кошка 4">
+      <img data-photo="dog 3"><img data-photo="cat 2"><img data-photo="dog 4">
+      <img data-photo="cat 3"><img data-photo="pets"><img data-photo="cat 4">
     </div>
   </div>
 </section>
 
-<!-- 4. КАК ПОМОЧЬ -->
+<!-- 4. HOW TO HELP -->
 <section class="bui-section bui-section-alt" id="help">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Помочь</span><h2>Как можно помочь</h2></div>
+    <div class="bui-head"><span class="bui-label">Help</span><h2>How you can help</h2></div>
     <div class="bui-grid bui-grid-4">
-      <div class="bui-feature"><div class="bui-icon">🏠</div><h3>Взять домой</h3><p>Подарите питомцу семью.</p></div>
-      <div class="bui-feature"><div class="bui-icon">🥫</div><h3>Принести корм</h3><p>Корм нужен каждый день.</p></div>
-      <div class="bui-feature"><div class="bui-icon">🚶</div><h3>Погулять</h3><p>Собаки ждут прогулок.</p></div>
-      <div class="bui-feature"><div class="bui-icon">📢</div><h3>Рассказать</h3><p>Поделитесь с друзьями.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:home-heart"></div><h3>Adopt</h3><p>Give a pet a family.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:food-drumstick"></div><h3>Bring food</h3><p>Food is needed every day.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:walk"></div><h3>Walk dogs</h3><p>Our dogs love walks.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:share-variant"></div><h3>Spread the word</h3><p>Share with friends.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 5. ЦИФРЫ -->
+<!-- 5. NUMBERS -->
 <section class="bui-section">
   <div class="bui-container bui-grid">
-    <div class="bui-stat"><b data-count="540">0</b><span>питомцев нашли дом</span></div>
-    <div class="bui-stat"><b data-count="80">0</b><span>волонтёров</span></div>
-    <div class="bui-stat"><b data-count="10" data-suffix=" лет">0</b><span>помогаем животным</span></div>
+    <div class="bui-stat"><b data-count="540">0</b><span>pets found a home</span></div>
+    <div class="bui-stat"><b data-count="80">0</b><span>volunteers</span></div>
+    <div class="bui-stat"><b data-count="10" data-suffix=" years">0</b><span>helping animals</span></div>
   </div>
 </section>
 
-<!-- 6. КНОПКА ДЕЙСТВИЯ -->
+<!-- 6. CALL TO ACTION -->
 <section class="bui-section">
   <div class="bui-container">
     <div class="bui-cta">
-      <h2>Станьте волонтёром!</h2>
-      <p>Приходите по выходным — гулять, играть и дарить заботу.</p>
-      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order" data-pick="Хочу стать волонтёром">Хочу помочь</button>
+      <h2>Become a volunteer!</h2>
+      <p>Come on weekends — walk, play and share some care.</p>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order" data-pick="Volunteering">I want to help</button>
     </div>
   </div>
 </section>
 
-<!-- 7. КОНТАКТЫ -->
+<!-- 7. CONTACTS -->
 <section class="bui-section bui-section-alt" id="contacts">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Контакты</span><h2>Приезжайте в гости</h2><p>Звоните — расскажем о каждом питомце!</p></div>
+    <div class="bui-head"><span class="bui-label">Contacts</span><h2>Visit us</h2><p>Call us — we will tell you about every pet!</p></div>
     <div class="bui-contacts">
-      <a class="bui-contact" href="tel:+79005556677"><span>📞</span><span><small>Телефон</small><b>+7 (900) 555-66-77</b></span></a>
-      <a class="bui-contact" href="mailto:lapki@example.com"><span>✉️</span><span><small>Почта</small><b>lapki@example.com</b></span></a>
-      <div class="bui-contact"><span>📍</span><span><small>Адрес</small><b>г. Москва, ул. Добрая, 9</b></span></div>
+      <a class="bui-contact" href="tel:+15550198765"><span>📞</span><span><small>Phone</small><b>+1 (555) 019-8765</b></span></a>
+      <a class="bui-contact" href="mailto:paws@example.com"><span>✉️</span><span><small>Email</small><b>paws@example.com</b></span></a>
+      <div class="bui-contact"><span>📍</span><span><small>Address</small><b>Hyde Park, London</b></span></div>
     </div>
-    <div class="bui-socials">
-      <a class="bui-social bui-vk" href="https://vk.com/" target="_blank" rel="noopener" data-tip="ВКонтакте">VK</a>
-      <a class="bui-social bui-max" href="https://max.ru/" target="_blank" rel="noopener" data-tip="Мессенджер MAX">MAX</a>
-    </div>
+    <div data-map="Hyde Park, London" data-label="Paws shelter" data-zoom="14" style="margin-top: 34px"></div>
   </div>
 </section>
 
-<footer class="bui-footer">© <span data-year></span> Приют «<span data-name>Лапки</span>». Учебный сайт: контакты вымышленные.</footer>
+<footer class="bui-footer">© <span data-year></span> <span data-name>Paws</span> shelter. Demo site: contacts are fictional.</footer>

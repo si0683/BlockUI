@@ -1,13 +1,12 @@
-# AGENTS.md — правила для ИИ-агентов
+# AGENTS.md — rules for AI coding agents
 
-BlockUI — библиотека блоков для учебных сайтов: сайт собирает нейросеть по промту, результат — 3 файла (HTML, CSS, JS), библиотека подключается с jsDelivr по тегу (`@1.1.0`).
+BlockUI is a general-purpose website building-block library, distributed via jsDelivr (git tags) and npm (`blockuijs`).
 
-- Обратная совместимость важнее всего: уроки ссылаются на конкретную версию. Вышедший тег не переписывать; изменения — в новой версии (VERSION в blockui.js, ссылки в AI.md/README/примерах, тег `vX.Y.Z`).
-- Любое изменение классов, атрибутов или настроек — сразу в AI.md (справочник для нейросетей) и README.
-- Каталог фото: `tools/photos.json` + `EXCLUDE`/`WORDS`/`TITLES` в `tools/build.py`; после правок — `python tools/build.py` (раздел PHOTOS в blockui.js руками не править). Только `images.unsplash.com` с бесплатной лицензией.
-- Все стили — внутри `@layer bui` (blockui.js объявляет слой первым в `<head>`): так классы Tailwind и свой CSS сайта всегда сильнее. Не выносить правила из слоя.
-- Внешние библиотеки — с точными версиями и только по требованию: Tailwind 4.3.3 + daisyUI 5.7.47 (tailwind: true), iconify-icon 3.0.3 (data-icon), Swiper 14.3.0 (bui-slider), Leaflet 1.9.4 (data-map). Их стили лежат вне слоя bui — переопределять их можно только с `!important` (см. раздел 12 blockui.css).
-- Код — чистый JavaScript без сборки и классов, комментарии на русском. Наружу — только `window.BlockUI`.
-- Проверка: `python -m http.server` в папке, тестовые копии примеров с локальными blockui.*; ширины 320–1280 без горизонтальной прокрутки, в консоли без ошибок.
-- Общий промт урока «Создаём сайт» — репозиторий CreateSite01PROMT.
-- PROMPT.md (шаблон промта «любая игра/сайт») создаётся генератором промтов (см. комментарий в начале файла) — руками не править; поменялся API — обнови шпаргалку в генераторе.
+- **Never change a published version.** Projects pin `@x.y.z`; tags are immutable. Changes go into a new version: `VERSION` in blockui.js, `version` in package.json, `@x.y.z` links (README*, AI.md, PROMPT*.md, examples), CHANGELOG.md, tag `vX.Y.Z`.
+- Any change to classes, attributes or options must be reflected in **AI.md**, **blockui.d.ts**, both READMEs and the cheat sheets in **PROMPT.md / PROMPT.ru.md**.
+- Code: plain browser JavaScript, no build step, **English comments**. The only global is `window.BlockUI`. Interface strings live in `I18N` (en, ru) — never hard-code UI text.
+- Photo catalogue: `tools/photos.json` + `EXCLUDE` / `WORDS` / `TITLES` in `tools/build.py`; run `python tools/build.py` afterwards (it also writes `codepen.html` files, the AI.md topic list and `blockui.mjs`). Only `images.unsplash.com` photos under the Unsplash License.
+- All styles stay inside `@layer bui` (blockui.js declares the layer first in `<head>`), so Tailwind classes and user CSS always win. Third-party styles (Swiper, Leaflet) are outside the layer — override them with `!important`.
+- External libraries load on demand with exact versions: Tailwind 4.3.3 + daisyUI 5.7.47, iconify-icon 3.0.3, Swiper 14.3.0, Leaflet 1.9.4. Record every source in THIRD_PARTY.md.
+- Testing: serve the folder (`python -m http.server`), test copies of the examples with local blockui.*; widths 320–1280 without horizontal scroll; no console errors. Types: compile a sample with `tsc --strict --noEmit`.
+- Classroom repos (CreateSite01PROMT, lesson sites) pin BlockUI 1.1.0 — do not migrate them without the owner's request.

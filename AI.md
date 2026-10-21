@@ -1,197 +1,185 @@
-# BlockUI 1.1.0 — справочник для нейросетей
+# BlockUI 2.0 — API reference (for developers and LLMs)
 
-Ты делаешь одностраничный сайт на BlockUI. Результат — ровно 3 файла: HTML, CSS, JS (чистый JavaScript, без TypeScript, React, Next.js, npm, import/export). BlockUI сам делает: стиль и цвет сайта, фото по теме, меню для телефона, тёмную тему, корзину, окно заказа, проверку форм, сообщения, салют, счётчики, таймер акции, галерею, плавное появление блоков. **Не пиши это сам** — собирай сайт из готовых классов и атрибутов.
+BlockUI builds one-page websites from ready-made blocks. A site is **3 files — HTML, CSS, JS** (plain JavaScript, no build step). BlockUI already provides: 5 styles × 11 colours, photos by keyword, mobile menu, dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown, gallery lightbox, scroll reveal, icons, sliders, maps and avatars. **Do not re-implement these** — compose the page from classes and attributes.
 
-Два режима:
-- **Блоки BlockUI** (по умолчанию) — классы `bui-…`, 5 стилей и 11 цветов одной строкой.
-- **Tailwind + daisyUI** — любой дизайн классами Tailwind и компонентами daisyUI; поведение (окна, формы, фото, счётчики) — всё равно BlockUI.
+Two modes:
+- **BlockUI blocks** (default) — `bui-…` classes; style and colour in one line.
+- **Tailwind + daisyUI** — any design with Tailwind classes and daisyUI components; behaviour (dialogs, forms, photos, counters…) still comes from BlockUI.
 
-## 1. HTML: подключение (для CodePen — первые строки окна HTML)
+## 1. Install
 
-Режим блоков:
+**CDN (CodePen, plain HTML)** — first lines of the page / HTML panel:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
 ```
-Режим Tailwind + daisyUI (добавь ещё три строки перед ними):
+Tailwind + daisyUI mode — add these three lines before them:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css">
 ```
 
-## 2. JS: настройки сайта
+**npm:** `npm install blockuijs`, then `import BlockUI from 'blockuijs'; import 'blockuijs/blockui.css';` (TypeScript types included; SSR import is safe).
+
+## 2. JS: site settings
 
 ```js
-// ===== 0. ЛАБОРАТОРИЯ САЙТА 🧪 =====
-const LAB = {
-  name: 'Маргарита',       // название: подставится во все элементы с data-name
-  style: 'уютный',         // простой / яркий / тёмный / современный / уютный
-  color: 'красный',        // красный, оранжевый, жёлтый, зелёный, бирюзовый, голубой, синий, фиолетовый, розовый, чёрный, коричневый или '#ff6600'
-  rain: '',                // эмодзи-дождь на главном экране, например '🍕'
-  dark: false,             // true — сразу тёмная тема
-  thanks: 'Спасибо! Мы скоро свяжемся с вами 😊' // сообщение после отправки формы
+const CONFIG = {
+  name: 'Margherita',      // written into every element with data-name
+  style: 'cozy',           // clean, bright, dark, modern, cozy (Russian names work too)
+  color: 'red',            // red, orange, yellow, green, teal, sky, blue, purple, pink, black, brown or '#ff6600'
+  lang: 'en',              // 'en' | 'ru' — interface texts (default: <html lang> or the browser)
+  rain: '',                // emoji rain in the hero, e.g. '🍕'
+  dark: false,             // start in dark theme
+  thanks: 'Thank you! We will call you back 😊' // message after a form is sent
 };
-BlockUI.start(LAB);
+BlockUI.start(CONFIG);
 ```
-Ещё настройки: `orderTitle`, `orderText` (окно заказа), `emptyCart`, `currency: '₽'`, `themeButton: false` (без кнопки темы), `avatarStyle: 'lorelei'` (стиль аватаров: lorelei, notionists, thumbs, adventurer, fun-emoji, bottts…).
-Режим Tailwind: `tailwind: true`, `theme: 'cupcake'` (темы daisyUI: light, dark, cupcake, retro, emerald, valentine, synthwave, cyberpunk, corporate, forest, aqua, pastel, fantasy, luxury, dracula, autumn, coffee, winter, nord, sunset…), `darkTheme: 'night'`.
+More options: `orderTitle`, `orderText` (order dialog), `emptyCart`, `currency`, `themeButton: false` (no theme toggle), `avatarStyle: 'lorelei'` (notionists, thumbs, adventurer, fun-emoji, bottts…), `texts: { send: 'Order now', popular: '★ Best value' }` (override any interface text).
+Tailwind mode: `tailwind: true`, `theme: 'cupcake'` (daisyUI themes: light, dark, cupcake, retro, emerald, valentine, synthwave, cyberpunk, corporate, forest, aqua, pastel, fantasy, luxury, dracula, autumn, coffee, winter, nord, sunset…), `darkTheme: 'night'`.
 
 ## 3. CSS
 
-Обычно почти пустой: всё оформление в BlockUI. Свои правила всегда сильнее BlockUI (его стили лежат в слое `@layer bui`). Скругление: `body { --bui-radius: 30px !important; }`.
+Usually almost empty — BlockUI does the styling. Your rules always win (BlockUI lives in `@layer bui`). Corner radius: `body { --bui-radius: 30px !important; }`.
 
-## 4. Фото по теме — `data-photo`
+## 4. Photos by keyword — `data-photo`
 
 ```html
-<img data-photo="пицца">            <!-- первое фото темы -->
-<img data-photo="пицца">            <!-- следующее фото той же темы (не повторяется) -->
-<img data-photo="кофе 3">           <!-- третье фото темы -->
-<section class="bui-hero bui-hero-photo" data-photo="горы">  <!-- фото на фоне -->
+<img data-photo="pizza">            <!-- first photo of the topic -->
+<img data-photo="pizza">            <!-- next photo of the same topic (no repeats) -->
+<img data-photo="coffee 3">         <!-- third photo of the topic -->
+<section class="bui-hero bui-hero-photo" data-photo="mountains">  <!-- background photo -->
 ```
-Слово пишется по-русски или по-английски в любой форме («пиццерия», «школа танцев», «магазин игрушек»). Темы (по 4 фото):
+Keywords work in English or Russian, in any form ("pizzeria", "dance school", "toy store", «кофейня»). Topics (4 photos each):
 
 <!-- TOPICS:START -->
-пицца · кофе, кафе · торты, десерты · пекарня, хлеб · бургеры · суши · мороженое · фрукты, овощи · еда, ресторан · конфеты · цветы · собаки · кошки · лошади · питомцы, зоомагазин · зоопарк, животные · рыбы, аквариум · птицы · книги, библиотека · школа, курсы · дети · игрушки · конструктор · рисование, искусство · музыка, концерт · гитара · пианино · танцы · футбол · баскетбол · плавание, бассейн · фитнес, спорт · йога · шахматы · велосипеды · скейт, самокат · хоккей, коньки · видеоигры · программирование · роботы · космос · наука · телефоны, гаджеты · путешествия, пляж · горы · поход, кемпинг · море · лес, природа · зима, снег · город · машины · поезда · самолёты · одежда, мода · обувь, кроссовки · салон красоты · барбершоп · отель · праздник, день рождения · Новый год · врач, клиника · ветеринар · ферма · сад, огород · кулинария · кино · фотография · динозавры
+pizza · coffee, cafe · cakes, desserts · bakery, bread · burgers · sushi · ice cream · fruit, vegetables · food, restaurant · candy · flowers · dogs · cats · horses · pets, pet shop · zoo, animals · fish, aquarium · birds · books, library · school, courses · kids · toys · building bricks · art, painting · music, concert · guitar · piano · dance · football · basketball · swimming, pool · fitness, sport · yoga · chess · bikes · skateboard, scooter · hockey, skates · video games · programming, computers · robots · space · science, lab · phones, gadgets · travel, beach · mountains · camping, hiking · sea · forest, nature · winter, snow · city · cars · trains · planes · clothes, fashion · shoes, sneakers · beauty salon · barbershop · hotel · party, birthday · New Year, Christmas · doctor, clinic · vet · farm · garden · cooking · cinema · photography · dinosaurs
 <!-- TOPICS:END -->
 
-Темы нет в списке — подставится красивое случайное фото. Свою картинку можно дать обычным `src`.
+Unknown topic → a nice random photo. Your own picture: a normal `src`.
 
-## 5. Блоки (режим BlockUI)
+## 5. Blocks (BlockUI mode)
 
-Каркас страницы:
+Page skeleton:
 ```html
 <header class="bui-header">
   <div class="bui-container">
-    <a class="bui-logo" href="#top"><span>🍕</span><span data-name>Маргарита</span></a>
-    <nav class="bui-nav"><a href="#about">О нас</a><a href="#menu">Меню</a><a href="#contacts">Контакты</a></nav>
+    <a class="bui-logo" href="#top"><span>🍕</span><span data-name>Margherita</span></a>
+    <nav class="bui-nav"><a href="#about">About</a><a href="#menu">Menu</a><a href="#contacts">Contacts</a></nav>
   </div>
 </header>
-<!-- кнопки темы, корзины и бургер для телефона BlockUI добавит в шапку сам -->
+<!-- BlockUI adds the theme toggle, the cart and the mobile burger to the header -->
 
 <section class="bui-hero" id="top">
   <div class="bui-container">
     <div>
-      <span class="bui-badge">🔥 Акция</span>
-      <h1 data-name>Маргарита</h1>
-      <p>Короткий слоган.</p>
-      <div class="bui-row"><button class="bui-btn" data-open="order">Заказать</button><a class="bui-btn bui-btn-ghost" href="#menu">Меню</a></div>
-      <ul class="bui-facts"><li><b>4.9 ⭐</b><span>рейтинг</span></li></ul>
+      <span class="bui-badge">🔥 Special offer</span>
+      <h1 data-name>Margherita</h1>
+      <p>Short slogan.</p>
+      <div class="bui-row"><button class="bui-btn" data-open="order">Order</button><a class="bui-btn bui-btn-ghost" href="#menu">Menu</a></div>
+      <ul class="bui-facts"><li><b>4.9 ⭐</b><span>rating</span></li></ul>
     </div>
-    <div class="bui-hero-picture"><img data-photo="пицца"><span class="bui-sticker">−20%</span></div>
+    <div class="bui-hero-picture"><img data-photo="pizza"><span class="bui-sticker">−20%</span></div>
   </div>
 </section>
 
-<section class="bui-section" id="about">            <!-- bui-section-alt — с цветным фоном -->
+<section class="bui-section" id="about">            <!-- bui-section-alt: tinted background -->
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">О нас</span><h2>Заголовок</h2><p>Подзаголовок</p></div>
-    <div class="bui-grid"> … карточки … </div>        <!-- bui-grid-2 / bui-grid-4 — шире/уже -->
+    <div class="bui-head"><span class="bui-label">About</span><h2>Title</h2><p>Subtitle</p></div>
+    <div class="bui-grid"> … cards … </div>        <!-- bui-grid-2 / bui-grid-4: wider / narrower cards -->
   </div>
 </section>
-<footer class="bui-footer">© <span data-year></span> «<span data-name>Маргарита</span>»</footer>
+<footer class="bui-footer">© <span data-year></span> <span data-name>Margherita</span></footer>
 ```
 
-| Блок | Разметка |
+| Block | Markup |
 |---|---|
-| Главный экран | `bui-hero` (текст + фото), `bui-hero bui-hero-center` (по центру), `bui-hero bui-hero-photo` + `data-photo` (фото на фоне) |
-| Текст + фото | `<div class="bui-container bui-split"><img data-photo="…"><div>…</div></div>` |
-| Преимущество | `<div class="bui-feature"><div class="bui-icon">🔥</div><h3>…</h3><p>…</p></div>` |
-| Карточка | `<div class="bui-card"><h3>…</h3><p>…</p></div>` |
-| Товар | `<div class="bui-product"><div class="bui-product-image"><img data-photo="…"><span class="bui-tag">Хит</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">490 ₽</span><button class="bui-btn bui-btn-small" data-add="Маргарита" data-price="490">В корзину</button></div></div></div>` |
-| Тариф | `<div class="bui-plan bui-popular"><h3>…</h3><div class="bui-price">990 ₽</div><ul class="bui-checks"><li>…</li></ul><button class="bui-btn" data-open="order" data-pick="Тариф">Выбрать</button></div>` |
-| Отзыв | `<div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Анна"><span>Анна<small>гость</small></span></div></div>` (несколько отзывов — в `bui-slider`) |
-| Человек | `<div class="bui-person"><img data-photo="…"><h3>Имя</h3><p>Роль</p></div>` |
-| Шаги | `<div class="bui-grid bui-steps"><div class="bui-step"><h3>…</h3><p>…</p></div>…</div>` (номера ставятся сами) |
-| Цифра | `<div class="bui-stat"><b data-count="1200" data-suffix="+">0</b><span>учеников</span></div>` (досчитывает при прокрутке) |
-| Список с галочками | `<ul class="bui-checks"><li>…</li></ul>` |
-| Вопрос-ответ | `<details class="bui-faq"><summary>Вопрос?</summary><p>Ответ.</p></details>` |
-| Галерея | `<div class="bui-gallery"><img data-photo="…">…</div>` (клик — фото крупно) |
-| Блок действия | `<div class="bui-cta"><h2>…</h2><div data-timer="2026-12-31T23:59"></div><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>` |
-| Карта | `<div data-map="Москва, Тверская улица, 1" data-label="Мы здесь"></div>` |
-| Контакты | `<div class="bui-contacts"><a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>+7 (900) 123-45-67</b></span></a>…</div>` |
-| Соцсети | `<div class="bui-socials"><a class="bui-social bui-vk" href="https://vk.com/" data-tip="ВКонтакте">VK</a><a class="bui-social bui-max" href="https://max.ru/" data-tip="MAX">MAX</a></div>` (ещё `bui-tg`, `bui-yt`) |
-| Форма | `<form class="bui-form" data-thanks="Спасибо!"><div class="bui-field"><input name="name" required><label>Имя</label></div><div class="bui-field"><input name="phone" type="tel" required><label>Телефон</label></div><button class="bui-btn bui-btn-wide">Отправить</button></form>` |
+| Hero | `bui-hero` (text + photo), `bui-hero bui-hero-center` (centered), `bui-hero bui-hero-photo` + `data-photo` (background photo) |
+| Text + photo | `<div class="bui-container bui-split"><img data-photo="…"><div>…</div></div>` |
+| Feature | `<div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>…</h3><p>…</p></div>` |
+| Card | `<div class="bui-card"><h3>…</h3><p>…</p></div>` |
+| Product | `<div class="bui-product"><div class="bui-product-image"><img data-photo="…"><span class="bui-tag">Hit</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">$9</span><button class="bui-btn bui-btn-small" data-add="Margherita" data-price="9">Add to cart</button></div></div></div>` |
+| Pricing plan | `<div class="bui-plan bui-popular"><h3>…</h3><div class="bui-price">$29</div><ul class="bui-checks"><li>…</li></ul><button class="bui-btn" data-open="order" data-pick="Pro">Choose</button></div>` |
+| Review | `<div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Anna"><span>Anna<small>guest</small></span></div></div>` (several reviews: wrap in `bui-slider`) |
+| Person | `<div class="bui-person"><img data-avatar="Noah"><h3>Name</h3><p>Role</p></div>` |
+| Steps | `<div class="bui-grid bui-steps"><div class="bui-step"><h3>…</h3><p>…</p></div>…</div>` (numbers added automatically) |
+| Number | `<div class="bui-stat"><b data-count="1200" data-suffix="+">0</b><span>customers</span></div>` (counts up on scroll) |
+| Checklist | `<ul class="bui-checks"><li>…</li></ul>` |
+| FAQ | `<details class="bui-faq"><summary>Question?</summary><p>Answer.</p></details>` |
+| Gallery | `<div class="bui-gallery"><img data-photo="…">…</div>` (click opens a lightbox) |
+| Slider | `<div class="bui-slider" data-per-view="3"> any cards </div>` |
+| Call to action | `<div class="bui-cta"><h2>…</h2><div data-timer="2026-12-31T23:59"></div><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>` |
+| Contacts | `<div class="bui-contacts"><a class="bui-contact" href="tel:+15550123456"><span>📞</span><span><small>Phone</small><b>+1 (555) 012-3456</b></span></a>…</div>` |
+| Map | `<div data-map="Covent Garden, London" data-label="We are here"></div>` |
+| Social links | `<div class="bui-socials"><a class="bui-social bui-tg" href="…" data-tip="Telegram">TG</a><a class="bui-social bui-yt" href="…" data-tip="YouTube">YT</a></div>` (also `bui-vk`, `bui-max`, or plain `bui-social` with an icon) |
+| Form | `<form class="bui-form" data-thanks="Thanks!"><div class="bui-field"><input name="name" required><label>Name</label></div><div class="bui-field"><input name="phone" type="tel" required><label>Phone</label></div><button class="bui-btn bui-btn-wide">Send</button></form>` |
 
-Кнопки: `bui-btn` + `bui-btn-ghost` / `bui-btn-light` / `bui-btn-small` / `bui-btn-big` / `bui-btn-wide`. Значки: `bui-badge`, `bui-tag`, `bui-sticker`, `bui-label`. Текст: `bui-muted`, `bui-center`.
+Buttons: `bui-btn` + `bui-btn-ghost` / `bui-btn-light` / `bui-btn-small` / `bui-btn-big` / `bui-btn-wide`. Badges: `bui-badge`, `bui-tag`, `bui-sticker`, `bui-label`. Text: `bui-muted`, `bui-center`.
 
-## 6. Поведение — атрибуты (работают в обоих режимах)
+## 6. Behaviour — attributes (both modes)
 
-| Атрибут | Что делает |
+| Attribute | Effect |
 |---|---|
-| `data-open="order"` | открывает окно с этим id. Окно `order` (имя, телефон, выбор товара) **BlockUI создаёт сам**, если его нет |
-| `data-pick="Маргарита"` | вместе с `data-open` — сразу выбирает пункт в списке окна |
-| `data-add="Маргарита" data-price="490"` | кладёт товар в корзину; в шапке сама появится корзина 🛒 со счётчиком |
-| `data-cart-count`, `data-cart-total` | показывают число товаров и сумму |
-| `data-close` | закрывает окно (ещё: клик по фону, Esc) |
-| `data-name` | сюда подставится `name` из настроек |
-| `data-photo="тема"` | фото по теме |
-| `data-count="500" data-suffix="+"` | число досчитывает от 0 при прокрутке |
-| `data-timer="2026-12-31T23:59"` | таймер до даты |
-| `data-year` | текущий год |
-| `data-theme-toggle` | кнопка «тёмная тема» |
-| `data-reveal` | блок плавно появляется при прокрутке (у `bui-section` — само) |
-| `data-icon="mdi:pizza"` | иконка [Iconify](https://icon-sets.iconify.design): 200 000+ иконок (наборы mdi, ph, tabler, lucide, fa6-solid…). Внутри `bui-icon` красится главным цветом |
-| `<div class="bui-slider" data-per-view="3">` | слайдер Swiper из любых карточек: листается сам, точки и стрелки; `data-autoplay="0"` — без автопрокрутки |
-| `data-map="Москва, Тверская 1"` | карта OpenStreetMap с меткой; можно координатами `"55.7558, 37.6173"`; `data-label` — подпись, `data-zoom` — приближение |
-| `data-avatar="Анна"` | аватар DiceBear по имени (одно имя — всегда одно лицо); `data-avatar-style="notionists"` — другой стиль |
-| `form.bui-form` или `form[data-form]` | проверка: `required`, `type="tel"` (10+ цифр), `type="email"`; потом сообщение `thanks`, салют, форма очищается. Никуда не отправляется — сайт учебный |
+| `data-open="order"` | opens the dialog with that id. The `order` dialog (name, phone, item list) is **created automatically** if the page has none |
+| `data-pick="Margherita"` | with `data-open` — preselects that item in the dialog |
+| `data-add="Margherita" data-price="9"` | adds to the cart; a cart button with a counter appears in the header |
+| `data-cart-count`, `data-cart-total` | show the item count and the total |
+| `data-close` | closes the dialog (also: click on the backdrop, Esc) |
+| `data-name` | receives the `name` option |
+| `data-photo="topic"` | photo by keyword |
+| `data-icon="mdi:pizza"` | [Iconify](https://icon-sets.iconify.design) icon — 200,000+ icons (mdi, lucide, ph, tabler, fa6-solid…); inside `bui-icon` it takes the main colour |
+| `data-avatar="Anna"` | DiceBear avatar from a name (same name → same face); `data-avatar-style="bottts"` — another style |
+| `data-map="address"` or `"51.5034, -0.1276"` | OpenStreetMap map with a marker; `data-label` — popup text, `data-zoom` — zoom |
+| `class="bui-slider" data-per-view="3"` | Swiper slider from any cards; `data-autoplay="0"` — no autoplay |
+| `data-count="500" data-suffix="+"` | counts up from 0 on scroll |
+| `data-timer="2026-12-31T23:59"` | countdown to the date |
+| `data-year` | current year |
+| `data-theme-toggle` | dark theme toggle button |
+| `data-reveal` | fades in on scroll (`bui-section` does it automatically) |
+| `form.bui-form` or `form[data-form]` | validation: `required`, `type="tel"` (7+ digits), `type="email"`; then the `thanks` toast, confetti, reset. No backend — wire your own `fetch` if needed |
 
-Из JS: `BlockUI.toast('Текст')`, `BlockUI.confetti()`, `BlockUI.open('order', 'Маргарита')`, `BlockUI.close()`, `BlockUI.addToCart('Пицца', 490)`, `BlockUI.photo('пицца', 0)` — адрес фото, `BlockUI.avatar('Анна')` — адрес аватара.
+From JS: `BlockUI.toast('Text')`, `BlockUI.confetti()`, `BlockUI.open('order', 'Margherita')`, `BlockUI.close()`, `BlockUI.addToCart('Pizza', 9)`, `BlockUI.photo('pizza', 0)`, `BlockUI.avatar('Anna')`.
 
-Примеры:
-```html
-<div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>Быстрая доставка</h3><p>…</p></div>
-<div class="bui-slider" data-per-view="3">
-  <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Анна"><span>Анна<small>гость</small></span></div></div>
-  … ещё отзывы …
-</div>
-<div data-map="Москва, Тверская улица, 1" data-label="Мы здесь!"></div>
-```
-Иконки, слайдер и карта подключают свои библиотеки сами, только если они есть на странице.
+Icons, sliders and maps load their libraries automatically, only when the page uses them.
 
-## 7. Режим Tailwind + daisyUI
+## 7. Tailwind + daisyUI mode
 
-Пиши разметку классами Tailwind и компонентами daisyUI (`navbar`, `hero`, `hero-overlay`, `hero-content`, `btn btn-primary`, `card`, `card-body`, `badge`, `stats`, `stat`, `collapse`, `modal`, `input`, `select`…). Атрибуты из раздела 6 работают так же. Окно — `<dialog id="order" class="modal">` с формой `<form data-form>`; кнопка `data-open="order"` откроет его.
+Write markup with Tailwind utilities and daisyUI components (`navbar`, `hero`, `hero-overlay`, `hero-content`, `btn btn-primary`, `card`, `card-body`, `badge`, `stats`, `stat`, `collapse`, `modal`, `input`, `select`…). All attributes from section 6 work. Dialog: `<dialog id="order" class="modal">` with `<form data-form>`; `data-open="order"` opens it.
 
 ```html
-<section class="hero min-h-[70vh]" data-photo="йога">
+<section class="hero min-h-[70vh]" data-photo="yoga">
   <div class="hero-overlay bg-black/50"></div>
   <div class="hero-content text-center text-white">
     <div class="max-w-xl">
-      <h1 class="text-5xl font-bold mb-5" data-name>Лотос</h1>
-      <button class="btn btn-primary btn-lg" data-open="order">Записаться</button>
+      <h1 class="text-5xl font-bold mb-5" data-name>Lotus</h1>
+      <button class="btn btn-primary btn-lg" data-open="order">Book</button>
     </div>
   </div>
 </section>
-<div class="card bg-base-100 shadow-xl">
-  <figure><img data-photo="йога" class="h-56 w-full object-cover"></figure>
-  <div class="card-body"><h3 class="card-title">Хатха-йога</h3><p>…</p>
-    <div class="card-actions justify-end"><button class="btn btn-primary" data-open="order" data-pick="Хатха-йога">Записаться</button></div></div>
-</div>
 <dialog id="order" class="modal">
   <div class="modal-box">
-    <h3 class="text-2xl font-bold mb-4">Запись</h3>
+    <h3 class="text-2xl font-bold mb-4">Book a class</h3>
     <form data-form class="flex flex-col gap-3">
-      <input name="name" required class="input w-full" placeholder="Имя">
-      <input name="phone" type="tel" required class="input w-full" placeholder="Телефон">
-      <select name="item" class="select w-full"><option>Хатха-йога</option></select>
-      <button class="btn btn-primary">Отправить</button>
+      <input name="name" required class="input w-full" placeholder="Name">
+      <input name="phone" type="tel" required class="input w-full" placeholder="Phone">
+      <button class="btn btn-primary">Send</button>
     </form>
   </div>
-  <form method="dialog" class="modal-backdrop"><button>Закрыть</button></form>
+  <form method="dialog" class="modal-backdrop"><button>Close</button></form>
 </dialog>
 ```
 ```js
-BlockUI.start({ name: 'Лотос', tailwind: true, theme: 'emerald', darkTheme: 'night', thanks: 'Вы записаны!' });
+BlockUI.start({ name: 'Lotus', tailwind: true, theme: 'emerald', darkTheme: 'night', thanks: "You're booked!" });
 ```
-Цвет кнопок `btn-primary` задаёт тема; `color: 'синий'` в настройках перекрасит его.
+The theme sets the `btn-primary` colour; `color: 'blue'` overrides it.
 
-## Примеры (каждый — 3 файла)
+## Examples (3 files each)
 
-https://github.com/si0683/BlockUI/tree/main/examples — `coffee` (кофейня: товары, корзина, слайдер отзывов с аватарами, иконки, карта), `robots` (школа: фото на фоне, цифры, шаги, тарифы, команда, таймер, форма), `pets` (приют: галерея, карточки питомцев, дождь из эмодзи), `yoga` (режим Tailwind + daisyUI).
+https://github.com/si0683/BlockUI/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI).
 
-## Правила
+## Rules for generated code
 
-- Обязательные блоки сайта: главный экран, о нас, преимущества, товары/услуги, блок с кнопкой действия, контакты (телефон, почта, адрес, ВК и MAX).
-- Текста мало, цвета задаёт `color`, картинки — `data-photo`. Не пиши свои меню, окна, корзины, анимации — они уже есть.
-- Комментарии в коде — на русском. В начале JS — объект `LAB` с настройками для детей, потом `BlockUI.start(LAB)`.
+- A typical landing page: hero, about, features, products/services, call to action, contacts (phone, email, address, social links, map).
+- Keep text short; colours via `color`, pictures via `data-photo`, icons via `data-icon`. Don't write your own menus, dialogs, carts or animations — they already exist.
+- Start the JS with a `CONFIG` object, then `BlockUI.start(CONFIG)`.

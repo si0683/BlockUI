@@ -1,3 +1,1 @@
-/* Свои стили сайта. Всё оформление уже есть в blockui.css.
-   Здесь можно поменять мелочи, например скругление углов:
-   body { --bui-radius: 30px !important; } */
+/* Your own styles. Everything else comes from BlockUI (and Tailwind in the yoga example). */

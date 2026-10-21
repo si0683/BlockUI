@@ -1,54 +1,79 @@
 # 🧱 BlockUI
 
-Блоки для красивых сайтов: подключил двумя строками — и у сайта уже есть стиль и цвет, фото по теме, меню для телефона, тёмная тема, корзина, окно заказа, проверка форм, сообщения, салют, счётчики, таймер акции, галерея и плавное появление блоков.
+**Building blocks for beautiful websites.** Two lines of HTML and your page has a style and colour scheme, photos by keyword, a mobile menu, dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown, sliders, maps, icons and avatars — all driven by plain HTML classes and attributes. No build step, no framework lock-in.
 
-Сделан для уроков программирования с детьми: сайт по описанию собирает нейросеть (Qwen, ChatGPT, GigaChat…), и получается ровно **3 файла — HTML, CSS, JS**, которые вставляются в CodePen.
+Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all BlockUI behaviour while you design with Tailwind classes.
 
-**Примеры:** [Кофейня «Зерно»](https://si0683.github.io/BlockUI/examples/coffee/) · [Школа «РобоКод»](https://si0683.github.io/BlockUI/examples/robots/) · [Приют «Лапки»](https://si0683.github.io/BlockUI/examples/pets/) · [Студия йоги «Лотос»](https://si0683.github.io/BlockUI/examples/yoga/) (Tailwind + daisyUI)
+[Website & live demos](https://si0683.github.io/BlockUI/) · [API reference](AI.md) · [AI prompt template](PROMPT.md) · [Русский](README.ru.md)
 
-## 🚀 Быстрый старт с нейросетью
+| | | | |
+|---|---|---|---|
+| [Bean & Brew](https://si0683.github.io/BlockUI/examples/coffee/) — coffee shop | [RoboCode](https://si0683.github.io/BlockUI/examples/robots/) — school | [Paws](https://si0683.github.io/BlockUI/examples/pets/) — shelter | [Lotus](https://si0683.github.io/BlockUI/examples/yoga/) — Tailwind + daisyUI |
 
-Готовый шаблон промта — **[PROMPT.md](PROMPT.md)**: поменяйте строки «МОЙ САЙТ» (тема, название, стиль, цвет, кнопка) и отправьте в Qwen, ChatGPT или GigaChat — получите сайт в 3 файлах для CodePen.
-
-## Подключение
+## Install
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
 ```
 
+or
+
+```bash
+npm install blockuijs
+```
 ```js
-BlockUI.start({ name: 'Маргарита', style: 'уютный', color: 'красный', rain: '🍕' });
+import BlockUI from 'blockuijs';
+import 'blockuijs/blockui.css';
 ```
 
-## Что внутри
+## A section in a few lines
 
-- **5 стилей** (простой, яркий, тёмный, современный, уютный) и **11 цветов** — одной строкой; свои шрифты, тени и формы у каждого стиля.
-- **Блоки:** главный экран (3 вида), текст с фото, преимущества, карточки, товары, тарифы, отзывы, команда, шаги, цифры, вопросы, галерея, блок действия с таймером, контакты, соцсети ВК/MAX/Telegram/YouTube, формы.
-- **Фото по слову:** `<img data-photo="пицца">` — 68 тем, 270 бесплатных фото Unsplash, поиск по русским словам в любой форме.
-- **Поведение атрибутами:** `data-open`, `data-add`, `data-count`, `data-timer`, `data-theme-toggle`… — окно заказа и корзина создаются сами.
-- **Иконки, слайдеры, карты, аватары** (1.1): `data-icon="mdi:pizza"` — 200 000+ иконок Iconify, `bui-slider` — карусель Swiper, `data-map="адрес"` — карта OpenStreetMap, `data-avatar="Анна"` — аватар DiceBear.
-- **Режим Tailwind + daisyUI:** любой дизайн классами Tailwind и компонентами daisyUI, поведение — всё равно BlockUI.
-
-Полный справочник — [AI.md](AI.md) (написан так, чтобы его понимали нейросети).
-
-## Для разработчиков
-
-```
-blockui.js / blockui.css — библиотека (версия в blockui.js: VERSION)
-examples/<сайт>/         — примеры: index.html, style.css, script.js, codepen.html
-AI.md                    — справочник для нейросетей
-tools/photos.json        — фото Unsplash по темам (собраны с unsplash.com, бесплатная лицензия)
-tools/build.py           — вписывает фото в blockui.js и темы в AI.md, собирает codepen.html примеров
+```html
+<section class="bui-hero">
+  <div class="bui-container">
+    <div>
+      <h1 data-name>Margherita</h1>
+      <p>Wood-fired pizza delivered in 30 minutes.</p>
+      <button class="bui-btn" data-open="order">Order</button>
+    </div>
+    <div class="bui-hero-picture"><img data-photo="pizza"></div>
+  </div>
+</section>
+<script>BlockUI.start({ name: 'Margherita', style: 'cozy', color: 'red', rain: '🍕' });</script>
 ```
 
-Новая версия: поменять `VERSION`, ссылки `@1.1.0` в AI.md/README/примерах, `python tools/build.py`, коммит и тег `vX.Y.Z`. Вышедшие версии не менять: на них опираются уроки.
+The order dialog, its form validation and the thank-you toast appear automatically.
 
-## Авторы ресурсов
+## Features
 
-- Фото — [Unsplash](https://unsplash.com) (бесплатная лицензия Unsplash).
-- Иконки — [Iconify](https://iconify.design) (MIT; у наборов иконок свои открытые лицензии).
-- Слайдер — [Swiper](https://swiperjs.com) (MIT).
-- Карты — [Leaflet](https://leafletjs.com) (BSD-2), данные © [участники OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL), поиск адреса — Nominatim.
-- Аватары — [DiceBear](https://www.dicebear.com) (MIT), стиль Lorelei — Lisa Wischofsky (CC0).
-- Режим Tailwind — [Tailwind CSS](https://tailwindcss.com) (MIT) и [daisyUI](https://daisyui.com) (MIT).
+- **5 styles × 11 colours** — clean, bright, dark, modern, cozy; each with its own fonts, shadows and shapes; any hex colour.
+- **Blocks:** 3 hero variants, text + photo, features, cards, products, pricing plans, reviews, team, steps, numbers, FAQ, gallery, call to action with countdown, contacts, social links, forms.
+- **Photos by keyword:** `<img data-photo="pizza">` — 68 topics, 270 free Unsplash photos, English and Russian keywords.
+- **Behaviour by attributes:** `data-open`, `data-add`, `data-count`, `data-timer`, `data-theme-toggle`… — the order dialog and the cart create themselves.
+- **Icons, sliders, maps, avatars:** `data-icon="mdi:pizza"` (200,000+ Iconify icons), `.bui-slider` (Swiper), `data-map="address"` (Leaflet + OpenStreetMap, no API key), `data-avatar="Anna"` (DiceBear). Libraries load only when used.
+- **Tailwind + daisyUI mode** for full design freedom.
+- **i18n:** English and Russian interface texts (`lang`), any text overridable (`texts`).
+- **TypeScript types**, ES module, safe SSR import. All styles live in a CSS cascade layer, so your CSS always wins.
+
+## Build sites with AI
+
+BlockUI is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) can assemble a polished site from a short brief: [PROMPT.md](PROMPT.md) is a ready-to-use prompt template, [AI.md](AI.md) is a compact reference the model can read.
+
+## Repository
+
+```
+blockui.js / blockui.css   the library (VERSION constant in blockui.js)
+blockui.mjs / blockui.d.ts ES module entry and TypeScript types
+examples/<site>/           examples: index.html, style.css, script.js, codepen.html
+AI.md                      API reference
+PROMPT.md, PROMPT.ru.md    prompt templates for LLMs
+tools/photos.json          Unsplash photo IDs by topic
+tools/build.py             writes the photo catalogue, AI.md topic list, codepen.html files and blockui.mjs
+```
+
+Release: bump `VERSION` in `blockui.js` and `package.json`, update `@x.y.z` links, run `python tools/build.py`, commit, tag `vX.Y.Z`, `npm publish`. Published versions are never changed.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Photos, icons, maps and add-on libraries have their own terms: [THIRD_PARTY.md](THIRD_PARTY.md).

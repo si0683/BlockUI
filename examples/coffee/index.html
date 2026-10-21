@@ -1,178 +1,176 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кофейня «Зерно» — BlockUI</title>
+  <title>Bean &amp; Brew coffee shop — BlockUI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ↓↓↓ Для CodePen копируйте в окно HTML всё, что ниже этой строки ↓↓↓
-     Сначала подключаем BlockUI, потом идёт разметка сайта. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
+<!-- ↓↓↓ CodePen: copy everything below this line into the HTML panel ↓↓↓
+     BlockUI first, then the page markup. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
 
-<!-- ШАПКА: кнопки темы, корзины и меню для телефона BlockUI добавит сам -->
+<!-- HEADER: theme toggle, cart and mobile menu are added by BlockUI -->
 <header class="bui-header">
   <div class="bui-container">
-    <a class="bui-logo" href="#top"><span>☕</span><span data-name>Зерно</span></a>
+    <a class="bui-logo" href="#top"><span>☕</span><span data-name>Bean &amp; Brew</span></a>
     <nav class="bui-nav">
-      <a href="#about">О нас</a>
-      <a href="#menu">Меню</a>
-      <a href="#reviews">Отзывы</a>
-      <a href="#contacts">Контакты</a>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contacts">Contacts</a>
     </nav>
   </div>
 </header>
 
-<!-- 1. ГЛАВНЫЙ ЭКРАН -->
+<!-- 1. HERO -->
 <section class="bui-hero" id="top">
   <div class="bui-container">
     <div>
-      <span class="bui-badge">☕ Свежая обжарка каждый день</span>
-      <h1 data-name>Зерно</h1>
-      <p>Уютная кофейня, где варят ароматный кофе и пекут тёплые круассаны.</p>
+      <span class="bui-badge">☕ Freshly roasted every day</span>
+      <h1 data-name>Bean &amp; Brew</h1>
+      <p>A cozy coffee shop with fragrant coffee and warm croissants.</p>
       <div class="bui-row">
-        <button class="bui-btn" data-open="order">Заказать кофе</button>
-        <a class="bui-btn bui-btn-ghost" href="#menu">Смотреть меню</a>
+        <button class="bui-btn" data-open="order">Order coffee</button>
+        <a class="bui-btn bui-btn-ghost" href="#menu">See the menu</a>
       </div>
       <ul class="bui-facts">
-        <li><b>4.9 ⭐</b><span>оценка гостей</span></li>
-        <li><b>15 сортов</b><span>кофе со всего мира</span></li>
-        <li><b>7:00</b><span>открываемся рано</span></li>
+        <li><b>4.9 ⭐</b><span>guest rating</span></li>
+        <li><b>15 blends</b><span>from all over the world</span></li>
+        <li><b>7 am</b><span>we open early</span></li>
       </ul>
     </div>
     <div class="bui-hero-picture">
-      <img data-photo="кофе" alt="Чашка кофе">
-      <span class="bui-sticker">Второй кофе −50%</span>
+      <img data-photo="coffee" alt="Coffee beans">
+      <span class="bui-sticker">2nd coffee −50%</span>
     </div>
   </div>
 </section>
 
-<!-- 2. О НАС -->
+<!-- 2. ABOUT -->
 <section class="bui-section" id="about">
   <div class="bui-container bui-split">
-    <img data-photo="кофе 3" alt="Кофейня изнутри">
+    <img data-photo="coffee 3" alt="Inside the coffee shop">
     <div>
-      <span class="bui-label">О нас</span>
-      <h2>Место, где хочется остаться</h2>
-      <p class="bui-muted">Мы сами обжариваем зёрна и готовим каждую чашку с любовью. Приходите с друзьями, с книгой или работать — для всех найдётся уютный уголок.</p>
+      <span class="bui-label">About us</span>
+      <h2>A place you want to stay</h2>
+      <p class="bui-muted">We roast our own beans and make every cup with love. Come with friends, a book or your laptop — there is a cozy corner for everyone.</p>
       <ul class="bui-checks">
-        <li>Кофе с собой за 3 минуты</li>
-        <li>Свежая выпечка каждое утро</li>
-        <li>Бесплатный Wi-Fi и розетки</li>
+        <li>Coffee to go in 3 minutes</li>
+        <li>Fresh pastries every morning</li>
+        <li>Free Wi-Fi and power outlets</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- 3. ПРЕИМУЩЕСТВА -->
+<!-- 3. FEATURES: Iconify icons via data-icon -->
 <section class="bui-section bui-section-alt">
   <div class="bui-container">
     <div class="bui-head">
-      <span class="bui-label">Почему мы</span>
-      <h2>Три причины зайти к нам</h2>
+      <span class="bui-label">Why us</span>
+      <h2>Three reasons to drop by</h2>
     </div>
     <div class="bui-grid">
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:sprout"></div><h3>Своя обжарка</h3><p>Зёрна обжариваем сами — кофе всегда свежий.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:food-croissant"></div><h3>Тёплая выпечка</h3><p>Круассаны и булочки прямо из печи.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:music-note"></div><h3>Уютная атмосфера</h3><p>Мягкие кресла, тихая музыка и добрые бариста.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:sprout"></div><h3>Our own roast</h3><p>We roast the beans ourselves — the coffee is always fresh.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:food-croissant"></div><h3>Warm pastries</h3><p>Croissants and buns straight from the oven.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:music-note"></div><h3>Cozy atmosphere</h3><p>Soft armchairs, quiet music and friendly baristas.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 4. МЕНЮ: кнопка data-add кладёт товар в корзину -->
+<!-- 4. MENU: data-add puts an item into the cart -->
 <section class="bui-section" id="menu">
   <div class="bui-container">
     <div class="bui-head">
-      <span class="bui-label">Меню</span>
-      <h2>Самое любимое</h2>
-      <p>Выбирайте и добавляйте в корзину</p>
+      <span class="bui-label">Menu</span>
+      <h2>Guest favourites</h2>
+      <p>Pick and add to your cart</p>
     </div>
     <div class="bui-grid">
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="кофе 4" alt="Капучино"><span class="bui-tag">Хит</span></div>
+        <div class="bui-product-image"><img data-photo="coffee 4" alt="Cappuccino"><span class="bui-tag">Bestseller</span></div>
         <div class="bui-product-body">
-          <h3>Капучино</h3><p>Нежная молочная пенка и двойной эспрессо</p>
-          <div class="bui-product-footer"><span class="bui-price">220 ₽</span><button class="bui-btn bui-btn-small" data-add="Капучино" data-price="220">В корзину</button></div>
+          <h3>Cappuccino</h3><p>Silky milk foam over a double espresso</p>
+          <div class="bui-product-footer"><span class="bui-price">$3.50</span><button class="bui-btn bui-btn-small" data-add="Cappuccino" data-price="3.5">Add to cart</button></div>
         </div>
       </div>
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="выпечка" alt="Круассаны"><span class="bui-tag">Свежее</span></div>
+        <div class="bui-product-image"><img data-photo="bakery" alt="Croissants"><span class="bui-tag">Fresh</span></div>
         <div class="bui-product-body">
-          <h3>Круассан</h3><p>Хрустящий, с маслом и сливочной начинкой</p>
-          <div class="bui-product-footer"><span class="bui-price">150 ₽</span><button class="bui-btn bui-btn-small" data-add="Круассан" data-price="150">В корзину</button></div>
+          <h3>Croissant</h3><p>Crispy, buttery, with a creamy filling</p>
+          <div class="bui-product-footer"><span class="bui-price">$2.80</span><button class="bui-btn bui-btn-small" data-add="Croissant" data-price="2.8">Add to cart</button></div>
         </div>
       </div>
       <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="торт" alt="Торт"><span class="bui-tag">Десерт</span></div>
+        <div class="bui-product-image"><img data-photo="cake" alt="Chocolate cake"><span class="bui-tag">Dessert</span></div>
         <div class="bui-product-body">
-          <h3>Шоколадный торт</h3><p>Кусочек к кофе — настроение на весь день</p>
-          <div class="bui-product-footer"><span class="bui-price">290 ₽</span><button class="bui-btn bui-btn-small" data-add="Шоколадный торт" data-price="290">В корзину</button></div>
+          <h3>Chocolate cake</h3><p>A slice with your coffee — good mood all day</p>
+          <div class="bui-product-footer"><span class="bui-price">$4.90</span><button class="bui-btn bui-btn-small" data-add="Chocolate cake" data-price="4.9">Add to cart</button></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 5. ОТЗЫВЫ -->
+<!-- 5. REVIEWS: Swiper slider, DiceBear avatars from names -->
 <section class="bui-section bui-section-alt" id="reviews">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Отзывы</span><h2>Что говорят гости</h2></div>
-    <!-- Слайдер Swiper: карточки листаются сами, аватары DiceBear рисуются по имени -->
+    <div class="bui-head"><span class="bui-label">Reviews</span><h2>What our guests say</h2></div>
     <div class="bui-slider" data-per-view="3">
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Лучший капучино в городе! Хожу сюда каждое утро.</blockquote><div class="bui-author"><img data-avatar="Анна" alt="Анна"><span>Анна<small>постоянный гость</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Очень уютно, удобно работать с ноутбуком.</blockquote><div class="bui-author"><img data-avatar="Илья" alt="Илья"><span>Илья<small>программист</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★☆</div><blockquote>Круассаны просто тают во рту!</blockquote><div class="bui-author"><img data-avatar="Маша" alt="Маша"><span>Маша<small>школьница</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Зашёл случайно — теперь прихожу каждый день.</blockquote><div class="bui-author"><img data-avatar="Пётр" alt="Пётр"><span>Пётр<small>турист</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Детям — какао, мне — латте. Все довольны!</blockquote><div class="bui-author"><img data-avatar="Ольга" alt="Ольга"><span>Ольга<small>мама двоих детей</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>The best cappuccino in town! I come here every morning.</blockquote><div class="bui-author"><img data-avatar="Anna" alt="Anna"><span>Anna<small>regular guest</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Very cozy and easy to work with a laptop.</blockquote><div class="bui-author"><img data-avatar="Ethan" alt="Ethan"><span>Ethan<small>developer</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★☆</div><blockquote>The croissants simply melt in your mouth!</blockquote><div class="bui-author"><img data-avatar="Mia" alt="Mia"><span>Mia<small>student</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Dropped in by chance — now I come every day.</blockquote><div class="bui-author"><img data-avatar="Lucas" alt="Lucas"><span>Lucas<small>tourist</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Hot chocolate for the kids, latte for me. Everyone is happy!</blockquote><div class="bui-author"><img data-avatar="Olivia" alt="Olivia"><span>Olivia<small>mom of two</small></span></div></div>
     </div>
   </div>
 </section>
 
-<!-- 6. ВОПРОСЫ -->
+<!-- 6. FAQ -->
 <section class="bui-section">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Вопросы</span><h2>Частые вопросы</h2></div>
-    <details class="bui-faq"><summary>Можно ли заказать кофе с собой?</summary><p>Да! Закажите на сайте — приготовим за 3 минуты.</p></details>
-    <details class="bui-faq"><summary>Есть ли растительное молоко?</summary><p>Есть овсяное, миндальное и кокосовое.</p></details>
-    <details class="bui-faq"><summary>Можно прийти с собакой?</summary><p>Конечно, мы рады гостям с питомцами.</p></details>
+    <div class="bui-head"><span class="bui-label">FAQ</span><h2>Frequently asked questions</h2></div>
+    <details class="bui-faq"><summary>Can I order coffee to go?</summary><p>Sure! Order online and we will have it ready in 3 minutes.</p></details>
+    <details class="bui-faq"><summary>Do you have plant-based milk?</summary><p>Oat, almond and coconut.</p></details>
+    <details class="bui-faq"><summary>Can I bring my dog?</summary><p>Of course — pets are welcome.</p></details>
   </div>
 </section>
 
-<!-- 7. КНОПКА ДЕЙСТВИЯ: окно «order» BlockUI создаст сам -->
+<!-- 7. CALL TO ACTION: the "order" dialog is created by BlockUI -->
 <section class="bui-section">
   <div class="bui-container">
     <div class="bui-cta">
-      <h2>Хочется кофе прямо сейчас?</h2>
-      <p>Оформите заказ — заберёте без очереди.</p>
-      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order">Заказать</button>
+      <h2>Craving coffee right now?</h2>
+      <p>Order ahead and skip the line.</p>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order">Order now</button>
     </div>
   </div>
 </section>
 
-<!-- 8. КОНТАКТЫ -->
+<!-- 8. CONTACTS: OpenStreetMap map via data-map -->
 <section class="bui-section bui-section-alt" id="contacts">
   <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Контакты</span><h2>Ждём в гости</h2><p>Позвоните или напишите — забронируем столик!</p></div>
+    <div class="bui-head"><span class="bui-label">Contacts</span><h2>Come and visit</h2><p>Call or message us — we will save you a table!</p></div>
     <div class="bui-contacts">
-      <a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>+7 (900) 123-45-67</b></span></a>
-      <a class="bui-contact" href="mailto:coffee@example.com"><span>✉️</span><span><small>Почта</small><b>coffee@example.com</b></span></a>
-      <div class="bui-contact"><span>📍</span><span><small>Адрес</small><b>г. Москва, Тверская ул., 1</b></span></div>
-      <div class="bui-contact"><span>🕒</span><span><small>Часы работы</small><b>Ежедневно 7:00–22:00</b></span></div>
+      <a class="bui-contact" href="tel:+15550123456"><span>📞</span><span><small>Phone</small><b>+1 (555) 012-3456</b></span></a>
+      <a class="bui-contact" href="mailto:hello@example.com"><span>✉️</span><span><small>Email</small><b>hello@example.com</b></span></a>
+      <div class="bui-contact"><span>📍</span><span><small>Address</small><b>Covent Garden, London</b></span></div>
+      <div class="bui-contact"><span>🕒</span><span><small>Opening hours</small><b>Daily 7 am – 10 pm</b></span></div>
     </div>
     <div class="bui-socials">
-      <a class="bui-social bui-vk" href="https://vk.com/" target="_blank" rel="noopener" data-tip="ВКонтакте">VK</a>
-      <a class="bui-social bui-max" href="https://max.ru/" target="_blank" rel="noopener" data-tip="Мессенджер MAX">MAX</a>
+      <a class="bui-social bui-tg" href="https://telegram.org/" target="_blank" rel="noopener" data-tip="Telegram">TG</a>
+      <a class="bui-social bui-yt" href="https://youtube.com/" target="_blank" rel="noopener" data-tip="YouTube">YT</a>
     </div>
-    <!-- Карта OpenStreetMap: адрес словами или координаты -->
-    <div data-map="Москва, Тверская улица, 1" data-label="Кофейня «Зерно»" style="margin-top: 34px"></div>
+    <div data-map="Covent Garden, London" data-label="Bean &amp; Brew" style="margin-top: 34px"></div>
   </div>
 </section>
 
-<footer class="bui-footer">© <span data-year></span> «<span data-name>Зерно</span>». Учебный сайт: контакты вымышленные.</footer>
-<!-- ↑↑↑ Для CodePen: конец части для окна HTML ↑↑↑ -->
+<footer class="bui-footer">© <span data-year></span> <span data-name>Bean &amp; Brew</span>. Demo site: contacts are fictional.</footer>
+<!-- ↑↑↑ CodePen: end of the HTML panel part ↑↑↑ -->
 
 <script src="script.js"></script>
 </body>

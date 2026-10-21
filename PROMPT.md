@@ -1,95 +1,55 @@
-# Промт: любой сайт на BlockUI
+# Prompt template: any website with BlockUI
 
-Шаблон промта для быстрой разработки: ученик (или вы) меняет строки «МОЙ САЙТ» — тему, название, стиль, цвет и кнопку, а нейросеть (Qwen, ChatGPT, GigaChat, DeepSeek…) собирает сайт из блоков BlockUI. Получается 3 файла — HTML, CSS, JS — для CodePen. Скопируйте промт **одной кнопкой** (два квадратика в правом верхнем углу блока).
+Fill in the **MY SITE** block and paste the whole prompt into any LLM (ChatGPT, Claude, Gemini, Qwen, GigaChat, DeepSeek…). You get a polished one-page site in 3 files that runs locally, on any static hosting or in CodePen. The prompt contains a compact cheat sheet, so it works even when the model cannot open links.
 
-Полный справочник — [AI.md](AI.md), примеры — [examples](examples). Нужен дизайн на Tailwind + daisyUI — см. раздел 7 в AI.md.
-
-<!-- Файл создаётся генератором D:\8Lending\sites\tetrika\_generator (gen_docs.py) из blockui_prompt.md — правьте там. -->
-
-<!-- Для ИИ-агентов: ВЕСЬ промт — один блок ````text. Шпаргалка внутри промта нужна, если нейросеть не откроет ссылку на AI.md.
-     Файл создаётся генератором D:\8Lending\sites\tetrika\_generator (gen_docs.py) из blockui_prompt.md. -->
+Русская версия — [PROMPT.ru.md](PROMPT.ru.md). Full reference — [AI.md](AI.md).
 
 ````text
-Ты — веб-дизайнер. Сделай одностраничный сайт для CodePen на моей библиотеке BlockUI.
+You are a senior web designer. Build a complete one-page website with the BlockUI library.
 
-МОЙ САЙТ (меняю только эти строки):
-Тема сайта: пиццерия
-Название: Маргарита
-Стиль сайта: уютный
-Основной цвет сайта: красный
-Кнопка действия: Заказать
+MY SITE:
+Business: pizzeria
+Name: Margherita
+Style: cozy (clean / bright / dark / modern / cozy)
+Main colour: red (red, orange, yellow, green, teal, sky, blue, purple, pink, black, brown or #hex)
+Main action button: Order
+Audience and tone: families, warm and friendly
+Must have: menu with 3 pizzas and prices, delivery info, reviews, map with the address
+Interface language: English
 
-Стили: простой и аккуратный / яркий и весёлый / тёмный / современный / уютный.
-Цвета: красный, оранжевый, жёлтый, зелёный, бирюзовый, голубой, синий, фиолетовый, розовый, чёрный, коричневый.
+OUTPUT — exactly 3 files, each in its own code block with the file name above it:
+1) index.html — a full HTML document; at the start of <body>:
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
+   <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
+   then the page markup, and script.js at the end of <body>;
+2) style.css — usually almost empty;
+3) script.js — a CONFIG object (name, style, color, lang, rain, dark, thanks) and BlockUI.start(CONFIG).
+Plain HTML/CSS/JavaScript only: no TypeScript, React, Next.js, npm, import/export, no build step.
 
-На сайте должны быть блоки:
-1. Главный блок: название сайта, короткий слоган, большая картинка по теме, заметная кнопка действия.
-2. О сайте: 2–3 предложения о том, что это за сайт и чем он полезен посетителю.
-3. Преимущества: 2–3 причины выбрать именно нас.
-4. Товары или услуги: 2–3 карточки с картинками и ценами.
-5. Блок с кнопкой действия.
-6. Контакты: телефон, почта, адрес, соцсети ВК и MAX и короткий призыв связаться.
-Можно добавить, если подходит теме: отзывы в слайдере, вопросы-ответы, цифры, команду, тарифы, галерею, таймер акции, карту в контактах.
-Текст короткий, цвета сочетаются, дизайн как у профессионалов, сайт работает на телефоне. Код без ошибок, работает с первого раза.
+BlockUI reference (read it first): https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/AI.md
+Backup: https://raw.githubusercontent.com/si0683/BlockUI/main/AI.md · Examples: https://github.com/si0683/BlockUI/tree/main/examples
 
-Должно получиться ровно 3 файла, как три окна в CodePen: HTML, CSS, JS.
-Только обычный HTML, CSS и ЧИСТЫЙ JavaScript. НЕ используй TypeScript, React, JSX, Vue, Next.js, npm, import и export.
+If you cannot open the links, use this summary:
+- Skeleton: <header class="bui-header"><div class="bui-container"><a class="bui-logo" href="#top"><span>🍕</span><span data-name>Name</span></a><nav class="bui-nav"><a href="#about">About</a>…</nav></div></header>; sections: <section class="bui-section" id="…"> (bui-section-alt = tinted) with <div class="bui-container"><div class="bui-head"><span class="bui-label">…</span><h2>…</h2><p>…</p></div><div class="bui-grid">cards</div></div>; <footer class="bui-footer">© <span data-year></span> <span data-name>Name</span></footer>. BlockUI adds the theme toggle, cart and mobile burger itself.
+- Hero: <section class="bui-hero" id="top"><div class="bui-container"><div><span class="bui-badge">…</span><h1 data-name>Name</h1><p>Slogan</p><div class="bui-row"><button class="bui-btn" data-open="order">Order</button><a class="bui-btn bui-btn-ghost" href="#menu">Menu</a></div><ul class="bui-facts"><li><b>4.9 ⭐</b><span>rating</span></li></ul></div><div class="bui-hero-picture"><img data-photo="pizza"><span class="bui-sticker">−20%</span></div></div></section>. Variants: bui-hero-center; bui-hero bui-hero-photo with data-photo on the section.
+- Cards: feature <div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>…</h3><p>…</p></div>; product <div class="bui-product"><div class="bui-product-image"><img data-photo="pizza"><span class="bui-tag">Hit</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">$9</span><button class="bui-btn bui-btn-small" data-add="Margherita" data-price="9">Add to cart</button></div></div></div>; plan bui-plan (bui-popular) with bui-price and bui-checks; review <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Anna"><span>Anna<small>guest</small></span></div></div>; person <div class="bui-person"><img data-avatar="Noah"><h3>…</h3><p>…</p></div>; steps bui-steps + bui-step; number <div class="bui-stat"><b data-count="500" data-suffix="+">0</b><span>…</span></div>; FAQ <details class="bui-faq"><summary>…</summary><p>…</p></details>; gallery bui-gallery; call to action <div class="bui-cta"><h2>…</h2><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>; split text+photo bui-split.
+- Contacts: <div class="bui-contacts"><a class="bui-contact" href="tel:+15550123456"><span>📞</span><span><small>Phone</small><b>…</b></span></a>…</div>; socials <div class="bui-socials"><a class="bui-social bui-tg" href="…" data-tip="Telegram">TG</a></div>; map <div data-map="street, city" data-label="We are here"></div>.
+- Slider: wrap several reviews or cards in <div class="bui-slider" data-per-view="3">.
+- Attributes: data-photo="topic" (photo by English or Russian keyword: pizza, coffee, cake, toys, dance, football, robot, space, dog, flowers, clothes, sea…; "pizza 2" = second photo), data-icon="mdi:…" (Iconify icons), data-avatar="name", data-open="order" (order dialog, created automatically), data-pick="item", data-add="item" data-price="9" (cart), data-count, data-timer="2026-12-31T23:59", data-name, data-year.
+- Forms: <form class="bui-form" data-thanks="Thanks!"><div class="bui-field"><input name="phone" type="tel" required><label>Phone</label></div>…<button class="bui-btn bui-btn-wide">Send</button></form> — validation and the thank-you toast are automatic.
+- Buttons: bui-btn + bui-btn-ghost / bui-btn-light / bui-btn-small / bui-btn-big / bui-btn-wide.
 
-Полный справочник библиотеки: https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/AI.md
-Запасная ссылка: https://raw.githubusercontent.com/si0683/BlockUI/main/AI.md
-Готовые примеры: https://github.com/si0683/BlockUI/tree/main/examples
+QUALITY BAR:
+- Looks like a professional landing page: clear hero, short punchy copy, consistent icons and photos, strong call to action.
+- Sections: hero, about, features, products/services, reviews, call to action, contacts with map. Add pricing, FAQ, team, numbers or gallery when they fit the business.
+- Works on phones; no console errors; use only the classes and attributes above — no custom JS for menus, dialogs, carts or animations.
 
-Если ссылки не открываются, вот главное:
-- HTML начинается с двух строк:
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
-  дальше разметка из готовых блоков. Каркас:
-<header class="bui-header"><div class="bui-container"><a class="bui-logo" href="#top"><span>🍕</span><span data-name>Маргарита</span></a><nav class="bui-nav"><a href="#about">О нас</a><a href="#menu">Меню</a><a href="#contacts">Контакты</a></nav></div></header>
-<section class="bui-hero" id="top"><div class="bui-container"><div><span class="bui-badge">🔥 Акция</span><h1 data-name>Маргарита</h1><p>Слоган</p><div class="bui-row"><button class="bui-btn" data-open="order">Заказать</button><a class="bui-btn bui-btn-ghost" href="#menu">Меню</a></div></div><div class="bui-hero-picture"><img data-photo="пицца"><span class="bui-sticker">−20%</span></div></div></section>
-<section class="bui-section" id="about"><div class="bui-container"><div class="bui-head"><span class="bui-label">О нас</span><h2>Заголовок</h2><p>Подзаголовок</p></div><div class="bui-grid"> карточки </div></div></section>
-<footer class="bui-footer">© <span data-year></span> «<span data-name>Маргарита</span>»</footer>
-- Карточки: преимущество <div class="bui-feature"><div class="bui-icon">🔥</div><h3>…</h3><p>…</p></div>;
-  товар <div class="bui-product"><div class="bui-product-image"><img data-photo="пицца"><span class="bui-tag">Хит</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">490 ₽</span><button class="bui-btn bui-btn-small" data-add="Маргарита" data-price="490">В корзину</button></div></div></div>;
-  отзыв bui-review, тариф bui-plan, человек bui-person, шаги bui-steps + bui-step, цифра <div class="bui-stat"><b data-count="500" data-suffix="+">0</b><span>…</span></div>,
-  вопрос <details class="bui-faq"><summary>…</summary><p>…</p></details>, галерея bui-gallery, блок действия <div class="bui-cta"><h2>…</h2><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>,
-  контакты <div class="bui-contacts"><a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>…</b></span></a>…</div>,
-  соцсети <div class="bui-socials"><a class="bui-social bui-vk" href="https://vk.com/" data-tip="ВКонтакте">VK</a><a class="bui-social bui-max" href="https://max.ru/" data-tip="MAX">MAX</a></div>.
-- Картинки: <img data-photo="тема"> — фото по слову на русском (пицца, кофе, торт, игрушки, танцы, футбол, роботы, космос, собаки, цветы, одежда, море…). Секция с фото на фоне: class="bui-hero bui-hero-photo" data-photo="тема".
-- Поведение — атрибутами, без своего JS: data-open="order" — окно заказа (создаётся само), data-pick="Товар" — выбрать товар в окне, data-add="Товар" data-price="490" — в корзину (корзина в шапке появится сама), data-timer="2026-12-31T23:59" — таймер, data-name — название, data-year — год. Формы: <form class="bui-form"> с <div class="bui-field"><input name="phone" type="tel" required><label>Телефон</label></div> — проверка и благодарность сами.
-- Иконки: <span class="bui-icon" data-icon="mdi:pizza"></span> — любые иконки Iconify (mdi:truck-fast, mdi:phone, mdi:heart…).
-- Слайдер: оберни несколько отзывов или карточек в <div class="bui-slider" data-per-view="3"> — листается сам.
-- Аватары: <img data-avatar="Анна"> — лицо рисуется по имени (в отзывах и команде).
-- Карта: <div data-map="Москва, Тверская улица, 1" data-label="Мы здесь"></div> — в блоке контактов.
-- CSS — почти пустой: всё оформление в BlockUI.
-- JS — только настройки:
-const LAB = {
-  name: 'Маргарита',   // название
-  style: 'уютный',     // стиль
-  color: 'красный',    // главный цвет
-  rain: '',            // эмодзи-дождь на главном экране, например '🍕'
-  dark: false,         // true — тёмная тема
-  thanks: 'Спасибо! Мы скоро свяжемся с вами 😊' // сообщение после заказа
-};
-BlockUI.start(LAB);
-
-Как выдавать код:
-- Сначала одной строкой опиши, какой будет сайт. Потом файлы, без долгих рассуждений.
-- По одному файлу за ответ: HTML, после моего «дальше» — CSS, после следующего «дальше» — JS.
-- Перед каждым блоком кода одна строка: «Файл 1 из 3 — HTML. Вставьте в окно HTML и напишите: дальше» (так же для CSS и JS).
-- Комментарии в коде на русском.
-
-Когда сайт будет готов, я буду просить изменения. Стиль, цвет, название, дождь, тёмная тема и сообщение меняются в объекте LAB в начале JS; отвечай коротко: строка «было» и строка «стало».
-
-Начинай.
+ANSWER FORMAT: two or three lines about the site, then the 3 files, then a short list of CONFIG values worth tweaking.
 ````
 
-> **Только для преподавателя.** Здесь нейросеть действительно собирает сайт сама, но из наших готовых блоков: ей не нужно писать стили, меню, окна и проверку форм, поэтому сайт выглядит профессионально и почти всегда работает с первого раза. Если что-то не заработало, скопируйте красную ошибку из консоли CodePen и отправьте Qwen: «Исправь ошибку: …».
+## Tips
 
-## Как менять сайт на уроке
-
-1. Вставьте промт в Qwen, **не отправляя**, и вместе с учеником перепишите пять строк «МОЙ САЙТ»: тему, название, стиль, цвет и надпись на кнопке.
-2. Режим Qwen: ❌ без «Web Dev» и «Мышления», ✅ с «Поиском» (чтобы открыть справочник).
-3. Три ответа Qwen вставьте в окна **HTML**, **CSS**, **JS** на [codepen.io/pen](https://codepen.io/pen/).
-4. Потом меняем: «сделай сайт тёмным» → `style: 'тёмный'`, «перекрась в зелёный» → `color: 'зелёный'`, «включи дождь из пицц» → `rain: '🍕'`.
-
-Готовые примеры сайтов на BlockUI: [Кофейня «Зерно»](https://si0683.github.io/BlockUI/examples/coffee/) · [Школа «РобоКод»](https://si0683.github.io/BlockUI/examples/robots/) · [Приют «Лапки»](https://si0683.github.io/BlockUI/examples/pets/) · [Студия йоги «Лотос»](https://si0683.github.io/BlockUI/examples/yoga/) (Tailwind + daisyUI)
+- **CodePen:** put everything between `<body>` and `<script src="script.js">` into the HTML panel, `style.css` into CSS, `script.js` into JS.
+- **Custom design:** ask for "Tailwind + daisyUI mode" — see section 7 of AI.md.
+- **Iterating:** "change CONFIG.style to dark", "add a pricing section with 3 plans".
+- **Pin the version** (`@2.0.0`) in production; new versions never break old links.

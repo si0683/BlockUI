@@ -1,0 +1,81 @@
+// Type definitions for BlockUI 2.0.0
+// https://github.com/si0683/BlockUI — MIT License
+
+declare namespace BlockUI {
+  type StyleName = 'clean' | 'bright' | 'dark' | 'modern' | 'cozy' | 'simple' | 'minimal' | 'playful' | 'neon' | 'warm' | (string & {});
+  type ColorName = 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'sky' | 'blue' | 'purple' | 'pink' | 'black' | 'brown' | (string & {});
+
+  interface Texts {
+    thanks: string; orderTitle: string; orderText: string; emptyCart: string;
+    inCart: string; checkFields: string;
+    name: string; phone: string; picked: string; comment: string; send: string; close: string;
+    theme: string; cart: string; menu: string; popular: string;
+    timerDone: string; days: string; hours: string; minutes: string; seconds: string; currency: string;
+  }
+
+  interface Options {
+    /** Site name, written into every [data-name] */
+    name?: string;
+    /** clean, bright, dark, modern, cozy (Russian names work too) */
+    style?: StyleName;
+    /** Colour name or '#rrggbb' */
+    color?: ColorName;
+    /** Accent colour ('' = matched automatically) */
+    accent?: string;
+    /** Start in dark theme */
+    dark?: boolean;
+    /** Emoji rain in the hero, e.g. '🍕' */
+    rain?: string;
+    /** Interface language ('' = <html lang> or browser language) */
+    lang?: 'en' | 'ru' | '';
+    /** Override any interface text */
+    texts?: Partial<Texts>;
+    thanks?: string;
+    orderTitle?: string;
+    orderText?: string;
+    emptyCart?: string;
+    currency?: string;
+    /** Add a dark theme toggle to the header */
+    themeButton?: boolean;
+    /** Tailwind + daisyUI mode */
+    tailwind?: boolean;
+    /** daisyUI theme: cupcake, retro, emerald, synthwave, corporate, forest, valentine… */
+    theme?: string;
+    darkTheme?: string;
+    /** DiceBear style: lorelei, notionists, thumbs, adventurer, fun-emoji, bottts… */
+    avatarStyle?: string;
+    /** Confetti emoji */
+    confetti?: string[];
+  }
+
+  interface BlockUIStatic {
+    readonly version: string;
+    readonly languages: string[];
+    /** Apply options; may be called before or after the page has loaded */
+    start(options?: Options): void;
+    toast(text: string): void;
+    confetti(emojis?: string[]): void;
+    /** Open a dialog by id; `pick` preselects an option in its <select> */
+    open(id: string, pick?: string): void;
+    close(): void;
+    /** URL of the n-th photo for a topic keyword ('pizza', 'кофе', 'dance school') */
+    photo(keyword: string, n?: number, width?: number): string;
+    /** DiceBear avatar URL for a name */
+    avatar(name: string, style?: string): string;
+    addToCart(name: string, price?: number | string): void;
+    /** Photo topics */
+    topics(): string[];
+  }
+}
+
+declare const BlockUI: BlockUI.BlockUIStatic;
+
+interface Window { BlockUI: BlockUI.BlockUIStatic; }
+
+declare module 'blockuijs' {
+  const BlockUI: BlockUI.BlockUIStatic;
+  export default BlockUI;
+  export const start: (options?: BlockUI.Options) => void;
+  export const version: string;
+  export type Options = BlockUI.Options;
+}
