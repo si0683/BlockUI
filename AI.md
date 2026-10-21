@@ -1,4 +1,4 @@
-# BlockUI 1.0.0 — справочник для нейросетей
+# BlockUI 1.1.0 — справочник для нейросетей
 
 Ты делаешь одностраничный сайт на BlockUI. Результат — ровно 3 файла: HTML, CSS, JS (чистый JavaScript, без TypeScript, React, Next.js, npm, import/export). BlockUI сам делает: стиль и цвет сайта, фото по теме, меню для телефона, тёмную тему, корзину, окно заказа, проверку форм, сообщения, салют, счётчики, таймер акции, галерею, плавное появление блоков. **Не пиши это сам** — собирай сайт из готовых классов и атрибутов.
 
@@ -10,8 +10,8 @@
 
 Режим блоков:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
 ```
 Режим Tailwind + daisyUI (добавь ещё три строки перед ними):
 ```html
@@ -34,7 +34,7 @@ const LAB = {
 };
 BlockUI.start(LAB);
 ```
-Ещё настройки: `orderTitle`, `orderText` (окно заказа), `emptyCart`, `currency: '₽'`, `themeButton: false` (без кнопки темы).
+Ещё настройки: `orderTitle`, `orderText` (окно заказа), `emptyCart`, `currency: '₽'`, `themeButton: false` (без кнопки темы), `avatarStyle: 'lorelei'` (стиль аватаров: lorelei, notionists, thumbs, adventurer, fun-emoji, bottts…).
 Режим Tailwind: `tailwind: true`, `theme: 'cupcake'` (темы daisyUI: light, dark, cupcake, retro, emerald, valentine, synthwave, cyberpunk, corporate, forest, aqua, pastel, fantasy, luxury, dracula, autumn, coffee, winter, nord, sunset…), `darkTheme: 'night'`.
 
 ## 3. CSS
@@ -99,7 +99,7 @@ BlockUI.start(LAB);
 | Карточка | `<div class="bui-card"><h3>…</h3><p>…</p></div>` |
 | Товар | `<div class="bui-product"><div class="bui-product-image"><img data-photo="…"><span class="bui-tag">Хит</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">490 ₽</span><button class="bui-btn bui-btn-small" data-add="Маргарита" data-price="490">В корзину</button></div></div></div>` |
 | Тариф | `<div class="bui-plan bui-popular"><h3>…</h3><div class="bui-price">990 ₽</div><ul class="bui-checks"><li>…</li></ul><button class="bui-btn" data-open="order" data-pick="Тариф">Выбрать</button></div>` |
-| Отзыв | `<div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><span class="bui-avatar">👩</span><span>Анна<small>гость</small></span></div></div>` |
+| Отзыв | `<div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Анна"><span>Анна<small>гость</small></span></div></div>` (несколько отзывов — в `bui-slider`) |
 | Человек | `<div class="bui-person"><img data-photo="…"><h3>Имя</h3><p>Роль</p></div>` |
 | Шаги | `<div class="bui-grid bui-steps"><div class="bui-step"><h3>…</h3><p>…</p></div>…</div>` (номера ставятся сами) |
 | Цифра | `<div class="bui-stat"><b data-count="1200" data-suffix="+">0</b><span>учеников</span></div>` (досчитывает при прокрутке) |
@@ -107,6 +107,7 @@ BlockUI.start(LAB);
 | Вопрос-ответ | `<details class="bui-faq"><summary>Вопрос?</summary><p>Ответ.</p></details>` |
 | Галерея | `<div class="bui-gallery"><img data-photo="…">…</div>` (клик — фото крупно) |
 | Блок действия | `<div class="bui-cta"><h2>…</h2><div data-timer="2026-12-31T23:59"></div><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>` |
+| Карта | `<div data-map="Москва, Тверская улица, 1" data-label="Мы здесь"></div>` |
 | Контакты | `<div class="bui-contacts"><a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>+7 (900) 123-45-67</b></span></a>…</div>` |
 | Соцсети | `<div class="bui-socials"><a class="bui-social bui-vk" href="https://vk.com/" data-tip="ВКонтакте">VK</a><a class="bui-social bui-max" href="https://max.ru/" data-tip="MAX">MAX</a></div>` (ещё `bui-tg`, `bui-yt`) |
 | Форма | `<form class="bui-form" data-thanks="Спасибо!"><div class="bui-field"><input name="name" required><label>Имя</label></div><div class="bui-field"><input name="phone" type="tel" required><label>Телефон</label></div><button class="bui-btn bui-btn-wide">Отправить</button></form>` |
@@ -129,9 +130,24 @@ BlockUI.start(LAB);
 | `data-year` | текущий год |
 | `data-theme-toggle` | кнопка «тёмная тема» |
 | `data-reveal` | блок плавно появляется при прокрутке (у `bui-section` — само) |
+| `data-icon="mdi:pizza"` | иконка [Iconify](https://icon-sets.iconify.design): 200 000+ иконок (наборы mdi, ph, tabler, lucide, fa6-solid…). Внутри `bui-icon` красится главным цветом |
+| `<div class="bui-slider" data-per-view="3">` | слайдер Swiper из любых карточек: листается сам, точки и стрелки; `data-autoplay="0"` — без автопрокрутки |
+| `data-map="Москва, Тверская 1"` | карта OpenStreetMap с меткой; можно координатами `"55.7558, 37.6173"`; `data-label` — подпись, `data-zoom` — приближение |
+| `data-avatar="Анна"` | аватар DiceBear по имени (одно имя — всегда одно лицо); `data-avatar-style="notionists"` — другой стиль |
 | `form.bui-form` или `form[data-form]` | проверка: `required`, `type="tel"` (10+ цифр), `type="email"`; потом сообщение `thanks`, салют, форма очищается. Никуда не отправляется — сайт учебный |
 
-Из JS: `BlockUI.toast('Текст')`, `BlockUI.confetti()`, `BlockUI.open('order', 'Маргарита')`, `BlockUI.close()`, `BlockUI.addToCart('Пицца', 490)`, `BlockUI.photo('пицца', 0)` — адрес фото.
+Из JS: `BlockUI.toast('Текст')`, `BlockUI.confetti()`, `BlockUI.open('order', 'Маргарита')`, `BlockUI.close()`, `BlockUI.addToCart('Пицца', 490)`, `BlockUI.photo('пицца', 0)` — адрес фото, `BlockUI.avatar('Анна')` — адрес аватара.
+
+Примеры:
+```html
+<div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>Быстрая доставка</h3><p>…</p></div>
+<div class="bui-slider" data-per-view="3">
+  <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Анна"><span>Анна<small>гость</small></span></div></div>
+  … ещё отзывы …
+</div>
+<div data-map="Москва, Тверская улица, 1" data-label="Мы здесь!"></div>
+```
+Иконки, слайдер и карта подключают свои библиотеки сами, только если они есть на странице.
 
 ## 7. Режим Tailwind + daisyUI
 
@@ -172,7 +188,7 @@ BlockUI.start({ name: 'Лотос', tailwind: true, theme: 'emerald', darkTheme:
 
 ## Примеры (каждый — 3 файла)
 
-https://github.com/si0683/BlockUI/tree/main/examples — `coffee` (кофейня: товары, корзина, отзывы, вопросы), `robots` (школа: фото на фоне, цифры, шаги, тарифы, команда, таймер, форма), `pets` (приют: галерея, карточки питомцев, дождь из эмодзи), `yoga` (режим Tailwind + daisyUI).
+https://github.com/si0683/BlockUI/tree/main/examples — `coffee` (кофейня: товары, корзина, слайдер отзывов с аватарами, иконки, карта), `robots` (школа: фото на фоне, цифры, шаги, тарифы, команда, таймер, форма), `pets` (приют: галерея, карточки питомцев, дождь из эмодзи), `yoga` (режим Tailwind + daisyUI).
 
 ## Правила
 

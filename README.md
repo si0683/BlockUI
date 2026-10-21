@@ -13,8 +13,8 @@
 ## Подключение
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
 ```
 
 ```js
@@ -27,6 +27,7 @@ BlockUI.start({ name: 'Маргарита', style: 'уютный', color: 'кр�
 - **Блоки:** главный экран (3 вида), текст с фото, преимущества, карточки, товары, тарифы, отзывы, команда, шаги, цифры, вопросы, галерея, блок действия с таймером, контакты, соцсети ВК/MAX/Telegram/YouTube, формы.
 - **Фото по слову:** `<img data-photo="пицца">` — 68 тем, 270 бесплатных фото Unsplash, поиск по русским словам в любой форме.
 - **Поведение атрибутами:** `data-open`, `data-add`, `data-count`, `data-timer`, `data-theme-toggle`… — окно заказа и корзина создаются сами.
+- **Иконки, слайдеры, карты, аватары** (1.1): `data-icon="mdi:pizza"` — 200 000+ иконок Iconify, `bui-slider` — карусель Swiper, `data-map="адрес"` — карта OpenStreetMap, `data-avatar="Анна"` — аватар DiceBear.
 - **Режим Tailwind + daisyUI:** любой дизайн классами Tailwind и компонентами daisyUI, поведение — всё равно BlockUI.
 
 Полный справочник — [AI.md](AI.md) (написан так, чтобы его понимали нейросети).
@@ -41,4 +42,13 @@ tools/photos.json        — фото Unsplash по темам (собраны �
 tools/build.py           — вписывает фото в blockui.js и темы в AI.md, собирает codepen.html примеров
 ```
 
-Новая версия: поменять `VERSION`, ссылки `@1.0.0` в AI.md/README/примерах, `python tools/build.py`, коммит и тег `vX.Y.Z`. Вышедшие версии не менять: на них опираются уроки.
+Новая версия: поменять `VERSION`, ссылки `@1.1.0` в AI.md/README/примерах, `python tools/build.py`, коммит и тег `vX.Y.Z`. Вышедшие версии не менять: на них опираются уроки.
+
+## Авторы ресурсов
+
+- Фото — [Unsplash](https://unsplash.com) (бесплатная лицензия Unsplash).
+- Иконки — [Iconify](https://iconify.design) (MIT; у наборов иконок свои открытые лицензии).
+- Слайдер — [Swiper](https://swiperjs.com) (MIT).
+- Карты — [Leaflet](https://leafletjs.com) (BSD-2), данные © [участники OpenStreetMap](https://www.openstreetmap.org/copyright) (ODbL), поиск адреса — Nominatim.
+- Аватары — [DiceBear](https://www.dicebear.com) (MIT), стиль Lorelei — Lisa Wischofsky (CC0).
+- Режим Tailwind — [Tailwind CSS](https://tailwindcss.com) (MIT) и [daisyUI](https://daisyui.com) (MIT).

@@ -1,8 +1,8 @@
 /* ============================================================
-   BlockUI 1.0.0 — блоки для красивых сайтов: подключи и собирай.
+   BlockUI 1.1.0 — блоки для красивых сайтов: подключи и собирай.
    Подключение (две строки в HTML):
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
-     <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
+     <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
    Настройка сайта: BlockUI.start({ name, style, color, rain, thanks }).
    Сам делает: стиль и цвет, фото по слову (data-photo="пицца"),
    меню для телефона, тёмную тему, корзину, окно заказа, проверку форм,
@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  const VERSION = '1.0.0';
+  const VERSION = '1.1.0';
 
   // Слой стилей bui объявляем самым первым — он самый слабый,
   // поэтому классы Tailwind и свой style.css всегда сильнее BlockUI
@@ -170,7 +170,14 @@
   const LIBS = {
     tailwind: 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3',
     daisy: 'https://cdn.jsdelivr.net/npm/daisyui@5.7.47',
-    daisyThemes: 'https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css'
+    daisyThemes: 'https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css',
+    // 1.1: грузятся, только если на странице есть data-icon, bui-slider, data-map
+    iconify: 'https://cdn.jsdelivr.net/npm/iconify-icon@3.0.3/dist/iconify-icon.min.js',
+    swiperJs: 'https://cdn.jsdelivr.net/npm/swiper@14.3.0/swiper-bundle.min.js',
+    swiperCss: 'https://cdn.jsdelivr.net/npm/swiper@14.3.0/swiper-bundle.min.css',
+    leafletJs: 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js',
+    leafletCss: 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css',
+    dicebear: 'https://api.dicebear.com/9.x/'
   };
   // Стиль BlockUI → тема daisyUI (если тема не указана)
   const DAISY_THEMES = { cozy: 'retro', dark: 'synthwave', modern: 'corporate', bright: 'cupcake', clean: 'light' };
@@ -233,6 +240,7 @@
     tailwind: false,                // true — режим Tailwind + daisyUI (классы btn, card, hero…)
     theme: '',                      // тема daisyUI: cupcake, retro, synthwave, corporate, forest, valentine…
     darkTheme: 'dark',              // тема daisyUI для кнопки «тёмная тема»
+    avatarStyle: 'lorelei',         // стиль аватаров DiceBear: lorelei, notionists, thumbs, adventurer, fun-emoji, bottts…
     confetti: ['🎉', '✨', '🎊', '⭐']
   };
   let started = false;
@@ -578,7 +586,113 @@
     counters.forEach(c => io.observe(c));
   }
 
-  /* ---------- 11. Запуск ---------- */
+  /* ---------- 11. Дополнения 1.1: иконки, слайдеры, карты, аватары ---------- */
+  const loading = {};
+  function loadScript(url) {
+    if (!loading[url]) {
+      loading[url] = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = url;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('BlockUI: не загрузилась библиотека ' + url));
+        document.head.appendChild(s);
+      });
+    }
+    return loading[url];
+  }
+  function loadCss(url) {
+    if (!document.querySelector('link[href="' + url + '"]')) {
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = url;
+      document.head.appendChild(l);
+    }
+  }
+
+  // Иконки Iconify: <span data-icon="mdi:pizza"></span> или <iconify-icon icon="mdi:pizza">
+  // Наборы: mdi, ph, tabler, lucide, fa6-solid, twemoji… — 200 000+ иконок на icon-sets.iconify.design
+  function setupIcons() {
+    const nodes = $$('[data-icon]');
+    if (!nodes.length && !$('iconify-icon')) return;
+    nodes.forEach(n => {
+      const icon = document.createElement('iconify-icon');
+      icon.setAttribute('icon', n.dataset.icon);
+      n.textContent = '';
+      n.appendChild(icon);
+    });
+    loadScript(LIBS.iconify).catch(err => console.warn(err.message));
+  }
+
+  // Слайдер Swiper: <div class="bui-slider"> карточки… </div>
+  // data-per-view="3" — сколько карточек видно на компьютере, data-autoplay="0" — без автопрокрутки
+  function setupSliders() {
+    const sliders = $$('.bui-slider');
+    if (!sliders.length) return;
+    loadCss(LIBS.swiperCss);
+    sliders.forEach(box => {
+      const slides = Array.from(box.children);
+      const wrapper = el('div', 'swiper-wrapper');
+      slides.forEach(s => { const slide = el('div', 'swiper-slide'); slide.appendChild(s); wrapper.appendChild(slide); });
+      box.classList.add('swiper');
+      box.append(wrapper, el('div', 'swiper-pagination'), el('div', 'swiper-button-prev'), el('div', 'swiper-button-next'));
+    });
+    loadScript(LIBS.swiperJs).then(() => sliders.forEach(box => {
+      const per = Number(box.dataset.perView) || 3;
+      const delay = box.dataset.autoplay === undefined ? 4000 : Number(box.dataset.autoplay);
+      new window.Swiper(box, {
+        slidesPerView: 1, spaceBetween: 24, loop: box.querySelectorAll('.swiper-slide').length > per,
+        autoplay: delay ? { delay: delay, disableOnInteraction: false } : false,
+        pagination: { el: box.querySelector('.swiper-pagination'), clickable: true },
+        navigation: { nextEl: box.querySelector('.swiper-button-next'), prevEl: box.querySelector('.swiper-button-prev') },
+        breakpoints: { 700: { slidesPerView: Math.min(2, per) }, 1000: { slidesPerView: per } }
+      });
+    })).catch(err => console.warn(err.message));
+  }
+
+  // Карта Leaflet + OpenStreetMap: <div data-map="Москва, Тверская 1"> или data-map="55.7558, 37.6173"
+  // data-zoom="15" — приближение, data-label — подпись у метки
+  function setupMaps() {
+    const maps = $$('[data-map]');
+    if (!maps.length) return;
+    loadCss(LIBS.leafletCss);
+    loadScript(LIBS.leafletJs).then(() => maps.forEach(box => {
+      box.classList.add('bui-map');
+      const value = box.dataset.map.trim();
+      const zoom = Number(box.dataset.zoom) || 15;
+      const show = (lat, lon) => {
+        const map = window.L.map(box, { scrollWheelZoom: false }).setView([lat, lon], zoom);
+        window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        window.L.marker([lat, lon]).addTo(map).bindPopup(box.dataset.label || value).openPopup();
+      };
+      const m = value.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+      if (m) { show(Number(m[1]), Number(m[2])); return; }
+      // Адрес словами → координаты через поиск OpenStreetMap (Nominatim)
+      fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(value))
+        .then(r => r.json())
+        .then(list => list.length ? show(Number(list[0].lat), Number(list[0].lon)) : show(55.7558, 37.6173))
+        .catch(() => show(55.7558, 37.6173)); // не нашли — центр Москвы
+    })).catch(err => console.warn(err.message));
+  }
+
+  // Аватар DiceBear по имени: <img data-avatar="Анна"> (одно имя — всегда одно лицо)
+  function avatar(name, style) {
+    return LIBS.dicebear + (style || options.avatarStyle) + '/svg?seed=' + encodeURIComponent(name);
+  }
+  function setupAvatars() {
+    $$('[data-avatar]').forEach(n => {
+      const url = avatar(n.dataset.avatar, n.dataset.avatarStyle);
+      if (n.tagName === 'IMG') { n.src = url; if (!n.alt) n.alt = n.dataset.avatar; return; }
+      const img = el('img');
+      img.src = url;
+      img.alt = n.dataset.avatar;
+      n.textContent = '';
+      n.appendChild(img);
+    });
+  }
+
+  /* ---------- 12. Запуск ---------- */
   function readBodyOptions() {
     const d = document.body.dataset;
     ['name', 'style', 'color', 'accent', 'rain', 'thanks', 'theme'].forEach(k => { if (d[k]) options[k] = d[k]; });
@@ -595,12 +709,16 @@
     if (options.tailwind) loadTailwind();
     applyLook();
     applyPhotos();
+    setupAvatars();
+    setupIcons();
     setupHeader();
     ensureOrderModal();
     setupForms();
     setupTimers();
     setupGallery();
     setupReveal();
+    setupSliders();
+    setupMaps();
     startRain(options.rain);
     $$('[data-year]').forEach(n => { n.textContent = new Date().getFullYear(); });
 
@@ -639,6 +757,7 @@
     open: open,
     close: close,
     photo: photo,
+    avatar: avatar,
     addToCart: addToCart,
     topics: () => Object.keys(PHOTOS)
   };

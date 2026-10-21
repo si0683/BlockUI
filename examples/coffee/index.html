@@ -10,8 +10,8 @@
 
 <!-- ↓↓↓ Для CodePen копируйте в окно HTML всё, что ниже этой строки ↓↓↓
      Сначала подключаем BlockUI, потом идёт разметка сайта. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
 
 <!-- ШАПКА: кнопки темы, корзины и меню для телефона BlockUI добавит сам -->
 <header class="bui-header">
@@ -75,9 +75,9 @@
       <h2>Три причины зайти к нам</h2>
     </div>
     <div class="bui-grid">
-      <div class="bui-feature"><div class="bui-icon">🌱</div><h3>Своя обжарка</h3><p>Зёрна обжариваем сами — кофе всегда свежий.</p></div>
-      <div class="bui-feature"><div class="bui-icon">🥐</div><h3>Тёплая выпечка</h3><p>Круассаны и булочки прямо из печи.</p></div>
-      <div class="bui-feature"><div class="bui-icon">🎵</div><h3>Уютная атмосфера</h3><p>Мягкие кресла, тихая музыка и добрые бариста.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:sprout"></div><h3>Своя обжарка</h3><p>Зёрна обжариваем сами — кофе всегда свежий.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:food-croissant"></div><h3>Тёплая выпечка</h3><p>Круассаны и булочки прямо из печи.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:music-note"></div><h3>Уютная атмосфера</h3><p>Мягкие кресла, тихая музыка и добрые бариста.</p></div>
     </div>
   </div>
 </section>
@@ -120,10 +120,13 @@
 <section class="bui-section bui-section-alt" id="reviews">
   <div class="bui-container">
     <div class="bui-head"><span class="bui-label">Отзывы</span><h2>Что говорят гости</h2></div>
-    <div class="bui-grid">
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Лучший капучино в городе! Хожу сюда каждое утро.</blockquote><div class="bui-author"><span class="bui-avatar">👩</span><span>Анна<small>постоянный гость</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Очень уютно, удобно работать с ноутбуком.</blockquote><div class="bui-author"><span class="bui-avatar">👨‍💻</span><span>Илья<small>программист</small></span></div></div>
-      <div class="bui-review"><div class="bui-stars">★★★★☆</div><blockquote>Круассаны просто тают во рту!</blockquote><div class="bui-author"><span class="bui-avatar">👧</span><span>Маша<small>школьница</small></span></div></div>
+    <!-- Слайдер Swiper: карточки листаются сами, аватары DiceBear рисуются по имени -->
+    <div class="bui-slider" data-per-view="3">
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Лучший капучино в городе! Хожу сюда каждое утро.</blockquote><div class="bui-author"><img data-avatar="Анна" alt="Анна"><span>Анна<small>постоянный гость</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Очень уютно, удобно работать с ноутбуком.</blockquote><div class="bui-author"><img data-avatar="Илья" alt="Илья"><span>Илья<small>программист</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★☆</div><blockquote>Круассаны просто тают во рту!</blockquote><div class="bui-author"><img data-avatar="Маша" alt="Маша"><span>Маша<small>школьница</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Зашёл случайно — теперь прихожу каждый день.</blockquote><div class="bui-author"><img data-avatar="Пётр" alt="Пётр"><span>Пётр<small>турист</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Детям — какао, мне — латте. Все довольны!</blockquote><div class="bui-author"><img data-avatar="Ольга" alt="Ольга"><span>Ольга<small>мама двоих детей</small></span></div></div>
     </div>
   </div>
 </section>
@@ -156,13 +159,15 @@
     <div class="bui-contacts">
       <a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>+7 (900) 123-45-67</b></span></a>
       <a class="bui-contact" href="mailto:coffee@example.com"><span>✉️</span><span><small>Почта</small><b>coffee@example.com</b></span></a>
-      <div class="bui-contact"><span>📍</span><span><small>Адрес</small><b>г. Москва, ул. Кофейная, 5</b></span></div>
+      <div class="bui-contact"><span>📍</span><span><small>Адрес</small><b>г. Москва, Тверская ул., 1</b></span></div>
       <div class="bui-contact"><span>🕒</span><span><small>Часы работы</small><b>Ежедневно 7:00–22:00</b></span></div>
     </div>
     <div class="bui-socials">
       <a class="bui-social bui-vk" href="https://vk.com/" target="_blank" rel="noopener" data-tip="ВКонтакте">VK</a>
       <a class="bui-social bui-max" href="https://max.ru/" target="_blank" rel="noopener" data-tip="Мессенджер MAX">MAX</a>
     </div>
+    <!-- Карта OpenStreetMap: адрес словами или координаты -->
+    <div data-map="Москва, Тверская улица, 1" data-label="Кофейня «Зерно»" style="margin-top: 34px"></div>
   </div>
 </section>
 

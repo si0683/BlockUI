@@ -29,20 +29,20 @@
 4. Товары или услуги: 2–3 карточки с картинками и ценами.
 5. Блок с кнопкой действия.
 6. Контакты: телефон, почта, адрес, соцсети ВК и MAX и короткий призыв связаться.
-Можно добавить, если подходит теме: отзывы, вопросы-ответы, цифры, команду, тарифы, галерею, таймер акции.
+Можно добавить, если подходит теме: отзывы в слайдере, вопросы-ответы, цифры, команду, тарифы, галерею, таймер акции, карту в контактах.
 Текст короткий, цвета сочетаются, дизайн как у профессионалов, сайт работает на телефоне. Код без ошибок, работает с первого раза.
 
 Должно получиться ровно 3 файла, как три окна в CodePen: HTML, CSS, JS.
 Только обычный HTML, CSS и ЧИСТЫЙ JavaScript. НЕ используй TypeScript, React, JSX, Vue, Next.js, npm, import и export.
 
-Полный справочник библиотеки: https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/AI.md
+Полный справочник библиотеки: https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/AI.md
 Запасная ссылка: https://raw.githubusercontent.com/si0683/BlockUI/main/AI.md
 Готовые примеры: https://github.com/si0683/BlockUI/tree/main/examples
 
 Если ссылки не открываются, вот главное:
 - HTML начинается с двух строк:
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.1.0/blockui.js"></script>
   дальше разметка из готовых блоков. Каркас:
 <header class="bui-header"><div class="bui-container"><a class="bui-logo" href="#top"><span>🍕</span><span data-name>Маргарита</span></a><nav class="bui-nav"><a href="#about">О нас</a><a href="#menu">Меню</a><a href="#contacts">Контакты</a></nav></div></header>
 <section class="bui-hero" id="top"><div class="bui-container"><div><span class="bui-badge">🔥 Акция</span><h1 data-name>Маргарита</h1><p>Слоган</p><div class="bui-row"><button class="bui-btn" data-open="order">Заказать</button><a class="bui-btn bui-btn-ghost" href="#menu">Меню</a></div></div><div class="bui-hero-picture"><img data-photo="пицца"><span class="bui-sticker">−20%</span></div></div></section>
@@ -56,6 +56,10 @@
   соцсети <div class="bui-socials"><a class="bui-social bui-vk" href="https://vk.com/" data-tip="ВКонтакте">VK</a><a class="bui-social bui-max" href="https://max.ru/" data-tip="MAX">MAX</a></div>.
 - Картинки: <img data-photo="тема"> — фото по слову на русском (пицца, кофе, торт, игрушки, танцы, футбол, роботы, космос, собаки, цветы, одежда, море…). Секция с фото на фоне: class="bui-hero bui-hero-photo" data-photo="тема".
 - Поведение — атрибутами, без своего JS: data-open="order" — окно заказа (создаётся само), data-pick="Товар" — выбрать товар в окне, data-add="Товар" data-price="490" — в корзину (корзина в шапке появится сама), data-timer="2026-12-31T23:59" — таймер, data-name — название, data-year — год. Формы: <form class="bui-form"> с <div class="bui-field"><input name="phone" type="tel" required><label>Телефон</label></div> — проверка и благодарность сами.
+- Иконки: <span class="bui-icon" data-icon="mdi:pizza"></span> — любые иконки Iconify (mdi:truck-fast, mdi:phone, mdi:heart…).
+- Слайдер: оберни несколько отзывов или карточек в <div class="bui-slider" data-per-view="3"> — листается сам.
+- Аватары: <img data-avatar="Анна"> — лицо рисуется по имени (в отзывах и команде).
+- Карта: <div data-map="Москва, Тверская улица, 1" data-label="Мы здесь"></div> — в блоке контактов.
 - CSS — почти пустой: всё оформление в BlockUI.
 - JS — только настройки:
 const LAB = {
