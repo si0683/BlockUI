@@ -15,8 +15,8 @@ Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all LightWebsiteUi beh
 ## Install
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
 ```
 
 or
@@ -84,6 +84,24 @@ export default function LightWebsite({ options }) {
 - Keep the contents of a `.bui-slider` static: Swiper moves those nodes.
 - Full App Router example: [examples/nextjs](examples/nextjs) (home, menu with cart, contacts with map and form).
 
+## Astro
+
+Astro renders plain HTML, so the blocks are written exactly as in a 3-file site. Import the CSS in your layout's frontmatter and start the library in a `<script>`:
+
+```astro
+---
+import 'lightwebsiteui/lightwebsiteui.css';
+---
+<script>
+  import LightWebsiteUi from 'lightwebsiteui';
+  LightWebsiteUi.start({ name: 'Margherita', style: 'cozy', color: 'red' });
+  // Only needed with <ClientRouter />: the next page replaces <body> without a reload
+  document.addEventListener('astro:after-swap', () => LightWebsiteUi.refresh());
+</script>
+```
+
+With `<ClientRouter />` the cart, the chosen theme and the order dialog carry over between pages. Full example: [examples/astro](examples/astro).
+
 ## Build sites with AI
 
 LightWebsiteUi is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) can assemble a polished site from a short brief: [PROMPT.md](PROMPT.md) is a ready-to-use prompt template, [AI.md](AI.md) is a compact reference the model can read.
@@ -95,6 +113,7 @@ lightwebsiteui.js / lightwebsiteui.css   the library (VERSION constant in lightw
 lightwebsiteui.mjs / lightwebsiteui.d.ts ES module entry (manual start) and TypeScript types
 examples/<site>/           examples: index.html, style.css, script.js, codepen.html
 examples/nextjs/           the same blocks inside a Next.js App Router project
+examples/astro/            the same blocks in an Astro site (static pages, optional ClientRouter)
 AI.md                      API reference
 PROMPT.md, PROMPT.ru.md    prompt templates for LLMs
 tools/photos.json          Unsplash photo IDs by topic

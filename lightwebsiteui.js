@@ -1,10 +1,10 @@
 /*!
- * LightWebsiteUi 3.1.0 — building blocks for beautiful websites. Connect and compose.
+ * LightWebsiteUi 3.2.0 — building blocks for beautiful websites. Connect and compose.
  * https://github.com/si0683/LightWebsiteUi · MIT License
  *
  * Usage (two lines of HTML):
- *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
- *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
+ *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
+ *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
  * Optional settings: LightWebsiteUi.start({ name, style, color, lang, rain, thanks }).
  *
  * Built in: 5 styles × 11 colours, photos by keyword (data-photo="pizza"), mobile menu,
@@ -17,13 +17,18 @@
   'use strict';
   if (typeof window === 'undefined' || typeof document === 'undefined') return; // server-side rendering: nothing to do
 
-  const VERSION = '3.1.0';
+  const VERSION = '3.2.0';
 
   // Declare the 'bui' cascade layer first so it is the weakest:
   // Tailwind classes and your own CSS always win over LightWebsiteUi
-  const layerOrder = document.createElement('style');
-  layerOrder.textContent = '@layer bui;';
-  (document.head || document.documentElement).prepend(layerOrder);
+  let layerOrder = null;
+  function ensureLayer() {
+    if (layerOrder && layerOrder.isConnected) return;
+    layerOrder = document.createElement('style');
+    layerOrder.textContent = '@layer bui;';
+    (document.head || document.documentElement).prepend(layerOrder);
+  }
+  ensureLayer();
 
   /* ---------- 1. Unsplash photos by topic ----------
      Key — topic; words — English and Russian word stems that select the topic.
@@ -318,7 +323,7 @@
     const style = findOption(STYLES, options.style) || 'clean';
     Object.values(STYLE_CLASS).forEach(c => body.classList.remove(c));
     body.classList.add(STYLE_CLASS[style]);
-    body.classList.toggle('bui-dark', !!options.dark || style === 'dark');
+    body.classList.toggle('bui-dark', darkChoice !== null ? darkChoice : (!!options.dark || style === 'dark'));
 
     let main, accent;
     if (/^#[0-9a-f]{6}$/i.test(String(options.color).trim())) {
@@ -350,8 +355,9 @@
     }
   }
 
+  let darkChoice = null;  // set by the theme toggle; kept when pages change without a reload
   function toggleDark() {
-    const dark = document.body.classList.toggle('bui-dark');
+    const dark = darkChoice = document.body.classList.toggle('bui-dark');
     if (options.tailwind) {
       const style = findOption(STYLES, options.style) || 'clean';
       document.documentElement.dataset.theme = dark ? options.darkTheme : (options.theme || DAISY_THEMES[style]);
@@ -442,7 +448,7 @@
     // The cart button appears as soon as a page has products (checked again on every refresh)
     const header = $('.bui-header');
     const actions = header && $('.bui-actions', header);
-    if (actions && $('[data-add]') && !$('[data-cart]')) {
+    if (actions && ($('[data-add]') || cart.length) && !$('[data-cart]')) {
       const c = made(el('button', 'bui-cart', '🛒<span data-cart-count>' + cart.length + '</span>'));
       c.type = 'button';
       c.dataset.cart = '';
@@ -458,7 +464,7 @@
   /* ---------- 7. Toasts and confetti ---------- */
   let toastBox = null, toastTimer = null;
   function toast(text) {
-    if (!toastBox) { toastBox = el('div', 'bui-toast'); toastBox.setAttribute('role', 'status'); document.body.appendChild(toastBox); }
+    if (!toastBox || !toastBox.isConnected) { toastBox = el('div', 'bui-toast'); toastBox.setAttribute('role', 'status'); document.body.appendChild(toastBox); }
     toastBox.textContent = text;
     toastBox.classList.add('bui-show');
     clearTimeout(toastTimer);
@@ -507,7 +513,8 @@
 
   /* ---------- 9. Dialogs and forms ---------- */
   function itemNames() {
-    const names = $$('[data-add], [data-pick]').map(n => n.dataset.add || n.dataset.pick).filter(Boolean);
+    // Products on this page plus what is already in the cart (pages may change without a reload)
+    const names = $$('[data-add], [data-pick]').map(n => n.dataset.add || n.dataset.pick).concat(cart.map(i => i.name)).filter(Boolean);
     return names.filter((n, i) => names.indexOf(n) === i);
   }
   // The 'order' dialog is created automatically when the page has none
@@ -818,6 +825,8 @@
 
   // Everything that works on page content; safe to run again — only new nodes are touched
   function enhance() {
+    ensureLayer();
+    document.documentElement.classList.add('bui-js');
     // Sliders and maps whose blocks left the page are switched off
     for (let i = instances.length - 1; i >= 0; i--) {
       if (!instances[i].box.isConnected) { try { instances[i].kill(); } catch (e) { /* already gone */ } instances.splice(i, 1); }
@@ -842,7 +851,6 @@
   function init() {
     if (started) return;
     started = true;
-    document.documentElement.classList.add('bui-js');
     resolveTexts();
     if (options.tailwind) loadTailwind();
     document.addEventListener('click', onClick);
@@ -872,6 +880,7 @@
     $$('.bui-lightbox, .bui-confetti').forEach(n => n.remove());
     if (toastBox) { toastBox.remove(); toastBox = null; }
     autoModal = null;
+    darkChoice = null;
     cart = [];
     seen = new WeakMap();
     document.documentElement.classList.remove('bui-js');
@@ -883,6 +892,7 @@
     if (!bodyRead && document.body) { readBodyOptions(); bodyRead = true; }
     Object.assign(options, opts || {});
     if (opts && opts.color) colorGiven = true;
+    if (opts && 'dark' in opts) darkChoice = null;
     if (started) { resolveTexts(); applyLook(); if (opts && opts.rain) startRain(opts.rain); }
     else if (MANUAL || booted) whenReady(boot, true); // manual mode, or after destroy()
   }

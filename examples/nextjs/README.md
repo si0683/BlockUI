@@ -11,7 +11,7 @@ npm run dev
 
 Open http://localhost:3000. `npm run build && npm start` runs the production build.
 
-The library is installed from the GitHub tag (`github:si0683/LightWebsiteUi#v3.1.0`). Once it is on npm, use `"lightwebsiteui": "^3.1.0"`.
+The library is installed from the GitHub tag (`github:si0683/LightWebsiteUi#v3.2.0`). Once it is on npm, use `"lightwebsiteui": "^3.2.0"`.
 
 ## How it works
 

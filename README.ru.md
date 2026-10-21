@@ -11,8 +11,8 @@
 ## Подключение
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
 ```
 
 или
@@ -79,6 +79,24 @@ export default function LightWebsite({ options }) {
 - `destroy()` убирает всё, что добавил LightWebsiteUi (обработчики, кнопки, окна, слайдеры, карты); `start()` возвращает обратно.
 - Содержимое `.bui-slider` должно быть статичным: Swiper переносит эти узлы.
 - Полный пример на App Router: [examples/nextjs](examples/nextjs) (главная, меню с корзиной, контакты с картой и формой).
+
+## Astro
+
+Astro отдаёт обычный HTML, поэтому блоки пишутся ровно как в сайте из 3 файлов. CSS подключается во frontmatter layout-а, библиотека запускается в `<script>`:
+
+```astro
+---
+import 'lightwebsiteui/lightwebsiteui.css';
+---
+<script>
+  import LightWebsiteUi from 'lightwebsiteui';
+  LightWebsiteUi.start({ name: 'Margherita', style: 'cozy', color: 'red' });
+  // Нужно только с <ClientRouter />: следующая страница заменяет <body> без перезагрузки
+  document.addEventListener('astro:after-swap', () => LightWebsiteUi.refresh());
+</script>
+```
+
+С `<ClientRouter />` корзина, выбранная тема и окно заказа сохраняются между страницами. Полный пример: [examples/astro](examples/astro).
 
 ## Сайты с помощью ИИ
 

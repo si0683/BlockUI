@@ -1,4 +1,4 @@
-// Type definitions for LightWebsiteUi 3.1.0
+// Type definitions for LightWebsiteUi 3.2.0
 // https://github.com/si0683/LightWebsiteUi — MIT License
 
 declare namespace LightWebsiteUi {

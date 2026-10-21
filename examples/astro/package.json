@@ -1,0 +1,16 @@
+{
+  "name": "lightwebsiteui-astro-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LightWebsiteUi inside an Astro site: plain HTML blocks, static pages, optional smooth page transitions.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.4.2",
+    "lightwebsiteui": "github:si0683/LightWebsiteUi#v3.2.0"
+  }
+}

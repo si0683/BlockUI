@@ -19,14 +19,14 @@ English version — [PROMPT.md](PROMPT.md). Полный справочник �
 
 РЕЗУЛЬТАТ — ровно 3 файла, каждый в своём блоке кода с именем файла над ним:
 1) index.html — полный HTML-документ; в начале <body>:
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
-   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
+   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
    дальше разметка страницы, в конце <body> — script.js;
 2) style.css — обычно почти пустой;
 3) script.js — объект CONFIG (name, style, color, lang, rain, dark, thanks) и LightWebsiteUi.start(CONFIG).
 Только HTML, CSS и чистый JavaScript: без TypeScript, React, Next.js, npm, import/export и сборки.
 
-Справочник LightWebsiteUi (прочитай сначала): https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/AI.md
+Справочник LightWebsiteUi (прочитай сначала): https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/AI.md
 Запасная ссылка: https://raw.githubusercontent.com/si0683/LightWebsiteUi/main/AI.md · Примеры: https://github.com/si0683/LightWebsiteUi/tree/main/examples
 
 Если ссылки не открываются, вот главное:
@@ -52,4 +52,4 @@ English version — [PROMPT.md](PROMPT.md). Полный справочник �
 - **CodePen:** в окно HTML — всё между `<body>` и `<script src="script.js">`, в CSS — style.css, в JS — script.js.
 - **Свой дизайн:** попросите «режим Tailwind + daisyUI» — раздел 7 в AI.md.
 - **Доработки:** «поменяй CONFIG.style на тёмный», «добавь раздел с тремя тарифами».
-- **Фиксируйте версию** (`@3.1.0`) в рабочих проектах: новые версии не ломают старые ссылки.
+- **Фиксируйте версию** (`@3.2.0`) в рабочих проектах: новые версии не ломают старые ссылки.

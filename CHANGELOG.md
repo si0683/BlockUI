@@ -2,6 +2,16 @@
 
 All versions stay available on the CDN: `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/lightwebsiteui.js` (3.x) and `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/blockui.js` (1.x–2.x, published as BlockUI).
 
+## 3.2.0
+
+Astro support and page swaps.
+
+- Works with Astro's `<ClientRouter />`, which replaces `<body>` and `<html>` attributes on every navigation: `refresh()` restores the `bui-js` class and the `@layer bui` declaration, re-applies style and colour to the new `<body>`, and creates the toast container again.
+- The visitor's dark/light choice (theme toggle) is kept across `refresh()` and page swaps (also in Next.js). `start({ dark })` resets it.
+- The cart button stays in the header while the cart is not empty, also on pages without products; the order dialog lists products already in the cart.
+- New example `examples/astro`: Astro 7 site (home, menu with cart, contacts with map and form) with `<ClientRouter />`.
+- `examples/nextjs` now installs 3.2.0.
+
 ## 3.1.0
 
 Next.js and React support.

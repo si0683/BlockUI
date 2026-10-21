@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Products with data-add: the cart button appears in the header on this page
+const pizzas = [
+  { name: 'Margherita', text: 'Tomatoes, mozzarella, basil', price: 9, photo: 'pizza 2', tag: 'Hit' },
+  { name: 'Pepperoni', text: 'Spicy salami, mozzarella', price: 12, photo: 'pizza 3' },
+  { name: 'Four Cheese', text: 'Mozzarella, gorgonzola, parmesan, fontina', price: 13, photo: 'pizza 4' },
+  { name: 'Truffle', text: 'Black truffle cream, mushrooms', price: 16, photo: 'pizza 5', tag: 'New' },
+  { name: 'Diavola', text: 'Hot salami, chili, olives', price: 12, photo: 'pizza 6' },
+  { name: 'Veggie', text: 'Peppers, zucchini, eggplant', price: 11, photo: 'pizza 7' }
+];
+---
+<Layout title="Menu — Margherita">
+  <section class="bui-section" id="menu">
+    <div class="bui-container">
+      <div class="bui-head">
+        <span class="bui-label">Menu</span>
+        <h2>Pick your pizza</h2>
+        <p>Happy hour ends in <b data-timer="2027-12-31T23:59"></b></p>
+      </div>
+      <div class="bui-grid">
+        {pizzas.map(p => (
+          <div class="bui-product">
+            <div class="bui-product-image">
+              <img data-photo={p.photo} alt={p.name}>
+              {p.tag && <span class="bui-tag">{p.tag}</span>}
+            </div>
+            <div class="bui-product-body">
+              <h3>{p.name}</h3>
+              <p>{p.text}</p>
+              <div class="bui-product-footer">
+                <span class="bui-price">${p.price}</span>
+                <button class="bui-btn bui-btn-small" data-add={p.name} data-price={p.price}>Add to cart</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
