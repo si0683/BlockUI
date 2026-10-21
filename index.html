@@ -214,7 +214,7 @@
     .card p { margin: 0; color: var(--muted); }
 
     /* ---------- examples ---------- */
-    .examples { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; perspective: 1200px; }
+    .examples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1200px; }
     .ex { position: relative; display: block; border-radius: 24px; overflow: hidden; border: 1px solid hsl(var(--h) 80% 65% / 0.3); background: linear-gradient(180deg, hsl(var(--h) 80% 50% / 0.18), rgba(255, 255, 255, 0.015)); transform-style: preserve-3d; transition: transform 0.2s ease-out, box-shadow 0.35s; will-change: transform; }
     .ex:hover { box-shadow: 0 24px 70px hsl(var(--h) 90% 50% / 0.35), 0 0 0 1px hsl(var(--h) 90% 65% / 0.7); }
     .ex .thumb { position: relative; height: 210px; overflow: hidden; background: #fff; }
@@ -319,31 +319,33 @@
       <span class="line grad-text">from plain HTML</span>
     </h1>
     <p class="lead reveal" style="--d:.2s">Compose a landing page from ready-made blocks. Styles, photos, cart, order dialog, forms, sliders, maps and icons work through <b>classes and attributes</b> — and AI models write it fluently.</p>
-    <p class="typer reveal" style="--d:.25s">Perfect for <b id="word">coffee shops</b><span class="cur"></span></p>
+    <p class="typer reveal" style="--d:.25s">Perfect for <b id="word">renovation companies</b><span class="cur"></span></p>
     <div class="row reveal" style="--d:.3s">
       <a class="btn btn-main" href="#start">⚡ Get started</a>
       <a class="btn btn-ghost" href="#playground">🎨 Try the styles</a>
     </div>
 
     <div class="showcase reveal" style="--d:.35s">
-      <div class="float"><span>🛒</span><div>Cart &amp; checkout<small>data-add="Latte"</small></div></div>
+      <div class="float"><span>🛒</span><div>Cart &amp; checkout<small>data-add="Шашлык"</small></div></div>
       <div class="float"><span>🗺️</span><div>Live map<small>data-map="address"</small></div></div>
-      <div class="float"><span>📸</span><div>Photos by keyword<small>data-photo="coffee"</small></div></div>
+      <div class="float"><span>📸</span><div>Photo gallery<small>.bui-gallery</small></div></div>
       <div class="float"><span>⭐</span><div>Review slider<small>.bui-slider</small></div></div>
       <div class="browser">
         <div class="browser-in">
-          <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">coffee</b>/</div></div>
+          <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">remont</b>/</div></div>
           <div class="demo-tabs" role="tablist">
-            <button class="demo-tab on" data-demo="0">☕ Bean &amp; Brew<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="1">🤖 RoboCode<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="2">🐾 Paws<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="3">🧘 Lotus<span class="bar"></span></button>
+            <button class="demo-tab on" data-demo="0">🛠️ Мастер в ремонте<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="1">🔥 Шашлычная КАРС<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="2">👟 PUFF<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="3">💐 Дом цветов<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="4">🎨 КРОН<span class="bar"></span></button>
           </div>
           <div class="viewport">
-            <iframe class="on" src="examples/coffee/" title="Bean &amp; Brew — coffee shop demo"></iframe>
-            <iframe data-src="examples/robots/" title="RoboCode — robotics school demo"></iframe>
-            <iframe data-src="examples/pets/" title="Paws — animal shelter demo"></iframe>
-            <iframe data-src="examples/yoga/" title="Lotus — yoga studio demo"></iframe>
+            <iframe class="on" src="examples/remont/" title="Renovation company demo"></iframe>
+            <iframe data-src="examples/shashlik/" title="Grill house demo"></iframe>
+            <iframe data-src="examples/obuv/" title="Shoe repair demo"></iframe>
+            <iframe data-src="examples/cvety/" title="Flower shop demo"></iframe>
+            <iframe data-src="examples/kraski/" title="Paint factory demo"></iframe>
           </div>
         </div>
       </div>
@@ -383,8 +385,8 @@
         </div>
         <button class="copy" type="button">Copy</button>
       </div>
-<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css"&gt;
-&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"&gt;&lt;/script&gt;
+<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"&gt;&lt;/script&gt;
 
 &lt;section class="bui-hero"&gt;
   &lt;div class="bui-container"&gt;
@@ -460,14 +462,16 @@ LightWebsiteUi.start(CONFIG);</pre>
   <div class="wrap">
     <div class="head reveal">
       <span class="eyebrow grad-text">// examples</span>
-      <h2>Live demos. <span class="grad-text">Three files each.</span></h2>
-      <p>Open one, view the source, make it yours.</p>
+      <h2>Real businesses. <span class="grad-text">Three files each.</span></h2>
+      <p>Landing pages in Russian for companies from Samara, built only with LightWebsiteUi. Open one, view the source, make it yours.</p>
     </div>
     <div class="examples">
-      <a class="ex reveal" style="--h:30" href="examples/coffee/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/coffee/" tabindex="-1" title="Coffee shop preview" loading="lazy"></iframe></div><div class="body"><h3>☕ Bean &amp; Brew</h3><p>Coffee shop: cart, review slider, map</p></div></a>
-      <a class="ex reveal" style="--h:220;--d:.08s" href="examples/robots/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/robots/" tabindex="-1" title="Robotics school preview" loading="lazy"></iframe></div><div class="body"><h3>🤖 RoboCode</h3><p>School: pricing, countdown, inline form</p></div></a>
-      <a class="ex reveal" style="--h:130;--d:.16s" href="examples/pets/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/pets/" tabindex="-1" title="Animal shelter preview" loading="lazy"></iframe></div><div class="body"><h3>🐾 Paws</h3><p>Shelter: gallery, emoji rain, map</p></div></a>
-      <a class="ex reveal" style="--h:160;--d:.24s" href="examples/yoga/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/yoga/" tabindex="-1" title="Yoga studio preview" loading="lazy"></iframe></div><div class="body"><h3>🧘 Lotus</h3><p>Yoga studio in Tailwind + daisyUI mode</p></div></a>
+      <a class="ex reveal" style="--h:30" href="examples/remont/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/remont/" tabindex="-1" title="Renovation company demo preview" loading="lazy"></iframe></div><div class="body"><h3>🛠️ Мастер в ремонте</h3><p>Renovation company: pricing plans, portfolio gallery, offer countdown, map</p></div></a>
+      <a class="ex reveal" style="--h:15;--d:.08s" href="examples/shashlik/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/shashlik/" tabindex="-1" title="Grill house demo preview" loading="lazy"></iframe></div><div class="body"><h3>🔥 Шашлычная КАРС</h3><p>Grill house in dark style: 17-dish menu with cart and order dialog</p></div></a>
+      <a class="ex reveal" style="--h:170;--d:.16s" href="examples/obuv/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/obuv/" tabindex="-1" title="Shoe repair demo preview" loading="lazy"></iframe></div><div class="body"><h3>👟 PUFF</h3><p>Shoe repair and cleaning: before/after gallery, counters, team, map</p></div></a>
+      <a class="ex reveal" style="--h:330" href="examples/cvety/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/cvety/" tabindex="-1" title="Flower shop demo preview" loading="lazy"></iframe></div><div class="body"><h3>💐 Дом цветов</h3><p>Flower shop: bouquets with cart, catalogue, five shop addresses</p></div></a>
+      <a class="ex reveal" style="--h:215;--d:.08s" href="examples/kraski/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/kraski/" tabindex="-1" title="Paint factory demo preview" loading="lazy"></iframe></div><div class="body"><h3>🎨 КРОН</h3><p>Paint factory in Tailwind + daisyUI mode: catalogue, certificates, B2B form</p></div></a>
+      <a class="ex reveal" style="--h:200;--d:.16s" href="https://si0683.github.io/mtoalliance/" target="_blank" rel="noopener"><span class="glare"></span><span class="open">Visit ↗</span><div class="thumb"><iframe data-src="https://si0683.github.io/mtoalliance/" tabindex="-1" title="МТО-Альянс preview" loading="lazy"></iframe></div><div class="body"><h3>🛢️ МТО-Альянс</h3><p>A real production site: oil and gas equipment and reefer containers (built with Astro)</p></div></a>
     </div>
   </div>
 </section>
@@ -544,7 +548,7 @@ LightWebsiteUi.start(CONFIG);</pre>
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   // ---- typewriter of use cases ----
-  const WORDS = ['coffee shops', 'pizzerias', 'yoga studios', 'online stores', 'schools', 'portfolios', 'dental clinics', 'events', 'startups'];
+  const WORDS = ['renovation companies', 'grill houses', 'shoe repair shops', 'flower shops', 'paint factories', 'coffee shops', 'online stores', 'schools', 'startups'];
   const word = document.getElementById('word');
   let wi = 0, ci = WORDS[0].length, del = true;
   function type() {
@@ -559,7 +563,7 @@ LightWebsiteUi.start(CONFIG);</pre>
   // ---- browser mockup: scaled live demos that cycle ----
   const view = document.querySelector('.viewport'), frames = [...view.querySelectorAll('iframe')];
   const dtabs = [...document.querySelectorAll('.demo-tab')], addr = document.getElementById('addr');
-  const NAMES = ['coffee', 'robots', 'pets', 'yoga'], CYCLE = 7000;
+  const NAMES = ['remont', 'shashlik', 'obuv', 'cvety', 'kraski'], CYCLE = 7000;
   let cur = 0, timer = 0, auto = !reduce;
   function fit() {
     const w = view.clientWidth, inner = w < 640 ? 390 : 1280, k = w / inner;

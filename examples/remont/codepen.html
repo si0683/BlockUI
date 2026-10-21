@@ -1,0 +1,235 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
+
+<!-- ШАПКА: кнопку темы и мобильное меню LightWebsiteUi добавит сам -->
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span>🛠️</span><span data-name>Мастер в ремонте</span></a>
+    <nav class="bui-nav">
+      <a href="#prices">Цены</a>
+      <a href="#works">Портфолио</a>
+      <a href="#how">Как работаем</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. ГЛАВНЫЙ ЭКРАН -->
+<section class="bui-hero" id="top">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">Работаем с 2008 года</span>
+      <h1>Ремонт квартир под ключ в Самаре</h1>
+      <p>Квартиры, коттеджи и офисы в Самаре и области. Ремонт от 1700 ₽/м², гарантия до 3 лет и удалённый контроль хода работ.</p>
+      <div class="bui-row">
+        <button class="bui-btn" data-open="order">Вызвать сметчика</button>
+        <a class="bui-btn bui-btn-ghost" href="#works">Смотреть работы</a>
+      </div>
+      <ul class="bui-facts">
+        <li><b>17 лет</b><span>на рынке</span></li>
+        <li><b>3 года</b><span>гарантии</span></li>
+        <li><b>от 1700 ₽</b><span>за м²</span></li>
+      </ul>
+    </div>
+    <div class="bui-hero-picture">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/hero.jpg" alt="Гостиная с лестницей после ремонта коттеджа">
+      <span class="bui-sticker">Дизайн-проект в подарок</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. ПРЕИМУЩЕСТВА -->
+<section class="bui-section" id="about">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Почему мы</span>
+      <h2>Комплексный подход к ремонту</h2>
+      <p>Берём на себя всё: от замера и сметы до уборки и сдачи объекта по акту.</p>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:file-sign"></div><h3>Работаем по договору</h3><p>Стабильная смета от начала работ до сдачи объекта — без доплат «по ходу».</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:cash-check"></div><h3>Оплата по факту</h3><p>Платите за каждый выполненный этап после приёмки и подписания акта.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:cctv"></div><h3>Онлайн-контроль</h3><p>Следите за ходом работ удалённо — не нужно каждый день ездить на объект.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:warehouse"></div><h3>Свой склад</h3><p>Оптовые цены на материалы и только сертифицированные, безопасные для здоровья смеси.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:calendar-check"></div><h3>Точно в срок</h3><p>Вкладываемся в оговорённые сроки и контролируем каждую операцию по ГОСТам и СНиПам.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:shield-check"></div><h3>Гарантия 3 года</h3><p>На каждый вид работ. Мастера с большим стажем, бесплатный замер и смета.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ВИДЫ РЕМОНТА И ЦЕНЫ -->
+<section class="bui-section bui-section-alt" id="prices">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Цены</span>
+      <h2>Виды ремонта квартир</h2>
+      <p>Точную стоимость назовёт сметчик после бесплатного замера.</p>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-plan">
+        <h3>Косметический</h3>
+        <div class="bui-price">от 1 350 ₽/м²</div>
+        <p class="bui-muted">Срок — около 2 месяцев</p>
+        <ul class="bui-checks">
+          <li>Замена проводки и труб</li>
+          <li>Стяжка пола, шпаклёвка стен</li>
+          <li>Плитка, ламинат, обои</li>
+          <li>Натяжной потолок</li>
+        </ul>
+        <button class="bui-btn" data-open="order" data-pick="Косметический ремонт">Рассчитать</button>
+      </div>
+      <div class="bui-plan bui-popular">
+        <h3>Капитальный</h3>
+        <div class="bui-price">от 2 500 ₽/м²</div>
+        <p class="bui-muted">Срок — около 3 месяцев</p>
+        <ul class="bui-checks">
+          <li>Демонтаж и новые перегородки</li>
+          <li>Наливной пол, тёплые полы</li>
+          <li>Перенос батарей, утепление балкона</li>
+          <li>Гипсокартон, 3D-панели, двери</li>
+        </ul>
+        <button class="bui-btn" data-open="order" data-pick="Капитальный ремонт">Рассчитать</button>
+      </div>
+      <div class="bui-plan">
+        <h3>Элитный</h3>
+        <div class="bui-price">от 5 650 ₽/м²</div>
+        <p class="bui-muted">Срок — от 6 месяцев</p>
+        <ul class="bui-checks">
+          <li>Перепланировка и сигнализация</li>
+          <li>Медные трубы, сауна</li>
+          <li>Мозаика, паркетная доска, декор</li>
+          <li>Кондиционирование, «умный дом»</li>
+        </ul>
+        <button class="bui-btn" data-open="order" data-pick="Элитный ремонт">Рассчитать</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ПОРТФОЛИО: три объекта и галерея -->
+<section class="bui-section" id="works">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Портфолио</span>
+      <h2>Наши работы</h2>
+      <p>Более 40 объектов в Самаре и области. Нажмите на фото, чтобы увеличить.</p>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/case-vladimirskaya.jpg" alt="Кухня после косметического ремонта"><span class="bui-tag">2 месяца</span></div>
+        <div class="bui-product-body"><h3>Ул. Владимирская, 56</h3><p>Косметический ремонт, 58,6 м²: проводка, трубы, стяжка, плитка, ламинат, натяжной потолок.</p>
+          <div class="bui-product-footer"><span class="bui-price">от 1 350 ₽/м²</span></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/case-gorod-solnca.jpg" alt="Кухня-гостиная после капитального ремонта"><span class="bui-tag">3 месяца</span></div>
+        <div class="bui-product-body"><h3>ЖК «Город солнца»</h3><p>Капитальный ремонт, 74 м²: перегородки, тёплые полы, 3D-панели, кондиционирование.</p>
+          <div class="bui-product-footer"><span class="bui-price">от 2 500 ₽/м²</span></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/case-kottedzh.jpg" alt="Гостиная коттеджа после элитного ремонта"><span class="bui-tag">6 месяцев</span></div>
+        <div class="bui-product-body"><h3>Коттедж, 8-я просека</h3><p>Элитный ремонт, 300 м²: перенос стен, медь, сауна, паркет, система «умный дом».</p>
+          <div class="bui-product-footer"><span class="bui-price">от 5 650 ₽/м²</span></div></div>
+      </div>
+    </div>
+    <div class="bui-gallery" style="margin-top: 34px">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-1.jpg" alt="Коридор с подсветкой">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-2.jpg" alt="Спальня с обоями">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-3.jpg" alt="Кухня с островом">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-4.jpg" alt="Ванная с отдельно стоящей ванной">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-5.jpg" alt="Ниша с подсветкой">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-6.jpg" alt="Спальня в тёплых тонах">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-7.jpg" alt="Кухня-столовая">
+      <img src="https://si0683.github.io/LightWebsiteUi/examples/remont/img/work-8.jpg" alt="Санузел с раковиной на столешнице">
+    </div>
+  </div>
+</section>
+
+<!-- 5. ЦИФРЫ -->
+<section class="bui-section bui-section-alt">
+  <div class="bui-container">
+    <div class="bui-grid bui-grid-4">
+      <div class="bui-stat"><b data-count="17">0</b><span>лет на рынке</span></div>
+      <div class="bui-stat"><b data-count="40" data-suffix="+">0</b><span>объектов в портфолио</span></div>
+      <div class="bui-stat"><b data-count="3">0</b><span>года гарантии</span></div>
+      <div class="bui-stat"><b data-count="15" data-suffix="%">0</b><span>скидка по акции</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. КАК РАБОТАЕМ -->
+<section class="bui-section" id="how">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Как работаем</span><h2>Пять шагов до новой квартиры</h2></div>
+    <div class="bui-grid bui-steps">
+      <div class="bui-step"><h3>Замер и смета</h3><p>Сметчик приезжает бесплатно, считаем стоимость и сроки.</p></div>
+      <div class="bui-step"><h3>Договор</h3><p>Фиксируем смету, сроки и гарантию на каждый вид работ.</p></div>
+      <div class="bui-step"><h3>Материалы</h3><p>Закупаем по оптовым ценам со своего склада.</p></div>
+      <div class="bui-step"><h3>Работы по этапам</h3><p>Каждый этап принимаете по акту и оплачиваете по факту.</p></div>
+      <div class="bui-step"><h3>Сдача объекта</h3><p>Вывозим мусор, убираем и передаём ключи.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. АКЦИЯ С ОБРАТНЫМ ОТСЧЁТОМ -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Дизайн-проект и вывоз мусора — в подарок</h2>
+      <p>При заказе ремонта квартиры под ключ. Заключите договор до 1 ноября и получите скидку 15%.</p>
+      <div data-timer="2026-11-01T00:00" data-done="Акция завершена — спросите о новых предложениях"></div>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order" data-pick="Ремонт под ключ по акции">Получить скидку</button>
+    </div>
+  </div>
+</section>
+
+<!-- 8. ОТЗЫВЫ -->
+<section class="bui-section bui-section-alt" id="reviews">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Отзывы</span><h2>Что говорят клиенты</h2></div>
+    <div class="bui-slider" data-per-view="3">
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Заменили проводку и трубы, выровняли пол и стены, положили плитку и ламинат. Сделано всё на пять с плюсом, и стоимость вполне приемлемая.</blockquote><div class="bui-author"><img data-avatar="Евгений" alt="Евгений"><span>Евгений<small>ул. Владимирская</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Ремонт удался! Швы, горизонтали и вертикали подогнаны идеально, ниши и подиумы — без помарок. Всё именно так, как мы хотели.</blockquote><div class="bui-author"><img data-avatar="Дмитрий" alt="Дмитрий"><span>Дмитрий<small>ЖК «Город солнца»</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Мастерство бригады на высшем уровне, причём расценки средние по городу. Всем рекомендую!</blockquote><div class="bui-author"><img data-avatar="Полина" alt="Полина и Дмитрий"><span>Полина и Дмитрий<small>квартира под ключ</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Быстро, качественно и красиво. Мы довольны. Спасибо вам, ребята!</blockquote><div class="bui-author"><img data-avatar="Оксана" alt="Оксана"><span>Оксана<small>коттедж, 8-я просека</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Спасибо мастерам! Если ещё какую переделку задумаю, обращаться буду только к ним.</blockquote><div class="bui-author"><img data-avatar="Владимир" alt="Владимир"><span>Владимир<small>квартира</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Спасибо ребятам за качественную работу! Всем советую.</blockquote><div class="bui-author"><img data-avatar="Наталья" alt="Наталья"><span>Наталья<small>ремонт офиса</small></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. ВОПРОСЫ -->
+<section class="bui-section" id="faq">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Вопросы</span><h2>Частые вопросы</h2></div>
+    <details class="bui-faq"><summary>Сколько длится ремонт?</summary><p>Косметический ремонт квартиры — около 2 месяцев, капитальный — около 3, элитный ремонт дома — от 6 месяцев. Точный срок фиксируем в договоре.</p></details>
+    <details class="bui-faq"><summary>Сколько стоит ремонт квартиры?</summary><p>Косметический — от 1 350 ₽/м², капитальный — от 2 500 ₽/м², элитный — от 5 650 ₽/м². Замер и смета бесплатно, смета не меняется до сдачи объекта.</p></details>
+    <details class="bui-faq"><summary>Какие гарантии вы даёте?</summary><p>Гарантия 3 года на каждый вид работ. Каждый этап принимается по акту выполненных работ.</p></details>
+    <details class="bui-faq"><summary>Чем вы ещё занимаетесь?</summary><p>Евроремонт квартир, ремонт офисов, отделочные работы, строительство и ремонт коттеджей, дизайн интерьера.</p></details>
+  </div>
+</section>
+
+<!-- 10. КОНТАКТЫ -->
+<section class="bui-section bui-section-alt" id="contacts">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Контакты</span><h2>Приезжайте или позвоните</h2><p>Работаем ежедневно с 9:00 до 20:00.</p></div>
+    <div class="bui-contacts">
+      <a class="bui-contact" href="tel:+79171522628"><span>📞</span><span><small>Телефон</small><b>+7 (917) 152-26-28</b></span></a>
+      <a class="bui-contact" href="tel:+79272004407"><span>📱</span><span><small>Телефон</small><b>+7 (927) 200-44-07</b></span></a>
+      <div class="bui-contact"><span>📍</span><span><small>Офис</small><b>Самара, ул. Калинина, 34, оф. 88</b></span></div>
+      <div class="bui-contact"><span>🕘</span><span><small>Режим работы</small><b>Ежедневно 9:00–20:00</b></span></div>
+    </div>
+    <div class="bui-grid bui-grid-2" style="margin-top: 34px">
+      <form class="bui-form" data-thanks="Спасибо! Сметчик перезвонит вам в течение дня.">
+        <h3>Вызвать сметчика бесплатно</h3>
+        <div class="bui-field"><input name="name" required><label>Ваше имя</label></div>
+        <div class="bui-field"><input name="phone" type="tel" required><label>Телефон</label></div>
+        <div class="bui-field"><input name="area"><label>Площадь, м²</label></div>
+        <button class="bui-btn bui-btn-wide">Отправить заявку</button>
+      </form>
+      <div data-map="53.22217, 50.24484" data-label="Мастер в ремонте — ул. Калинина, 34" data-zoom="16"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="bui-footer">© 2008–<span data-year></span> Компания «<span data-name>Мастер в ремонте</span>», ремонт квартир в Самаре. Пример сайта на LightWebsiteUi: заявки с этой страницы не отправляются — звоните по телефону.</footer>

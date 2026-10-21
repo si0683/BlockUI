@@ -119,6 +119,9 @@ def build_codepen():
         body = '\n'.join(lines[s + 1:e]).strip('\n')
         if 'script.js' in body or 'style.css' in body:
             raise SystemExit(f'{index}: the CodePen part must not include script.js or style.css')
+        # Example photos (img/…) are served from GitHub Pages, so the CodePen copy works anywhere
+        pages = f'https://si0683.github.io/LightWebsiteUi/examples/{index.parent.name}/img/'
+        body = re.sub(r'''(src=["']|url\(["']?)img/''', lambda m: m.group(1) + pages, body)
         (index.parent / 'codepen.html').write_text(body + '\n', encoding='utf-8', newline='\n')
         print(f'{index.parent.name}/codepen.html: ok')
 

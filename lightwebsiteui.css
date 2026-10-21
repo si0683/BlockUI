@@ -1,5 +1,5 @@
 /*!
- * LightWebsiteUi 3.2.0 — styles. MIT License. https://github.com/si0683/LightWebsiteUi
+ * LightWebsiteUi 3.2.1 — styles. MIT License. https://github.com/si0683/LightWebsiteUi
  * Style and colour are set by lightwebsiteui.js (LightWebsiteUi.start({ style, color }))
  * or by <body data-style="cozy" data-color="red">. All classes start with bui-.
  * Sections:
@@ -59,7 +59,7 @@ body.bui-dark {
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
-h1, h2, h3 { margin: 0 0 0.5em; font-family: var(--bui-font-title); font-weight: var(--bui-title-weight); line-height: 1.15; overflow-wrap: break-word; }
+h1, h2, h3 { margin: 0 0 0.5em; font-family: var(--bui-font-title); font-weight: var(--bui-title-weight); line-height: 1.15; overflow-wrap: break-word; hyphens: auto; text-wrap: balance; }
 p { margin: 0 0 1em; }
 
 /* ===== 2. GRID AND SECTIONS ===== */

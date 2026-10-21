@@ -1,0 +1,6 @@
+/* Свои стили. Всё остальное даёт LightWebsiteUi. */
+
+/* Заголовки групп меню */
+.menu-group { display: flex; align-items: center; gap: 10px; margin: 44px 0 18px; font-size: 1.5rem; }
+.menu-group:first-of-type { margin-top: 0; }
+.menu-group [data-icon] { color: var(--bui-main); font-size: 1.6rem; display: inline-flex; }

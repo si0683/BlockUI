@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дом цветов — цветы и букеты в Самаре с доставкой</title>
+  <meta name="description" content="Букеты из роз, хризантем и авторские композиции. Пять магазинов в Самаре, работаем с 8:00 до 21:00 без выходных, доставка до 23:00.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ↓↓↓ CodePen: copy everything below this line into the HTML panel ↓↓↓
+     LightWebsiteUi first, then the page markup. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
+
+<!-- ШАПКА: кнопку темы, корзину и мобильное меню LightWebsiteUi добавит сам -->
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span>💐</span><span data-name>Дом цветов</span></a>
+    <nav class="bui-nav">
+      <a href="#bouquets">Букеты</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#shops">Магазины</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. ГЛАВНЫЙ ЭКРАН -->
+<section class="bui-hero" id="top">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">Сезонное предложение</span>
+      <h1>Цветы и букеты с доставкой по Самаре</h1>
+      <p>Хризантемы кустовые — от 120 ₽ за штуку. Розы из Эквадора, пионовидные розы и авторские композиции в пяти магазинах города.</p>
+      <div class="bui-row">
+        <a class="bui-btn" href="#bouquets">Выбрать букет</a>
+        <button class="bui-btn bui-btn-ghost" data-open="order">Заказать звонок</button>
+      </div>
+      <ul class="bui-facts">
+        <li><b>с 2014</b><span>года в Самаре</span></li>
+        <li><b>5</b><span>магазинов</span></li>
+        <li><b>до 23:00</b><span>доставка</span></li>
+      </ul>
+    </div>
+    <div class="bui-hero-picture">
+      <img src="img/hero.jpg" alt="Авторская композиция с протеями и розами">
+      <span class="bui-sticker">Авторские композиции</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. БУКЕТЫ: кнопки добавляют в корзину -->
+<section class="bui-section" id="bouquets">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Готовы к отправке</span>
+      <h2>Популярные букеты</h2>
+      <p>Собраны и ждут получателя — доставим по Самаре с 8:00 до 23:00.</p>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/rozy-ekvador.jpg" alt="Букет из 25 красных роз Эквадор"><span class="bui-tag">Хит</span></div>
+        <div class="bui-product-body"><h3>25 роз Эквадор</h3><p>Ничто так красноречиво не говорит о чувствах, как букет безупречных алых роз.</p>
+          <div class="bui-product-footer"><span class="bui-price">6 800 ₽</span><button class="bui-btn bui-btn-small" data-add="25 роз Эквадор" data-price="6800">В корзину</button></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/rozy-pionovidnye.jpg" alt="Букет из 25 розовых пионовидных роз"><span class="bui-tag">Тренд</span></div>
+        <div class="bui-product-body"><h3>25 пионовидных роз</h3><p>Тот случай, когда розовый — это не про нежность, а про характер.</p>
+          <div class="bui-product-footer"><span class="bui-price">6 975 ₽</span><button class="bui-btn bui-btn-small" data-add="25 пионовидных роз" data-price="6975">В корзину</button></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/rozy-kahala.jpg" alt="Букет из 25 пионовидных роз Кахала"></div>
+        <div class="bui-product-body"><h3>25 пионовидных роз Кахала</h3><p>Персиковые розы, которые в жизни выглядят ещё лучше, чем на фото.</p>
+          <div class="bui-product-footer"><span class="bui-price">6 975 ₽</span><button class="bui-btn bui-btn-small" data-add="25 пионовидных роз Кахала" data-price="6975">В корзину</button></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/beloe-oblako.jpg" alt="Букет из белых хризантем Белоснежное облако"></div>
+        <div class="bui-product-body"><h3>Белоснежное облако</h3><p>Целое поле цветов в одном букете — белоснежные кустовые хризантемы.</p>
+          <div class="bui-product-footer"><span class="bui-price">от 2 000 ₽</span><button class="bui-btn bui-btn-small" data-add="Белоснежное облако" data-price="2000">В корзину</button></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/monobuket-hrizantemy.jpg" alt="Монобукет из белой кустовой хризантемы"><span class="bui-tag">Сезон</span></div>
+        <div class="bui-product-body"><h3>Монобукет из хризантем</h3><p>Белая кустовая хризантема — сезонное предложение.</p>
+          <div class="bui-product-footer"><span class="bui-price">от 1 000 ₽</span><button class="bui-btn bui-btn-small" data-add="Монобукет из хризантем" data-price="1000">В корзину</button></div></div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img src="img/wow-belye-rozy.jpg" alt="Большой букет белых роз"><span class="bui-tag">Wow</span></div>
+        <div class="bui-product-body"><h3>Wow-эффект</h3><p>Большие букеты, которые запоминаются. Состав и размер подберём под ваш бюджет.</p>
+          <div class="bui-product-footer"><span class="bui-price">по запросу</span><button class="bui-btn bui-btn-small" data-open="order" data-pick="Букет с Wow-эффектом">Узнать цену</button></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. КАТАЛОГ -->
+<section class="bui-section bui-section-alt" id="catalog">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Каталог</span><h2>Найдём цветы для любого повода</h2></div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:flower-tulip"></div><h3>Монобукеты</h3><p>Букеты из цветов одного сорта — лаконично и стильно.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:creation"></div><h3>Wow-эффект</h3><p>Большие букеты, которые невозможно не заметить.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:palette"></div><h3>Авторские композиции</h3><p>Флористы соберут уникальный букет по настроению.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:gift"></div><h3>Цветы в коробках и корзинах</h3><p>Удобно дарить и не нужно искать вазу.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:school"></div><h3>1 сентября</h3><p>Букеты для учителей и первоклассников.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:wallet"></div><h3>Букеты до 3 500 ₽</h3><p>Красиво и без лишних трат.</p></div>
+    </div>
+    <div class="bui-gallery" style="margin-top: 34px">
+      <img src="img/1-sentyabrya.jpg" alt="Букет на 1 сентября">
+      <img src="img/gladiolusy.jpg" alt="Гладиолусы в вазе">
+      <img src="img/wow-belye-rozy.jpg" alt="Белые розы">
+      <img src="img/hero.jpg" alt="Композиция с протеями">
+    </div>
+  </div>
+</section>
+
+<!-- 4. ДОСТАВКА -->
+<section class="bui-section" id="delivery">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Доставка</span><h2>Быстрая доставка по любому поводу</h2></div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:storefront"></div><h3>Работаем 8:00–21:00</h3><p>Без выходных и праздников.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>Доставка 8:00–23:00</h3><p>Привезём букет домой, в офис или к ресторану.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:package-variant-closed-check"></div><h3>Готовы к отправке</h3><p>Букеты, которые уже собраны: можно забрать или отправить сразу.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ПРИЗЫВ -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Не знаете, что выбрать?</h2>
+      <p>Оставьте телефон — флорист перезвонит и подберёт букет под повод и бюджет.</p>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order">Заказать звонок</button>
+    </div>
+  </div>
+</section>
+
+<!-- 6. МАГАЗИНЫ И КОНТАКТЫ -->
+<section class="bui-section bui-section-alt" id="shops">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Магазины</span><h2>Пять адресов в Самаре</h2></div>
+    <div class="bui-contacts">
+      <a class="bui-contact" href="tel:+78463004344"><span>📞</span><span><small>Телефон</small><b>8 (846) 300-43-44</b></span></a>
+      <a class="bui-contact" href="tel:+79170152824"><span>📱</span><span><small>Телефон</small><b>+7 (917) 015-28-24</b></span></a>
+      <a class="bui-contact" href="mailto:domcvetov@list.ru"><span>✉️</span><span><small>Почта</small><b>domcvetov@list.ru</b></span></a>
+      <div class="bui-contact"><span>📍</span><span><small>Магазин</small><b>Ульяновская, 99</b></span></div>
+      <div class="bui-contact"><span>📍</span><span><small>Магазин</small><b>Красноармейская, 34</b></span></div>
+      <div class="bui-contact"><span>📍</span><span><small>Магазин</small><b>Победы, 6</b></span></div>
+      <div class="bui-contact"><span>📍</span><span><small>Магазин</small><b>Победы, 101а</b></span></div>
+      <div class="bui-contact"><span>📍</span><span><small>Магазин</small><b>Московское шоссе, 230а</b></span></div>
+    </div>
+    <div class="bui-socials" style="margin-top: 24px">
+      <a class="bui-social bui-tg" href="https://t.me/domcvetov63" target="_blank" rel="noopener" data-tip="Telegram">TG</a>
+    </div>
+    <div data-map="53.19571, 50.12133" data-label="Дом цветов — Ульяновская, 99" data-zoom="15" style="margin-top: 34px"></div>
+  </div>
+</section>
+
+<footer class="bui-footer">© 2014–<span data-year></span> «<span data-name>Дом цветов</span>», Самара. Пример сайта на LightWebsiteUi: заказы с этой страницы не отправляются — звоните по телефону.</footer>
+<!-- ↑↑↑ CodePen: end of the HTML panel part ↑↑↑ -->
+
+<script src="script.js"></script>
+</body>
+</html>

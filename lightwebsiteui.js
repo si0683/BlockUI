@@ -1,10 +1,10 @@
 /*!
- * LightWebsiteUi 3.2.0 — building blocks for beautiful websites. Connect and compose.
+ * LightWebsiteUi 3.2.1 — building blocks for beautiful websites. Connect and compose.
  * https://github.com/si0683/LightWebsiteUi · MIT License
  *
  * Usage (two lines of HTML):
- *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
- *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
+ *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+ *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
  * Optional settings: LightWebsiteUi.start({ name, style, color, lang, rain, thanks }).
  *
  * Built in: 5 styles × 11 colours, photos by keyword (data-photo="pizza"), mobile menu,
@@ -17,7 +17,7 @@
   'use strict';
   if (typeof window === 'undefined' || typeof document === 'undefined') return; // server-side rendering: nothing to do
 
-  const VERSION = '3.2.0';
+  const VERSION = '3.2.1';
 
   // Declare the 'bui' cascade layer first so it is the weakest:
   // Tailwind classes and your own CSS always win over LightWebsiteUi

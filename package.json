@@ -1,6 +1,6 @@
 {
   "name": "lightwebsiteui",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Building blocks for beautiful websites: 5 styles × 11 colours, photos by keyword, cart, order dialog, forms, sliders, maps, icons, avatars — with plain HTML attributes. Optional Tailwind + daisyUI mode.",
   "keywords": ["ui", "nextjs", "react", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",

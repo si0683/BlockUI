@@ -6,13 +6,20 @@
 
 [Сайт и живые примеры](https://si0683.github.io/LightWebsiteUi/) · [Справочник API](AI.md) · [Шаблон промта для ИИ](PROMPT.ru.md) · [English](README.md)
 
+Живые примеры — лендинги реальных компаний из Самары, собранные только на LightWebsiteUi:
+
+| | | |
+|---|---|---|
+| [Мастер в ремонте](https://si0683.github.io/LightWebsiteUi/examples/remont/) — ремонт квартир | [Шашлычная КАРС](https://si0683.github.io/LightWebsiteUi/examples/shashlik/) — тёмный стиль, корзина | [PUFF](https://si0683.github.io/LightWebsiteUi/examples/obuv/) — ремонт обуви, «до и после» |
+| [Дом цветов](https://si0683.github.io/LightWebsiteUi/examples/cvety/) — цветы с корзиной | [КРОН](https://si0683.github.io/LightWebsiteUi/examples/kraski/) — завод красок, Tailwind + daisyUI | [МТО-Альянс](https://si0683.github.io/mtoalliance/) — рабочий сайт компании |
+
 > **Раньше называлась BlockUI.** В версии 3.0.0 глобальный объект `BlockUI` стал `LightWebsiteUi`, файлы `blockui.*` — `lightwebsiteui.*`; классы (`bui-*`) и атрибуты в HTML те же. Старые версии остаются на CDN — см. [CHANGELOG](CHANGELOG.md).
 
 ## Подключение
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
 ```
 
 или

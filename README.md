@@ -8,15 +8,18 @@ Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all LightWebsiteUi beh
 
 > **Formerly BlockUI.** Version 3.0.0 renamed the global `BlockUI` → `LightWebsiteUi` and the files `blockui.*` → `lightwebsiteui.*`; HTML classes (`bui-*`) and attributes are unchanged. Old versions stay on the CDN — see [CHANGELOG](CHANGELOG.md).
 
-| | | | |
-|---|---|---|---|
-| [Bean & Brew](https://si0683.github.io/LightWebsiteUi/examples/coffee/) — coffee shop | [RoboCode](https://si0683.github.io/LightWebsiteUi/examples/robots/) — school | [Paws](https://si0683.github.io/LightWebsiteUi/examples/pets/) — shelter | [Lotus](https://si0683.github.io/LightWebsiteUi/examples/yoga/) — Tailwind + daisyUI |
+Live examples — landing pages in Russian for real businesses from Samara, built only with LightWebsiteUi:
+
+| | | |
+|---|---|---|
+| [Мастер в ремонте](https://si0683.github.io/LightWebsiteUi/examples/remont/) — renovation company | [Шашлычная КАРС](https://si0683.github.io/LightWebsiteUi/examples/shashlik/) — grill house, dark style, cart | [PUFF](https://si0683.github.io/LightWebsiteUi/examples/obuv/) — shoe repair, before/after |
+| [Дом цветов](https://si0683.github.io/LightWebsiteUi/examples/cvety/) — flower shop with cart | [КРОН](https://si0683.github.io/LightWebsiteUi/examples/kraski/) — paint factory, Tailwind + daisyUI | [МТО-Альянс](https://si0683.github.io/mtoalliance/) — a real production site |
 
 ## Install
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
 ```
 
 or

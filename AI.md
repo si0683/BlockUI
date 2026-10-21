@@ -10,8 +10,8 @@ Two modes:
 
 **CDN (CodePen, plain HTML)** — first lines of the page / HTML panel:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
 ```
 Tailwind + daisyUI mode — add these three lines before them:
 ```html
@@ -180,7 +180,7 @@ The theme sets the `btn-primary` colour; `color: 'blue'` overrides it.
 
 ## Examples (3 files each)
 
-https://github.com/si0683/LightWebsiteUi/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI), `nextjs` (the same blocks in a Next.js App Router project), `astro` (the same blocks in an Astro site).
+https://github.com/si0683/LightWebsiteUi/tree/main/examples — Russian landing pages of real businesses: `remont` (renovation: pricing plans, portfolio cards and gallery, steps, offer countdown, review slider, FAQ, form + map), `shashlik` (grill house, dark style: 17-dish menu with cart and order dialog), `obuv` (shoe repair: plans, before/after gallery, counters, text + photo, team, callback form), `cvety` (flower shop: bouquets with cart, catalogue features, gallery, five addresses, Telegram), `kraski` (paint factory in Tailwind + daisyUI: background-photo hero, stats, catalogue cards, own dialog), `nextjs` (the same blocks in a Next.js App Router project), `astro` (the same blocks in an Astro site).
 
 ## Rules for generated code
 

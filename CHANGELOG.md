@@ -2,6 +2,12 @@
 
 All versions stay available on the CDN: `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/lightwebsiteui.js` (3.x) and `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/blockui.js` (1.x–2.x, published as BlockUI).
 
+## 3.2.1
+
+- New examples: Russian landing pages of real businesses from Samara — `remont` (renovation company), `shashlik` (grill house with a cart), `obuv` (shoe repair, before/after gallery), `cvety` (flower shop), `kraski` (paint factory, Tailwind + daisyUI). The English demo sites `coffee`, `robots`, `pets` and `yoga` are removed (they stay in the 3.2.0 tag).
+- Headings hyphenate long words (`hyphens: auto`, by the page `lang`) and wrap in balanced lines.
+- `tools/build.py` writes absolute GitHub Pages URLs for example photos (`img/…`) into `codepen.html`, so the CodePen copy shows them.
+
 ## 3.2.0
 
 Astro support and page swaps.
