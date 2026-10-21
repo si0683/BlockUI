@@ -2,6 +2,17 @@
 
 All versions stay available on the CDN: `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/lightwebsiteui.js` (3.x) and `https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@<version>/blockui.js` (1.x–2.x, published as BlockUI).
 
+## 3.1.0
+
+Next.js and React support.
+
+- `LightWebsiteUi.refresh()` — enhance content that appeared without a page load (client-side navigation, fetched HTML). Only new nodes are touched; sliders, maps and timers whose blocks left the page are switched off.
+- `LightWebsiteUi.destroy()` — undo everything: listeners, timers, sliders, maps and the elements LightWebsiteUi added. `start()` brings it back (also after destroy in plain pages).
+- The ES module entry (`lightwebsiteui.mjs`, used by npm and bundlers) no longer starts by itself: call `start()`. React hydrates the page untouched. The CDN script starts automatically as before.
+- The cart button appears as soon as a page with `data-add` is shown; the automatic order dialog picks up products of newly shown pages.
+- Gallery lightbox and mobile-menu closing work through one delegated click handler, so they cover content added later.
+- New example `examples/nextjs`: Next.js 16 App Router site (home, menu with cart, contacts with map and form).
+
 ## 3.0.0
 
 The library is renamed from **BlockUI** to **LightWebsiteUi**. The API is the same; only names change.

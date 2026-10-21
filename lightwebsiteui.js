@@ -1,10 +1,10 @@
 /*!
- * LightWebsiteUi 3.0.0 — building blocks for beautiful websites. Connect and compose.
+ * LightWebsiteUi 3.1.0 — building blocks for beautiful websites. Connect and compose.
  * https://github.com/si0683/LightWebsiteUi · MIT License
  *
  * Usage (two lines of HTML):
- *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
- *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+ *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
+ *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
  * Optional settings: LightWebsiteUi.start({ name, style, color, lang, rain, thanks }).
  *
  * Built in: 5 styles × 11 colours, photos by keyword (data-photo="pizza"), mobile menu,
@@ -17,7 +17,7 @@
   'use strict';
   if (typeof window === 'undefined' || typeof document === 'undefined') return; // server-side rendering: nothing to do
 
-  const VERSION = '3.0.0';
+  const VERSION = '3.1.0';
 
   // Declare the 'bui' cascade layer first so it is the weakest:
   // Tailwind classes and your own CSS always win over LightWebsiteUi
@@ -284,6 +284,25 @@
   let colorGiven = false;  // colour was set explicitly (not the default)
   let cart = [];
 
+  // React / Next.js support: refresh() enhances only nodes it has not seen yet, destroy() undoes everything.
+  // A bundler import (lightwebsiteui.mjs) sets the manual flag: nothing runs until start(), so hydration stays clean.
+  const MANUAL = !!globalThis.__LIGHTWEBSITEUI_MANUAL__;
+  let seen = new WeakMap();          // node → set of features already applied to it
+  const created = [];                // elements LightWebsiteUi added to the page
+  const intervals = [];              // countdown timers
+  const instances = [];              // Swiper sliders and Leaflet maps: { box, kill }
+  let revealer = null;               // IntersectionObserver for scroll reveal and counters
+  function fresh(nodes, feature) {
+    return nodes.filter(n => {
+      let done = seen.get(n);
+      if (!done) { done = new Set(); seen.set(n, done); }
+      if (done.has(feature)) return false;
+      done.add(feature);
+      return true;
+    });
+  }
+  function made(node) { created.push(node); return node; }
+
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
   function el(tag, className, html) {
@@ -398,37 +417,42 @@
 
   /* ---------- 6. Header: shadow, burger, theme toggle, cart ---------- */
   function setupHeader() {
-    const header = $('.bui-header');
-    $$('[data-theme-toggle]').forEach(b => b.addEventListener('click', toggleDark));
-    if (!header) return;
-    window.addEventListener('scroll', () => header.classList.toggle('bui-scrolled', window.scrollY > 10));
-    const box = $('.bui-container', header) || header;
-    let actions = $('.bui-actions', header);
-    if (!actions) { actions = el('div', 'bui-actions'); box.appendChild(actions); }
+    fresh($$('[data-theme-toggle]'), 'toggle').forEach(b => b.addEventListener('click', toggleDark));
+    fresh($$('.bui-header'), 'header').forEach(header => {
+      const box = $('.bui-container', header) || header;
+      let actions = $('.bui-actions', header);
+      if (!actions) actions = box.appendChild(made(el('div', 'bui-actions')));
 
-    if (options.themeButton && !$('[data-theme-toggle]', header)) {
-      const t = el('button', 'bui-theme');
-      t.type = 'button';
-      t.setAttribute('aria-label', tx.theme);
-      t.addEventListener('click', toggleDark);
-      actions.prepend(t);
-    }
-    if ($('[data-add]') && !$('[data-cart]')) {
-      const c = el('button', 'bui-cart', '🛒<span data-cart-count>0</span>');
+      if (options.themeButton && !$('[data-theme-toggle]', header)) {
+        const t = made(el('button', 'bui-theme'));
+        t.type = 'button';
+        t.setAttribute('aria-label', tx.theme);
+        t.addEventListener('click', toggleDark);
+        actions.prepend(t);
+      }
+      const nav = $('.bui-nav', header);
+      if (nav) {
+        const burger = made(el('button', 'bui-burger', '<span></span><span></span><span></span>'));
+        burger.type = 'button';
+        burger.setAttribute('aria-label', tx.menu);
+        actions.appendChild(burger);
+        burger.addEventListener('click', () => { nav.classList.toggle('bui-open'); burger.classList.toggle('bui-active'); });
+      }
+    });
+    // The cart button appears as soon as a page has products (checked again on every refresh)
+    const header = $('.bui-header');
+    const actions = header && $('.bui-actions', header);
+    if (actions && $('[data-add]') && !$('[data-cart]')) {
+      const c = made(el('button', 'bui-cart', '🛒<span data-cart-count>' + cart.length + '</span>'));
       c.type = 'button';
       c.dataset.cart = '';
       c.setAttribute('aria-label', tx.cart);
-      actions.appendChild(c);
+      actions.insertBefore(c, $('.bui-burger', actions));
     }
-    const nav = $('.bui-nav', header);
-    if (nav) {
-      const burger = el('button', 'bui-burger', '<span></span><span></span><span></span>');
-      burger.type = 'button';
-      burger.setAttribute('aria-label', tx.menu);
-      actions.appendChild(burger);
-      burger.addEventListener('click', () => { nav.classList.toggle('bui-open'); burger.classList.toggle('bui-active'); });
-      $$('a', nav).forEach(a => a.addEventListener('click', () => { nav.classList.remove('bui-open'); burger.classList.remove('bui-active'); }));
-    }
+    onScroll();
+  }
+  function onScroll() {
+    $$('.bui-header').forEach(h => h.classList.toggle('bui-scrolled', window.scrollY > 10));
   }
 
   /* ---------- 7. Toasts and confetti ---------- */
@@ -455,7 +479,7 @@
   function startRain(emoji) {
     const hero = $('.bui-hero');
     if (!hero || !emoji) return;
-    const rain = el('div', 'bui-rain');
+    const rain = made(el('div', 'bui-rain'));
     rain.setAttribute('aria-hidden', 'true');
     for (let i = 0; i < 18; i++) {
       const d = el('span', '', emoji);
@@ -487,13 +511,24 @@
     return names.filter((n, i) => names.indexOf(n) === i);
   }
   // The 'order' dialog is created automatically when the page has none
+  let autoModal = null;
   function ensureOrderModal() {
-    if ($('#order') || !($('[data-open="order"]') || $('[data-cart]'))) return;
     const names = itemNames();
+    if (autoModal && autoModal.isConnected) {
+      // Our own dialog: products from a newly rendered page join its list
+      const select = $('select', autoModal);
+      if (select || !names.length) {
+        if (select) names.forEach(n => { if (!$$('option', select).some(o => o.value === n)) select.appendChild(el('option', '', n)); });
+        return;
+      }
+      autoModal.remove(); // built before the site had products: rebuild it with a product list
+      autoModal = null;
+    } else if ($('#order')) return;
+    if (!($('[data-open="order"]') || $('[data-cart]'))) return;
     const pick = names.length
       ? '<div class="bui-field"><select name="item">' + names.map(n => '<option>' + n + '</option>').join('') + '</select><label>' + tx.picked + '</label></div>'
       : '<div class="bui-field"><textarea name="comment" placeholder=" "></textarea><label>' + tx.comment + '</label></div>';
-    const modal = el('div', 'bui-modal');
+    const modal = autoModal = made(el('div', 'bui-modal'));
     modal.id = 'order';
     modal.innerHTML =
       '<div class="bui-modal-box" role="dialog" aria-modal="true">' +
@@ -546,7 +581,7 @@
   }
   function setupForms() {
     $$('.bui-field input, .bui-field textarea').forEach(i => { if (!i.hasAttribute('placeholder')) i.placeholder = ' '; });
-    $$('form.bui-form, form[data-form]').forEach(form => {
+    fresh($$('form.bui-form, form[data-form]'), 'form').forEach(form => {
       form.noValidate = true;
       form.addEventListener('submit', e => {
         e.preventDefault(); // no backend: the form is validated and acknowledged in the browser
@@ -578,7 +613,7 @@
   }
 
   function setupTimers() {
-    $$('[data-timer]').forEach(node => {
+    fresh($$('[data-timer]'), 'timer').forEach(node => {
       const end = new Date(node.dataset.timer).getTime();
       node.classList.add('bui-timer');
       function render() {
@@ -588,39 +623,44 @@
         node.innerHTML = parts.map(([v, l]) => '<span>' + String(v).padStart(2, '0') + '<small>' + l + '</small></span>').join('');
         return true;
       }
-      if (render()) { const id = setInterval(() => { if (!render()) clearInterval(id); }, 1000); }
+      if (render()) {
+        // The timer stops itself when its node leaves the page (single-page apps)
+        const id = setInterval(() => { if (!node.isConnected || !render()) clearInterval(id); }, 1000);
+        intervals.push(id);
+      }
     });
   }
 
-  function setupGallery() {
-    $$('.bui-gallery img').forEach(img => img.addEventListener('click', () => {
-      const box = el('div', 'bui-lightbox');
-      const big = el('img');
-      big.src = img.src.replace(/w=\d+/, 'w=1600');
-      big.alt = img.alt;
-      box.appendChild(big);
-      box.addEventListener('click', () => box.remove());
-      document.body.appendChild(box);
-    }));
+  // Gallery lightbox: one delegated click handler, so images added later work too
+  function openLightbox(img) {
+    const box = el('div', 'bui-lightbox');
+    const big = el('img');
+    big.src = img.src.replace(/w=\d+/, 'w=1600');
+    big.alt = img.alt;
+    box.appendChild(big);
+    box.addEventListener('click', () => box.remove());
+    document.body.appendChild(box);
   }
 
   function setupReveal() {
-    const blocks = $$('.bui-section, .bui-reveal, [data-reveal]');
+    const blocks = fresh($$('.bui-section, .bui-reveal, [data-reveal]'), 'reveal');
     blocks.forEach(b => b.classList.add('bui-reveal'));
-    const counters = $$('[data-count]');
+    const counters = fresh($$('[data-count]'), 'count');
     if (!('IntersectionObserver' in window)) {
       blocks.forEach(b => b.classList.add('bui-visible'));
       counters.forEach(animateCount);
       return;
     }
-    const io = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      if (entry.target.dataset.count !== undefined) animateCount(entry.target);
-      else entry.target.classList.add('bui-visible');
-      io.unobserve(entry.target);
-    }), { threshold: 0.1 });
-    blocks.forEach(b => io.observe(b));
-    counters.forEach(c => io.observe(c));
+    if (!revealer) {
+      revealer = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        if (entry.target.dataset.count !== undefined) animateCount(entry.target);
+        else entry.target.classList.add('bui-visible');
+        revealer.unobserve(entry.target);
+      }), { threshold: 0.1 });
+    }
+    blocks.forEach(b => revealer.observe(b));
+    counters.forEach(c => revealer.observe(c));
   }
 
   /* ---------- 11. Add-ons: icons, sliders, maps, avatars ---------- */
@@ -649,7 +689,7 @@
   // Iconify icons: <span data-icon="mdi:pizza"></span> or <iconify-icon icon="mdi:pizza">
   // Sets: mdi, lucide, ph, tabler, fa6-solid, twemoji… — 200,000+ icons at icon-sets.iconify.design
   function setupIcons() {
-    const nodes = $$('[data-icon]');
+    const nodes = fresh($$('[data-icon]'), 'icon');
     if (!nodes.length && !$('iconify-icon')) return;
     nodes.forEach(n => {
       const icon = document.createElement('iconify-icon');
@@ -663,7 +703,7 @@
   // Swiper slider: <div class="bui-slider"> cards… </div>
   // data-per-view="3" — cards visible on desktop, data-autoplay="0" — no autoplay
   function setupSliders() {
-    const sliders = $$('.bui-slider');
+    const sliders = fresh($$('.bui-slider'), 'slider');
     if (!sliders.length) return;
     loadCss(LIBS.swiperCss);
     sliders.forEach(box => {
@@ -671,12 +711,23 @@
       const wrapper = el('div', 'swiper-wrapper');
       slides.forEach(s => { const slide = el('div', 'swiper-slide'); slide.appendChild(s); wrapper.appendChild(slide); });
       box.classList.add('swiper');
-      box.append(wrapper, el('div', 'swiper-pagination'), el('div', 'swiper-button-prev'), el('div', 'swiper-button-next'));
+      const extras = [el('div', 'swiper-pagination'), el('div', 'swiper-button-prev'), el('div', 'swiper-button-next')];
+      box.append(wrapper, ...extras);
+      // destroy(): stop Swiper and put the cards back exactly as they were
+      const item = { box: box, swiper: null, kill() {
+        if (item.swiper) item.swiper.destroy(true, true);
+        slides.forEach(s => box.appendChild(s));
+        wrapper.remove(); extras.forEach(x => x.remove());
+        box.classList.remove('swiper');
+      } };
+      instances.push(item);
     });
     loadScript(LIBS.swiperJs).then(() => sliders.forEach(box => {
+      const item = instances.find(i => i.box === box);
+      if (!item || !box.isConnected) return;
       const per = Number(box.dataset.perView) || 3;
       const delay = box.dataset.autoplay === undefined ? 4000 : Number(box.dataset.autoplay);
-      new window.Swiper(box, {
+      item.swiper = new window.Swiper(box, {
         slidesPerView: 1, spaceBetween: 24, loop: box.querySelectorAll('.swiper-slide').length > per,
         autoplay: delay ? { delay: delay, disableOnInteraction: false } : false,
         pagination: { el: box.querySelector('.swiper-pagination'), clickable: true },
@@ -689,7 +740,7 @@
   // Leaflet + OpenStreetMap: <div data-map="10 Downing St, London"> or data-map="51.5034, -0.1276"
   // data-zoom="15" — zoom level, data-label — marker popup text
   function setupMaps() {
-    const maps = $$('[data-map]');
+    const maps = fresh($$('[data-map]'), 'map');
     if (!maps.length) return;
     loadCss(LIBS.leafletCss);
     loadScript(LIBS.leafletJs).then(() => maps.forEach(box => {
@@ -697,7 +748,12 @@
       const value = box.dataset.map.trim();
       const zoom = Number(box.dataset.zoom) || 15;
       const show = (lat, lon) => {
+        if (!box.isConnected || !started) return; // the page changed while the address was being looked up
         const map = window.L.map(box, { scrollWheelZoom: false }).setView([lat, lon], zoom);
+        instances.push({ box: box, kill() {
+          map.remove();
+          Array.from(box.classList).forEach(c => { if (c === 'bui-map' || c.indexOf('leaflet-') === 0) box.classList.remove(c); });
+        } });
         window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
@@ -718,7 +774,7 @@
     return LIBS.dicebear + (style || options.avatarStyle) + '/svg?seed=' + encodeURIComponent(name);
   }
   function setupAvatars() {
-    $$('[data-avatar]').forEach(n => {
+    fresh($$('[data-avatar]'), 'avatar').forEach(n => {
       const url = avatar(n.dataset.avatar, n.dataset.avatarStyle);
       if (n.tagName === 'IMG') { n.src = url; if (!n.alt) n.alt = n.dataset.avatar; return; }
       const img = el('img');
@@ -738,13 +794,34 @@
     if (d.dark === 'true') options.dark = true;
   }
 
-  let bodyRead = false;
-  function init() {
-    if (started) return;
-    started = true;
-    document.documentElement.classList.add('bui-js');
-    resolveTexts();
-    if (options.tailwind) loadTailwind();
+  function onClick(e) {
+    const navLink = e.target.closest('.bui-nav a');
+    if (navLink) {
+      // A menu link closes the mobile menu (also for client-side navigation)
+      const header = navLink.closest('.bui-header') || document;
+      $$('.bui-nav', header).forEach(n => n.classList.remove('bui-open'));
+      $$('.bui-burger', header).forEach(b => b.classList.remove('bui-active'));
+    }
+    const add = e.target.closest('[data-add]');
+    if (add) { addToCart(add.dataset.add, add.dataset.price); return; }
+    const cartBtn = e.target.closest('[data-cart]');
+    if (cartBtn) { if (cart.length) open('order', cart[cart.length - 1].name); else toast(opt('emptyCart')); return; }
+    const opener = e.target.closest('[data-open]');
+    if (opener) { e.preventDefault(); open(opener.dataset.open, opener.dataset.pick); return; }
+    const picture = e.target.closest('.bui-gallery img');
+    if (picture) { openLightbox(picture); return; }
+    if (e.target.closest('[data-close]') || e.target.classList.contains('bui-modal')) close();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); $$('.bui-lightbox').forEach(b => b.remove()); }
+  }
+
+  // Everything that works on page content; safe to run again — only new nodes are touched
+  function enhance() {
+    // Sliders and maps whose blocks left the page are switched off
+    for (let i = instances.length - 1; i >= 0; i--) {
+      if (!instances[i].box.isConnected) { try { instances[i].kill(); } catch (e) { /* already gone */ } instances.splice(i, 1); }
+    }
     applyLook();
     applyPhotos();
     setupAvatars();
@@ -753,23 +830,52 @@
     ensureOrderModal();
     setupForms();
     setupTimers();
-    setupGallery();
     setupReveal();
     setupSliders();
     setupMaps();
-    startRain(options.rain);
+    if (options.rain) fresh($$('.bui-hero').slice(0, 1), 'rain').forEach(() => startRain(options.rain));
+    updateCart();
     $$('[data-year]').forEach(n => { n.textContent = new Date().getFullYear(); });
+  }
 
-    document.addEventListener('click', e => {
-      const add = e.target.closest('[data-add]');
-      if (add) { addToCart(add.dataset.add, add.dataset.price); return; }
-      const cartBtn = e.target.closest('[data-cart]');
-      if (cartBtn) { if (cart.length) open('order', cart[cart.length - 1].name); else toast(opt('emptyCart')); return; }
-      const opener = e.target.closest('[data-open]');
-      if (opener) { e.preventDefault(); open(opener.dataset.open, opener.dataset.pick); return; }
-      if (e.target.closest('[data-close]') || e.target.classList.contains('bui-modal')) close();
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); $$('.bui-lightbox').forEach(b => b.remove()); } });
+  let bodyRead = false;
+  function init() {
+    if (started) return;
+    started = true;
+    document.documentElement.classList.add('bui-js');
+    resolveTexts();
+    if (options.tailwind) loadTailwind();
+    document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKey);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    enhance();
+  }
+
+  // After new content appears without a page load (Next.js / React route change, fetched HTML)
+  function refresh() {
+    if (started) enhance();
+  }
+
+  // Undo everything: listeners, timers, sliders, maps and the elements LightWebsiteUi added.
+  // Your markup is left as it was; start() brings everything back.
+  function destroy() {
+    if (!started) return;
+    started = false;
+    document.removeEventListener('click', onClick);
+    document.removeEventListener('keydown', onKey);
+    window.removeEventListener('scroll', onScroll);
+    close();
+    intervals.splice(0).forEach(clearInterval);
+    if (revealer) { revealer.disconnect(); revealer = null; }
+    instances.splice(0).forEach(i => { try { i.kill(); } catch (e) { /* already gone */ } });
+    created.splice(0).forEach(n => n.remove());
+    $$('.bui-lightbox, .bui-confetti').forEach(n => n.remove());
+    if (toastBox) { toastBox.remove(); toastBox = null; }
+    autoModal = null;
+    cart = [];
+    seen = new WeakMap();
+    document.documentElement.classList.remove('bui-js');
+    document.body.classList.remove('bui-dark', 'bui-tw', ...Object.values(STYLE_CLASS));
   }
 
   // LightWebsiteUi.start({ ... }) may be called before or after the page has loaded
@@ -778,19 +884,28 @@
     Object.assign(options, opts || {});
     if (opts && opts.color) colorGiven = true;
     if (started) { resolveTexts(); applyLook(); if (opts && opts.rain) startRain(opts.rain); }
+    else if (MANUAL || booted) whenReady(boot, true); // manual mode, or after destroy()
   }
 
+  let booted = false;
   function boot() {
+    booted = true;
     if (!bodyRead) { readBodyOptions(); bodyRead = true; }
     init();
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
-  else setTimeout(boot, 0);
+  function whenReady(fn, now) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, { once: true });
+    else if (now) fn();
+    else setTimeout(fn, 0);
+  }
+  if (!MANUAL) whenReady(boot);
 
   window.LightWebsiteUi = {
     version: VERSION,
     languages: Object.keys(I18N),
     start: start,
+    refresh: refresh,
+    destroy: destroy,
     toast: toast,
     confetti: confetti,
     open: open,

@@ -129,10 +129,15 @@ def build_esm():
     (ROOT / 'lightwebsiteui.mjs').write_text(
         f"/*! LightWebsiteUi {version} — ES module entry. MIT License. https://github.com/si0683/LightWebsiteUi */\n"
         "// LightWebsiteUi is a browser script that defines window.LightWebsiteUi; this file re-exports it.\n"
+        "// Imported from a bundler (React, Next.js, Vite) it waits for start(): nothing touches the page\n"
+        "// before your framework has rendered it. The manual flag must be set before the script runs.\n"
+        "import './lightwebsiteui.manual.mjs';\n"
         "import './lightwebsiteui.js';\n\n"
         "const LightWebsiteUi = typeof window !== 'undefined' ? window.LightWebsiteUi : undefined;\n"
         "export default LightWebsiteUi;\n"
-        "export const start = (options) => LightWebsiteUi.start(options);\n"
+        "export const start = (options) => LightWebsiteUi && LightWebsiteUi.start(options);\n"
+        "export const refresh = () => LightWebsiteUi && LightWebsiteUi.refresh();\n"
+        "export const destroy = () => LightWebsiteUi && LightWebsiteUi.destroy();\n"
         f"export const version = '{version}';\n", encoding='utf-8', newline='\n')
     print('lightwebsiteui.mjs: ok')
 

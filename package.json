@@ -1,8 +1,8 @@
 {
   "name": "lightwebsiteui",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Building blocks for beautiful websites: 5 styles × 11 colours, photos by keyword, cart, order dialog, forms, sliders, maps, icons, avatars — with plain HTML attributes. Optional Tailwind + daisyUI mode.",
-  "keywords": ["ui", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
+  "keywords": ["ui", "nextjs", "react", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",
   "repository": { "type": "git", "url": "git+https://github.com/si0683/LightWebsiteUi.git" },
   "bugs": { "url": "https://github.com/si0683/LightWebsiteUi/issues" },
@@ -23,6 +23,6 @@
     "./lightwebsiteui.css": "./lightwebsiteui.css",
     "./lightwebsiteui.js": "./lightwebsiteui.js"
   },
-  "files": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.css", "lightwebsiteui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
-  "sideEffects": ["lightwebsiteui.js", "lightwebsiteui.mjs", "*.css"]
+  "files": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.manual.mjs", "lightwebsiteui.css", "lightwebsiteui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
+  "sideEffects": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.manual.mjs", "*.css"]
 }

@@ -19,14 +19,14 @@ Interface language: English
 
 OUTPUT — exactly 3 files, each in its own code block with the file name above it:
 1) index.html — a full HTML document; at the start of <body>:
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
-   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
+   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
    then the page markup, and script.js at the end of <body>;
 2) style.css — usually almost empty;
 3) script.js — a CONFIG object (name, style, color, lang, rain, dark, thanks) and LightWebsiteUi.start(CONFIG).
 Plain HTML/CSS/JavaScript only: no TypeScript, React, Next.js, npm, import/export, no build step.
 
-LightWebsiteUi reference (read it first): https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/AI.md
+LightWebsiteUi reference (read it first): https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/AI.md
 Backup: https://raw.githubusercontent.com/si0683/LightWebsiteUi/main/AI.md · Examples: https://github.com/si0683/LightWebsiteUi/tree/main/examples
 
 If you cannot open the links, use this summary:
@@ -52,4 +52,4 @@ ANSWER FORMAT: two or three lines about the site, then the 3 files, then a short
 - **CodePen:** put everything between `<body>` and `<script src="script.js">` into the HTML panel, `style.css` into CSS, `script.js` into JS.
 - **Custom design:** ask for "Tailwind + daisyUI mode" — see section 7 of AI.md.
 - **Iterating:** "change CONFIG.style to dark", "add a pricing section with 3 plans".
-- **Pin the version** (`@3.0.0`) in production; new versions never break old links.
+- **Pin the version** (`@3.1.0`) in production; new versions never break old links.

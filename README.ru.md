@@ -11,8 +11,8 @@
 ## Подключение
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
 ```
 
 или
@@ -53,6 +53,32 @@ import 'lightwebsiteui/lightwebsiteui.css';
 - **Режим Tailwind + daisyUI** — полная свобода дизайна.
 - **Языки:** английский и русский интерфейс (`lang`), любой текст можно заменить (`texts`).
 - **Типы TypeScript**, ES-модуль, безопасный импорт на сервере (SSR). Все стили — в слое CSS, поэтому ваш CSS всегда сильнее.
+
+## Next.js и React
+
+При импорте из npm LightWebsiteUi ждёт `start()`, поэтому React гидрирует страницу нетронутой. Блоки пишутся как JSX (`class` → `className`, `data-name` → `data-name=""`), а в корневой layout добавляется один клиентский компонент:
+
+```jsx
+'use client';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import LightWebsiteUi from 'lightwebsiteui';
+
+export default function LightWebsite({ options }) {
+  const pathname = usePathname();
+  useEffect(() => {
+    LightWebsiteUi.start(options);           // когда React уже отрисовал страницу
+    return () => LightWebsiteUi.destroy();    // при размонтировании всё убрать
+  }, []);
+  useEffect(() => { LightWebsiteUi.refresh(); }, [pathname]); // новая страница → оживить её блоки
+  return null;
+}
+```
+
+- `refresh()` трогает только новые блоки; слайдеры, карты и таймеры ушедших страниц выключаются.
+- `destroy()` убирает всё, что добавил LightWebsiteUi (обработчики, кнопки, окна, слайдеры, карты); `start()` возвращает обратно.
+- Содержимое `.bui-slider` должно быть статичным: Swiper переносит эти узлы.
+- Полный пример на App Router: [examples/nextjs](examples/nextjs) (главная, меню с корзиной, контакты с картой и формой).
 
 ## Сайты с помощью ИИ
 

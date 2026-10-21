@@ -10,8 +10,8 @@ Two modes:
 
 **CDN (CodePen, plain HTML)** — first lines of the page / HTML panel:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
 ```
 Tailwind + daisyUI mode — add these three lines before them:
 ```html
@@ -20,7 +20,9 @@ Tailwind + daisyUI mode — add these three lines before them:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css">
 ```
 
-**npm:** `npm install lightwebsiteui`, then `import LightWebsiteUi from 'lightwebsiteui'; import 'lightwebsiteui/lightwebsiteui.css';` (TypeScript types included; SSR import is safe).
+**npm:** `npm install lightwebsiteui`, then `import LightWebsiteUi from 'lightwebsiteui'; import 'lightwebsiteui/lightwebsiteui.css';` (TypeScript types included; SSR import is safe). Imported this way nothing runs until you call `LightWebsiteUi.start(CONFIG)`.
+
+**Next.js / React:** blocks are written as JSX (`className`, `data-name=""`). One client component in the root layout calls `LightWebsiteUi.start(CONFIG)` in `useEffect` (cleanup: `LightWebsiteUi.destroy()`) and `LightWebsiteUi.refresh()` in a second `useEffect` that depends on `usePathname()`. `refresh()` enhances only new blocks; keep `.bui-slider` contents static. Example: https://github.com/si0683/LightWebsiteUi/tree/main/examples/nextjs
 
 ## 2. JS: site settings
 
@@ -176,7 +178,7 @@ The theme sets the `btn-primary` colour; `color: 'blue'` overrides it.
 
 ## Examples (3 files each)
 
-https://github.com/si0683/LightWebsiteUi/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI).
+https://github.com/si0683/LightWebsiteUi/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI), `nextjs` (the same blocks in a Next.js App Router project).
 
 ## Rules for generated code
 

@@ -1,4 +1,4 @@
-// Type definitions for LightWebsiteUi 3.0.0
+// Type definitions for LightWebsiteUi 3.1.0
 // https://github.com/si0683/LightWebsiteUi — MIT License
 
 declare namespace LightWebsiteUi {
@@ -51,8 +51,13 @@ declare namespace LightWebsiteUi {
   interface LightWebsiteUiStatic {
     readonly version: string;
     readonly languages: string[];
-    /** Apply options; may be called before or after the page has loaded */
+    /** Apply options; may be called before or after the page has loaded.
+     *  Imported from npm (ES module) nothing runs until start() is called. */
     start(options?: Options): void;
+    /** Enhance content that appeared without a page load (React / Next.js route change). Only new nodes are touched. */
+    refresh(): void;
+    /** Undo everything LightWebsiteUi did: listeners, timers, sliders, maps, added elements. start() brings it back. */
+    destroy(): void;
     toast(text: string): void;
     confetti(emojis?: string[]): void;
     /** Open a dialog by id; `pick` preselects an option in its <select> */
@@ -76,6 +81,8 @@ declare module 'lightwebsiteui' {
   const LightWebsiteUi: LightWebsiteUi.LightWebsiteUiStatic;
   export default LightWebsiteUi;
   export const start: (options?: LightWebsiteUi.Options) => void;
+  export const refresh: () => void;
+  export const destroy: () => void;
   export const version: string;
   export type Options = LightWebsiteUi.Options;
 }

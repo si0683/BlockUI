@@ -15,8 +15,8 @@ Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all LightWebsiteUi beh
 ## Install
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.1.0/lightwebsiteui.js"></script>
 ```
 
 or
@@ -58,6 +58,32 @@ The order dialog, its form validation and the thank-you toast appear automatical
 - **i18n:** English and Russian interface texts (`lang`), any text overridable (`texts`).
 - **TypeScript types**, ES module, safe SSR import. All styles live in a CSS cascade layer, so your CSS always wins.
 
+## Next.js and React
+
+Imported from npm, LightWebsiteUi waits for `start()`, so React hydrates the page untouched. Write the blocks as JSX (`class` → `className`, `data-name` → `data-name=""`) and add one client component to the root layout:
+
+```jsx
+'use client';
+import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import LightWebsiteUi from 'lightwebsiteui';
+
+export default function LightWebsite({ options }) {
+  const pathname = usePathname();
+  useEffect(() => {
+    LightWebsiteUi.start(options);           // once React has rendered the page
+    return () => LightWebsiteUi.destroy();    // undo everything on unmount
+  }, []);
+  useEffect(() => { LightWebsiteUi.refresh(); }, [pathname]); // new page → enhance its blocks
+  return null;
+}
+```
+
+- `refresh()` enhances only blocks it has not seen yet; sliders, maps and timers of pages you left are switched off.
+- `destroy()` removes everything LightWebsiteUi added (listeners, buttons, dialogs, sliders, maps); `start()` brings it back.
+- Keep the contents of a `.bui-slider` static: Swiper moves those nodes.
+- Full App Router example: [examples/nextjs](examples/nextjs) (home, menu with cart, contacts with map and form).
+
 ## Build sites with AI
 
 LightWebsiteUi is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) can assemble a polished site from a short brief: [PROMPT.md](PROMPT.md) is a ready-to-use prompt template, [AI.md](AI.md) is a compact reference the model can read.
@@ -66,8 +92,9 @@ LightWebsiteUi is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, Deep
 
 ```
 lightwebsiteui.js / lightwebsiteui.css   the library (VERSION constant in lightwebsiteui.js)
-lightwebsiteui.mjs / lightwebsiteui.d.ts ES module entry and TypeScript types
+lightwebsiteui.mjs / lightwebsiteui.d.ts ES module entry (manual start) and TypeScript types
 examples/<site>/           examples: index.html, style.css, script.js, codepen.html
+examples/nextjs/           the same blocks inside a Next.js App Router project
 AI.md                      API reference
 PROMPT.md, PROMPT.ru.md    prompt templates for LLMs
 tools/photos.json          Unsplash photo IDs by topic
