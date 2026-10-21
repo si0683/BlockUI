@@ -29,7 +29,8 @@
     .browser-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--bui-line); background: color-mix(in srgb, var(--bui-surface) 85%, var(--bui-bg)); }
     .browser-bar > i { width: 10px; height: 10px; border-radius: 50%; background: var(--bui-line); flex: none; }
     .addr { flex: 1; max-width: 460px; margin: 0 auto; padding: 5px 12px; border-radius: 8px; background: var(--bui-bg); color: var(--bui-muted); font-size: 0.82rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .demo-tabs { display: flex; gap: 4px; padding: 8px; border-bottom: 1px solid var(--bui-line); overflow-x: auto; }
+    .demo-tabs { display: flex; gap: 4px; padding: 8px; border-bottom: 1px solid var(--bui-line); overflow-x: auto; scrollbar-width: none; }
+    .demo-tabs::-webkit-scrollbar { display: none; }
     .demo-tab { flex: none; padding: 7px 14px; border: 0; border-radius: 8px; background: none; color: var(--bui-muted); font: 600 0.9rem var(--bui-font-text); cursor: pointer; position: relative; }
     .demo-tab:hover { color: var(--bui-text); }
     .demo-tab.on { color: var(--bui-main); background: var(--bui-soft); }
