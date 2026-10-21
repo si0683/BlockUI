@@ -4,7 +4,7 @@
 
 Любите утилитарный CSS? **Режим Tailwind + daisyUI** сохраняет всё поведение BlockUI, а дизайн вы делаете классами Tailwind.
 
-[Сайт и живые примеры](https://si0683.github.io/BlockUI/) · [Справочник API](AI.md) · [Шаблон промта для ИИ](PROMPT.ru.md) · [English](README.md)
+[Сайт и живые примеры](https://si0683.github.io/LightWebsiteUi/) · [Справочник API](AI.md) · [Шаблон промта для ИИ](PROMPT.ru.md) · [English](README.md)
 
 ## Подключение
 

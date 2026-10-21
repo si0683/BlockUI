@@ -3,175 +3,715 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlockUI — building blocks for beautiful websites</title>
-  <meta name="description" content="Build polished one-page websites with plain HTML classes and attributes: 5 styles, 11 colours, photos by keyword, cart, forms, sliders, maps, icons. No build step. Works great with AI.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
-  <link rel="stylesheet" href="blockui.css">
+  <title>LightWebsiteUi — beautiful websites from plain HTML</title>
+  <meta name="description" content="Build polished one-page websites with plain HTML classes and attributes: 5 styles, 11 colours, photos by keyword, cart, forms, sliders, maps and 200,000+ icons. No build step. Works great with AI.">
+  <meta name="theme-color" content="#04050d">
+  <meta property="og:title" content="LightWebsiteUi — beautiful websites from plain HTML">
+  <meta property="og:description" content="Landing pages from ready-made blocks: styles, photos, cart, forms, sliders, maps, icons. No build step.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    .code { margin: 0; padding: 18px 20px; border-radius: var(--bui-radius); background: #0f172a; color: #e2e8f0; font: 14px/1.6 ui-monospace, Consolas, monospace; overflow-x: auto; text-align: left; white-space: pre; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0 18px; }
-    .chips button { padding: 8px 14px; border: 2px solid var(--bui-line); border-radius: 999px; background: var(--bui-surface); color: var(--bui-text); font: 700 0.9rem var(--bui-font-text); cursor: pointer; }
-    .chips button.on { border-color: var(--bui-main); color: var(--bui-main); }
-    .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+    @property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+    @property --c1 { syntax: '<color>'; inherits: true; initial-value: #38bdf8; }
+    @property --c2 { syntax: '<color>'; inherits: true; initial-value: #818cf8; }
+    @property --c3 { syntax: '<color>'; inherits: true; initial-value: #f472b6; }
+
+    :root {
+      --bg: #04050d;
+      --bg2: #0a0d1c;
+      --text: #eef2ff;
+      --muted: #9aa3c7;
+      --line: rgba(255, 255, 255, 0.09);
+      --c1: #38bdf8;
+      --c2: #818cf8;
+      --c3: #f472b6;
+      --grad: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c1));
+      --ring: conic-gradient(from var(--a), var(--c1), var(--c2), var(--c3), var(--c1));
+      --font-head: 'Unbounded', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+      transition: --c1 0.9s, --c2 0.9s, --c3 0.9s;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 Inter, system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    code { font-family: var(--font-mono); font-size: 0.9em; padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, var(--c2) 22%, transparent); color: #e0e7ff; }
+    ::selection { background: var(--c1); color: #04050d; }
+    .wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
+
+    /* ---------- background: light beams, dot grid with cursor spotlight, aurora ---------- */
+    .bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+    .bg .dots, .bg .dots-lit { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1.5px); background-size: 30px 30px; }
+    .bg .dots-lit { background-image: radial-gradient(var(--c1) 1.4px, transparent 2px); -webkit-mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); }
+    .bg .blob { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(120px); opacity: 0.28; animation: drift 26s ease-in-out infinite alternate; }
+    .bg .blob:nth-of-type(3) { background: var(--c2); top: -30vmax; right: -20vmax; }
+    .bg .blob:nth-of-type(4) { background: var(--c3); bottom: -35vmax; left: -20vmax; animation-duration: 32s; animation-delay: -10s; opacity: 0.2; }
+    @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-7vw, 6vh) scale(1.12); } 100% { transform: translate(5vw, -5vh) scale(0.94); } }
+
+    .beams { position: absolute; top: -140px; left: 50%; width: 1600px; height: 1100px; transform: translateX(-50%); pointer-events: none; z-index: 0; -webkit-mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); }
+    .beams i { position: absolute; top: 0; left: 50%; width: 140px; height: 100%; margin-left: -70px; transform-origin: 50% 0; background: linear-gradient(180deg, color-mix(in srgb, var(--c1) 70%, transparent), transparent 85%); filter: blur(28px); opacity: 0.5; animation: sway 9s ease-in-out infinite alternate; }
+    .beams i:nth-child(1) { --r0: -38deg; --r1: -22deg; }
+    .beams i:nth-child(2) { --r0: -14deg; --r1: -4deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c2) 75%, transparent), transparent 85%); animation-duration: 11s; animation-delay: -3s; }
+    .beams i:nth-child(3) { --r0: 6deg; --r1: 16deg; animation-duration: 8s; animation-delay: -5s; width: 90px; }
+    .beams i:nth-child(4) { --r0: 22deg; --r1: 38deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c3) 70%, transparent), transparent 85%); animation-duration: 12s; animation-delay: -1s; }
+    @keyframes sway { from { transform: rotate(var(--r0)); opacity: 0.35; } to { transform: rotate(var(--r1)); opacity: 0.65; } }
+
+    .progress { position: fixed; top: 0; left: 0; z-index: 60; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: var(--grad); background-size: 200% 100%; animation: flow 4s linear infinite; box-shadow: 0 0 14px var(--c1); }
+
+    /* ---------- shared ---------- */
+    .grad-text { background: var(--grad); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow 5s linear infinite; }
+    @keyframes flow { to { background-position: 200% 0; } }
+    @keyframes spin { to { --a: 360deg; } }
+    @keyframes bob { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) * -1)); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
+
+    .pill { display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px; border-radius: 999px; border: 1px solid transparent; background: linear-gradient(var(--bg2), var(--bg2)) padding-box, var(--ring) border-box; animation: spin 4s linear infinite; font: 600 0.82rem var(--font-mono); letter-spacing: 0.04em; color: #dbe4ff; }
+    .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c1); box-shadow: 0 0 12px var(--c1); animation: pulse 1.6s ease-in-out infinite; }
+
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 28px; border-radius: 14px; font: 700 1rem Inter, sans-serif; cursor: pointer; border: 0; overflow: hidden; white-space: nowrap; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+    .btn:hover { transform: translateY(-3px) scale(1.03); }
+    .btn-main { color: #050712; background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; box-shadow: 0 0 32px color-mix(in srgb, var(--c1) 55%, transparent), 0 0 90px color-mix(in srgb, var(--c2) 30%, transparent); }
+    .btn-main:hover { box-shadow: 0 0 48px color-mix(in srgb, var(--c1) 80%, transparent), 0 0 130px color-mix(in srgb, var(--c3) 40%, transparent); }
+    .btn-main::after { content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.8), transparent); transform: skewX(-20deg); animation: shine 3.4s ease-in-out infinite; }
+    @keyframes shine { 0%, 55% { left: -80%; } 100% { left: 140%; } }
+    .btn-ghost { color: var(--text); background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(10px); }
+    .btn-ghost:hover { border-color: var(--c1); box-shadow: 0 0 28px color-mix(in srgb, var(--c1) 45%, transparent), inset 0 0 18px color-mix(in srgb, var(--c1) 14%, transparent); }
+    .row { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    .section { position: relative; padding: 120px 0; }
+    .head { max-width: 780px; margin: 0 auto 60px; text-align: center; }
+    .eyebrow { display: inline-block; margin-bottom: 14px; font: 600 0.8rem var(--font-mono); letter-spacing: 0.22em; text-transform: uppercase; }
+    h1, h2, h3 { font-family: var(--font-head); margin: 0; letter-spacing: -0.02em; }
+    h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.08; font-weight: 900; }
+    .head p { color: var(--muted); font-size: 1.12rem; margin: 18px 0 0; }
+
+    .reveal { opacity: 0; transform: translateY(36px) scale(0.98); filter: blur(6px); transition: opacity 0.9s cubic-bezier(.2, .7, .2, 1), transform 0.9s cubic-bezier(.2, .7, .2, 1), filter 0.9s; transition-delay: var(--d, 0s); }
+    .reveal.in { opacity: 1; transform: none; filter: none; }
+
+    /* ---------- nav ---------- */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 18px 0; border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s, padding 0.3s; }
+    .nav.scrolled { background: rgba(4, 5, 13, 0.72); backdrop-filter: blur(16px) saturate(1.4); border-color: var(--line); padding: 10px 0; }
+    .nav .wrap { display: flex; align-items: center; gap: 28px; }
+    .logo { display: flex; align-items: center; gap: 10px; font: 900 1.12rem var(--font-head); }
+    .logo .bulb { font-size: 1.6rem; filter: drop-shadow(0 0 10px #ffd84d) drop-shadow(0 0 22px var(--c1)); animation: flicker 5s infinite; }
+    @keyframes flicker { 0%, 92%, 100% { opacity: 1; } 93% { opacity: 0.3; } 94% { opacity: 1; } 96% { opacity: 0.5; } 97% { opacity: 1; } }
+    .nav-links { display: flex; gap: 26px; margin-left: auto; font-weight: 600; font-size: 0.95rem; color: var(--muted); }
+    .nav-links a { position: relative; transition: color 0.2s; }
+    .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--grad); transform: scaleX(0); transition: transform 0.3s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav .btn { padding: 10px 18px; font-size: 0.9rem; border-radius: 12px; }
+
+    /* ---------- hero ---------- */
+    .hero { position: relative; padding: 160px 0 110px; text-align: center; overflow: hidden; }
+    .hero .wrap { position: relative; z-index: 2; }
+    .hero h1 { font-size: clamp(2.6rem, 7vw, 5.8rem); line-height: 1.02; font-weight: 900; margin: 28px auto 24px; max-width: 1050px; }
+    .hero h1 .line { display: block; }
+    .hero .lead { font-size: 1.2rem; color: var(--muted); max-width: 680px; margin: 0 auto 18px; }
+    .typer { font: 600 1.05rem var(--font-mono); color: var(--muted); margin: 0 0 36px; min-height: 1.7em; }
+    .typer b { color: var(--text); }
+    .typer .cur { display: inline-block; width: 10px; height: 1.15em; vertical-align: -3px; margin-left: 2px; background: var(--c1); box-shadow: 0 0 10px var(--c1); animation: pulse 1s steps(1) infinite; }
+    .hero .row { justify-content: center; }
+
+    .showcase { position: relative; margin: 80px auto 0; max-width: 1060px; }
+    .browser { position: relative; z-index: 1; padding: 2px; border-radius: 22px; background: var(--ring); animation: spin 6s linear infinite; }
+    .browser::before { content: ""; position: absolute; inset: -10px; z-index: -1; border-radius: 32px; background: var(--ring); animation: spin 6s linear infinite; filter: blur(44px); opacity: 0.6; }
+    .browser-in { border-radius: 20px; overflow: hidden; background: #0b0e1d; }
+    .browser-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #0d1124; border-bottom: 1px solid var(--line); }
+    .browser-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+    .browser-bar > i:nth-child(1) { background: #ff5f57; } .browser-bar > i:nth-child(2) { background: #febc2e; } .browser-bar > i:nth-child(3) { background: #28c840; }
+    .addr { flex: 1; max-width: 420px; margin: 0 auto; padding: 6px 14px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); font: 0.8rem var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .addr b { color: var(--c1); font-weight: 600; }
+    .demo-tabs { display: flex; justify-content: center; gap: 6px; padding: 10px; background: #0b0e1d; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .demo-tab { position: relative; padding: 8px 16px; border-radius: 10px; border: 1px solid transparent; background: none; color: var(--muted); font: 600 0.88rem Inter, sans-serif; cursor: pointer; overflow: hidden; transition: 0.25s; }
+    .demo-tab:hover { color: #fff; }
+    .demo-tab.on { color: #fff; border-color: color-mix(in srgb, var(--c1) 55%, transparent); background: color-mix(in srgb, var(--c1) 14%, transparent); box-shadow: 0 0 20px color-mix(in srgb, var(--c1) 30%, transparent); }
+    .demo-tab .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); }
+    .demo-tab.on .bar.run { animation: fill var(--t, 7s) linear forwards; }
+    @keyframes fill { to { transform: scaleX(1); } }
+    .viewport { position: relative; height: 560px; overflow: hidden; background: #fff; }
+    .viewport iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; opacity: 0; transition: opacity 0.6s; pointer-events: none; background: #fff; }
+    .viewport iframe.on { opacity: 1; pointer-events: auto; }
+    .float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 14px; background: rgba(12, 15, 32, 0.82); backdrop-filter: blur(14px); border: 1px solid color-mix(in srgb, var(--c1) 40%, transparent); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 26px color-mix(in srgb, var(--c1) 25%, transparent); font-weight: 600; font-size: 0.92rem; animation: bob 6s ease-in-out infinite; white-space: nowrap; }
+    .float span { font-size: 1.3rem; }
+    .float small { display: block; color: var(--muted); font-weight: 500; font-size: 0.74rem; }
+    .float:nth-of-type(1) { top: 90px; left: -70px; --r: -3deg; }
+    .float:nth-of-type(2) { top: 230px; right: -80px; animation-delay: -2s; --r: 3deg; border-color: color-mix(in srgb, var(--c3) 45%, transparent); }
+    .float:nth-of-type(3) { bottom: 110px; left: -56px; animation-delay: -4s; --r: 2deg; border-color: color-mix(in srgb, var(--c2) 45%, transparent); }
+    .float:nth-of-type(4) { bottom: 40px; right: -50px; animation-delay: -1s; --r: -2deg; }
+
+    /* ---------- marquee ---------- */
+    .marquee { padding: 34px 0; border-block: 1px solid var(--line); background: rgba(255, 255, 255, 0.015); overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+    .track { display: flex; gap: 14px; width: max-content; animation: marquee 40s linear infinite; }
+    .track + .track { margin-top: 14px; animation-direction: reverse; animation-duration: 48s; }
+    .marquee:hover .track { animation-play-state: paused; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .chip { display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); font-weight: 600; white-space: nowrap; transition: border-color 0.3s, box-shadow 0.3s; }
+    .chip:hover { border-color: var(--c1); box-shadow: 0 0 22px color-mix(in srgb, var(--c1) 45%, transparent); }
+    .chip span { font-size: 1.25rem; }
+
+    /* ---------- code ---------- */
+    .code-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: center; }
+    .code-grid > * { min-width: 0; }
+    .steps { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 16px; }
+    .steps li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); transition: border-color 0.3s, transform 0.3s; }
+    .steps li:hover { border-color: color-mix(in srgb, var(--c1) 60%, transparent); transform: translateX(6px); }
+    .steps .n { flex: none; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; font: 900 1rem var(--font-head); color: #050712; background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; }
+    .steps b { display: block; }
+    .steps p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+    .window { position: relative; border-radius: 20px; background: rgba(10, 13, 28, 0.88); border: 1px solid color-mix(in srgb, var(--c2) 40%, transparent); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px color-mix(in srgb, var(--c2) 25%, transparent); backdrop-filter: blur(12px); overflow: hidden; }
+    .window-bar { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .window-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+    .window-bar > i:nth-child(1) { background: #ff5f57; } .window-bar > i:nth-child(2) { background: #febc2e; } .window-bar > i:nth-child(3) { background: #28c840; }
+    .tabs { display: flex; gap: 4px; margin-left: 14px; overflow-x: auto; }
+    .tab { padding: 6px 12px; border-radius: 8px; border: 0; background: none; color: var(--muted); font: 600 0.8rem var(--font-mono); cursor: pointer; white-space: nowrap; }
+    .tab.on { background: color-mix(in srgb, var(--c2) 24%, transparent); color: #fff; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c2) 55%, transparent); }
+    .copy { margin-left: auto; flex: none; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); color: var(--muted); font: 600 0.78rem var(--font-mono); cursor: pointer; transition: 0.2s; }
+    .copy:hover { color: #fff; border-color: var(--c1); }
+    .copy.ok { color: #4ade80; border-color: #4ade80; }
+    pre.code { margin: 0; padding: 22px 22px 26px; overflow-x: auto; font: 0.86rem/1.75 var(--font-mono); color: #d5dcf5; min-height: 440px; }
+    pre.code[hidden] { display: none; }
+    pre.code .ln { display: block; opacity: 0; transform: translateX(-10px); }
+    pre.code.play .ln { animation: ln 0.45s forwards; animation-delay: calc(var(--i) * 45ms); }
+    @keyframes ln { to { opacity: 1; transform: none; } }
+    .tk-c { color: #66708f; font-style: italic; } .tk-s { color: #86efac; } .tk-k { color: #f472b6; } .tk-n { color: #fbbf24; } .tk-t { color: #67e8f9; } .tk-f { color: #c4b5fd; } .tk-a { color: #fda4af; }
+    .caret { display: inline-block; width: 9px; height: 1.1em; vertical-align: -3px; background: var(--c1); box-shadow: 0 0 10px var(--c1); animation: pulse 1s steps(1) infinite; }
+
+    /* ---------- playground ---------- */
+    .swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-bottom: 26px; }
+    .sw { position: relative; width: 54px; height: 54px; border-radius: 50%; border: 0; cursor: pointer; background: var(--s); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06), 0 0 24px color-mix(in srgb, var(--s) 55%, transparent); transition: transform 0.35s cubic-bezier(.3, 1.6, .5, 1), box-shadow 0.3s; }
+    .sw:hover { transform: scale(1.15) translateY(-4px); }
+    .sw.on { transform: scale(1.18); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--s), 0 0 40px var(--s); }
+    .sw span { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); font: 600 0.72rem var(--font-mono); color: var(--muted); opacity: 0; transition: 0.25s; white-space: nowrap; }
+    .sw:hover span, .sw.on span { opacity: 1; }
+    .config-line { margin: 34px auto 54px; width: fit-content; max-width: 100%; padding: 14px 22px; border-radius: 14px; background: rgba(10, 13, 28, 0.9); border: 1px solid var(--line); font: 0.95rem var(--font-mono); overflow-x: auto; white-space: nowrap; }
+    .styles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    .style { position: relative; padding: 18px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.025); cursor: pointer; text-align: left; color: inherit; font: inherit; transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s; }
+    .style:hover { transform: translateY(-6px); }
+    .style.on { border-color: var(--c1); box-shadow: 0 0 34px color-mix(in srgb, var(--c1) 35%, transparent); }
+    .mini { height: 110px; border-radius: 12px; margin-bottom: 14px; padding: 12px; display: grid; gap: 7px; align-content: start; overflow: hidden; }
+    .mini i { display: block; height: 8px; border-radius: 4px; }
+    .mini i:nth-child(1) { width: 70%; height: 12px; }
+    .mini i:nth-child(2) { width: 90%; opacity: 0.45; }
+    .mini i:nth-child(3) { width: 55%; opacity: 0.45; }
+    .mini i:nth-child(4) { width: 46%; height: 22px; margin-top: 6px; }
+    .style b { font-family: var(--font-head); display: block; }
+    .style small { color: var(--muted); }
+
+    /* ---------- feature cards ---------- */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { position: relative; padding: 30px 28px; border-radius: 22px; background: rgba(255, 255, 255, 0.025); border: 1px solid var(--line); overflow: hidden; isolation: isolate; transition: transform 0.35s, background 0.35s; }
+    .card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--c1) 16%, transparent), transparent 45%); opacity: 0; transition: opacity 0.4s; }
+    .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--c1), var(--c3) 35%, transparent 65%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+    .cards:hover .card::before, .cards:hover .card::after { opacity: 1; }
+    .card:hover { transform: translateY(-6px); background: rgba(255, 255, 255, 0.045); }
+    .ico { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 17px; font-size: 1.8rem; margin-bottom: 20px; background: linear-gradient(135deg, hsl(var(--h) 95% 60% / 0.35), hsl(calc(var(--h) + 50) 95% 60% / 0.12)); box-shadow: 0 0 30px hsl(var(--h) 95% 60% / 0.35), inset 0 0 0 1px hsl(var(--h) 95% 70% / 0.45); transition: transform 0.4s cubic-bezier(.3, 1.6, .5, 1); }
+    .card:hover .ico { transform: rotate(-10deg) scale(1.15); }
+    .card h3 { font-size: 1.12rem; margin-bottom: 10px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    /* ---------- examples ---------- */
+    .examples { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; perspective: 1200px; }
+    .ex { position: relative; display: block; border-radius: 24px; overflow: hidden; border: 1px solid hsl(var(--h) 80% 65% / 0.3); background: linear-gradient(180deg, hsl(var(--h) 80% 50% / 0.18), rgba(255, 255, 255, 0.015)); transform-style: preserve-3d; transition: transform 0.2s ease-out, box-shadow 0.35s; will-change: transform; }
+    .ex:hover { box-shadow: 0 24px 70px hsl(var(--h) 90% 50% / 0.35), 0 0 0 1px hsl(var(--h) 90% 65% / 0.7); }
+    .ex .thumb { position: relative; height: 210px; overflow: hidden; background: #fff; }
+    .ex .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 1000px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .ex .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(4, 5, 13, 0.85)); }
+    .ex .body { padding: 20px 22px 24px; }
+    .ex h3 { font-size: 1.12rem; }
+    .ex p { margin: 6px 0 0; color: var(--muted); font-size: 0.93rem; }
+    .ex .open { position: absolute; top: 14px; right: 14px; z-index: 2; padding: 7px 13px; border-radius: 999px; background: hsl(var(--h) 90% 60%); color: #050712; font: 700 0.78rem Inter, sans-serif; box-shadow: 0 0 22px hsl(var(--h) 90% 60% / 0.7); transform: translateY(-8px); opacity: 0; transition: 0.35s cubic-bezier(.3, 1.6, .5, 1); }
+    .ex:hover .open { opacity: 1; transform: none; }
+    .ex .glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.14), transparent 50%); opacity: 0; transition: opacity 0.3s; }
+    .ex:hover .glare { opacity: 1; }
+
+    /* ---------- AI flow ---------- */
+    .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; max-width: 980px; margin: 0 auto 50px; }
+    .node { text-align: center; padding: 30px 20px; border-radius: 24px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); }
+    .node .big { font-size: 3rem; display: block; margin-bottom: 10px; animation: bob 4s ease-in-out infinite; }
+    .node:nth-child(3) .big { animation-delay: -1.3s; } .node:nth-child(5) .big { animation-delay: -2.6s; }
+    .node b { font-family: var(--font-head); display: block; }
+    .node small { color: var(--muted); }
+    .wire { position: relative; width: 90px; height: 2px; background: linear-gradient(90deg, color-mix(in srgb, var(--c1) 35%, transparent), color-mix(in srgb, var(--c3) 35%, transparent)); }
+    .wire::after { content: ""; position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px var(--c1), 0 0 26px var(--c3); animation: travel 1.8s ease-in-out infinite; }
+    .wire:nth-child(4)::after { animation-delay: -0.9s; }
+    @keyframes travel { from { left: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { left: calc(100% - 10px); opacity: 0; } }
+    @keyframes travel-y { from { top: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { top: calc(100% - 10px); opacity: 0; } }
+
+    /* ---------- final ---------- */
+    .final { position: relative; padding: 80px 40px; border-radius: 32px; text-align: center; overflow: hidden; isolation: isolate; border: 2px solid transparent; background: linear-gradient(rgba(10, 13, 28, 0.92), rgba(10, 13, 28, 0.92)) padding-box, var(--ring) border-box; animation: spin 6s linear infinite; box-shadow: 0 0 120px color-mix(in srgb, var(--c2) 30%, transparent); }
+    .final::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(600px circle at 20% 0%, color-mix(in srgb, var(--c1) 25%, transparent), transparent 60%), radial-gradient(600px circle at 80% 100%, color-mix(in srgb, var(--c3) 22%, transparent), transparent 60%); }
+    .final h2 { font-size: clamp(2rem, 5vw, 3.8rem); }
+    .final p { color: var(--muted); font-size: 1.15rem; max-width: 620px; margin: 18px auto 34px; }
+    .final .row { justify-content: center; }
+    .spark { position: absolute; z-index: -1; width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px var(--c1), 0 0 20px var(--c3); animation: rise linear infinite; }
+    @keyframes rise { from { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } to { transform: translateY(-460px) scale(0.3); opacity: 0; } }
+
+    footer { padding: 50px 0 60px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+    footer a:hover { color: #fff; }
+    .sister { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 14px; border: 1px solid var(--line); transition: 0.3s; }
+    .sister:hover { border-color: var(--c3); box-shadow: 0 0 24px color-mix(in srgb, var(--c3) 40%, transparent); color: #fff; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1180px) { .float { display: none; } }
+    @media (max-width: 1000px) {
+      .code-grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .examples { grid-template-columns: repeat(2, 1fr); }
+      .styles { grid-template-columns: repeat(3, 1fr); }
+      .viewport { height: 460px; }
+    }
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .nav .btn { margin-left: auto; }
+      .section { padding: 84px 0; }
+      .hero { padding: 130px 0 80px; }
+      .cards, .examples { grid-template-columns: 1fr; }
+      .styles { grid-template-columns: repeat(2, 1fr); }
+      .flow { grid-template-columns: 1fr; }
+      .wire { width: 2px; height: 46px; margin: 0 auto; }
+      .wire::after { left: -4px; animation-name: travel-y; }
+      .final { padding: 60px 22px; }
+      .viewport { height: 520px; }
+      .sw { width: 44px; height: 44px; }
+      pre.code { min-height: 0; font-size: 0.8rem; }
+      .addr { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .reveal { opacity: 1; transform: none; filter: none; }
+      pre.code .ln { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
 
-<header class="bui-header">
-  <div class="bui-container">
-    <a class="bui-logo" href="#top"><span>🧱</span><span>BlockUI</span></a>
-    <nav class="bui-nav">
-      <a href="#features">Features</a>
+<div class="bg" aria-hidden="true"><div class="dots"></div><div class="dots-lit"></div><i class="blob"></i><i class="blob"></i></div>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="bulb">💡</span><span>Light<span class="grad-text">Website</span>Ui</span></a>
+    <nav class="nav-links">
+      <a href="#start">Start</a>
       <a href="#playground">Styles</a>
+      <a href="#features">Features</a>
       <a href="#examples">Examples</a>
       <a href="#ai">AI</a>
-      <a href="https://github.com/si0683/BlockUI">GitHub</a>
     </nav>
+    <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ GitHub</a>
   </div>
 </header>
 
-<section class="bui-hero" id="top">
-  <div class="bui-container">
-    <div>
-      <span class="bui-badge">v2.0 · MIT · no build step</span>
-      <h1>Beautiful websites from plain HTML</h1>
-      <p>Compose a landing page from ready-made blocks. Styles, photos, cart, order dialog, forms, sliders, maps and icons work through classes and attributes — and AI models write it fluently.</p>
-      <div class="bui-row">
-        <a class="bui-btn bui-btn-big" href="#start">Get started</a>
-        <a class="bui-btn bui-btn-ghost bui-btn-big" href="AI.md">Docs</a>
-      </div>
-      <ul class="bui-facts">
-        <li><b>5 × 11</b><span>styles × colours</span></li>
-        <li><b>270</b><span>photos by keyword</span></li>
-        <li><b>200k+</b><span>icons</span></li>
-      </ul>
+<main>
+<section class="hero" id="top">
+  <div class="beams" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <span class="pill reveal"><span class="dot"></span>v2.0 · MIT · no build step</span>
+    <h1 class="reveal" style="--d:.1s">
+      <span class="line">Beautiful websites</span>
+      <span class="line grad-text">from plain HTML</span>
+    </h1>
+    <p class="lead reveal" style="--d:.2s">Compose a landing page from ready-made blocks. Styles, photos, cart, order dialog, forms, sliders, maps and icons work through <b>classes and attributes</b> — and AI models write it fluently.</p>
+    <p class="typer reveal" style="--d:.25s">Perfect for <b id="word">coffee shops</b><span class="cur"></span></p>
+    <div class="row reveal" style="--d:.3s">
+      <a class="btn btn-main" href="#start">⚡ Get started</a>
+      <a class="btn btn-ghost" href="#playground">🎨 Try the styles</a>
     </div>
-    <div class="bui-hero-picture">
-      <img data-photo="computer" alt="Code on a screen">
-      <span class="bui-sticker">2 lines to start</span>
+
+    <div class="showcase reveal" style="--d:.35s">
+      <div class="float"><span>🛒</span><div>Cart &amp; checkout<small>data-add="Latte"</small></div></div>
+      <div class="float"><span>🗺️</span><div>Live map<small>data-map="address"</small></div></div>
+      <div class="float"><span>📸</span><div>Photos by keyword<small>data-photo="coffee"</small></div></div>
+      <div class="float"><span>⭐</span><div>Review slider<small>.bui-slider</small></div></div>
+      <div class="browser">
+        <div class="browser-in">
+          <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">coffee</b>/</div></div>
+          <div class="demo-tabs" role="tablist">
+            <button class="demo-tab on" data-demo="0">☕ Bean &amp; Brew<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="1">🤖 RoboCode<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="2">🐾 Paws<span class="bar"></span></button>
+            <button class="demo-tab" data-demo="3">🧘 Lotus<span class="bar"></span></button>
+          </div>
+          <div class="viewport">
+            <iframe class="on" src="examples/coffee/" title="Bean &amp; Brew — coffee shop demo"></iframe>
+            <iframe data-src="examples/robots/" title="RoboCode — robotics school demo"></iframe>
+            <iframe data-src="examples/pets/" title="Paws — animal shelter demo"></iframe>
+            <iframe data-src="examples/yoga/" title="Lotus — yoga studio demo"></iframe>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="bui-section bui-section-alt" id="start">
-  <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Get started</span><h2>Two lines, then just HTML</h2><p>CDN for CodePen and static sites, npm for bundlers. TypeScript types included.</p></div>
-    <div class="bui-grid bui-grid-2">
-<pre class="code">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css"&gt;
-&lt;script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"&gt;&lt;/script&gt;
+<div class="marquee" aria-label="What is included">
+  <div class="track">
+    <span class="chip"><span>🎨</span>5 styles</span><span class="chip"><span>🌈</span>11 colours or any #hex</span><span class="chip"><span>📸</span>270 photos by keyword</span><span class="chip"><span>🛒</span>Cart</span><span class="chip"><span>🧾</span>Order dialog</span><span class="chip"><span>📝</span>Smart forms</span><span class="chip"><span>🎠</span>Swiper sliders</span><span class="chip"><span>🗺️</span>OpenStreetMap</span><span class="chip"><span>✨</span>200k+ icons</span>
+    <span class="chip"><span>🎨</span>5 styles</span><span class="chip"><span>🌈</span>11 colours or any #hex</span><span class="chip"><span>📸</span>270 photos by keyword</span><span class="chip"><span>🛒</span>Cart</span><span class="chip"><span>🧾</span>Order dialog</span><span class="chip"><span>📝</span>Smart forms</span><span class="chip"><span>🎠</span>Swiper sliders</span><span class="chip"><span>🗺️</span>OpenStreetMap</span><span class="chip"><span>✨</span>200k+ icons</span>
+  </div>
+  <div class="track">
+    <span class="chip"><span>🙂</span>Avatars from a name</span><span class="chip"><span>⏳</span>Countdown timers</span><span class="chip"><span>🔢</span>Animated counters</span><span class="chip"><span>🌙</span>Dark mode switch</span><span class="chip"><span>🍔</span>Mobile menu</span><span class="chip"><span>🌊</span>Tailwind + daisyUI mode</span><span class="chip"><span>🌍</span>English &amp; Russian</span><span class="chip"><span>🔷</span>TypeScript types</span><span class="chip"><span>🤖</span>Made for AI</span>
+    <span class="chip"><span>🙂</span>Avatars from a name</span><span class="chip"><span>⏳</span>Countdown timers</span><span class="chip"><span>🔢</span>Animated counters</span><span class="chip"><span>🌙</span>Dark mode switch</span><span class="chip"><span>🍔</span>Mobile menu</span><span class="chip"><span>🌊</span>Tailwind + daisyUI mode</span><span class="chip"><span>🌍</span>English &amp; Russian</span><span class="chip"><span>🔷</span>TypeScript types</span><span class="chip"><span>🤖</span>Made for AI</span>
+  </div>
+</div>
+
+<section class="section" id="start">
+  <div class="wrap code-grid">
+    <div class="reveal">
+      <span class="eyebrow grad-text">// get started</span>
+      <h2>Two lines, <span class="grad-text">then just HTML</span></h2>
+      <p style="color:var(--muted);font-size:1.1rem;margin:18px 0 0">No framework to learn, no build step, no JavaScript for menus, dialogs or carts. Write semantic HTML with <code>bui-*</code> classes — the library does the rest.</p>
+      <ol class="steps">
+        <li><span class="n">1</span><div><b>Add two lines</b><p>The CSS and the script from the CDN.</p></div></li>
+        <li><span class="n">2</span><div><b>Stack the blocks</b><p>Hero, products, reviews, pricing, FAQ, contacts, map.</p></div></li>
+        <li><span class="n">3</span><div><b>Pick a style and colour</b><p>One line: <code>BlockUI.start({ style, color })</code>.</p></div></li>
+      </ol>
+    </div>
+    <div class="window reveal" style="--d:.15s">
+      <div class="window-bar">
+        <i></i><i></i><i></i>
+        <div class="tabs" role="tablist">
+          <button class="tab on" data-tab="html">index.html</button>
+          <button class="tab" data-tab="js">script.js</button>
+        </div>
+        <button class="copy" type="button">Copy</button>
+      </div>
+<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@2.0.0/blockui.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@2.0.0/blockui.js"&gt;&lt;/script&gt;
 
 &lt;section class="bui-hero"&gt;
   &lt;div class="bui-container"&gt;
     &lt;div&gt;
+      &lt;span class="bui-badge"&gt;Since 2012&lt;/span&gt;
       &lt;h1 data-name&gt;Margherita&lt;/h1&gt;
-      &lt;button class="bui-btn" data-open="order"&gt;Order&lt;/button&gt;
+      &lt;p&gt;Wood-fired pizza, delivered hot.&lt;/p&gt;
+      &lt;button class="bui-btn" data-open="order"&gt;Order now&lt;/button&gt;
     &lt;/div&gt;
-    &lt;img data-photo="pizza"&gt;
+    &lt;img data-photo="pizza" alt="Pizza"&gt;
   &lt;/div&gt;
-&lt;/section&gt;</pre>
-<pre class="code">npm install blockuijs
+&lt;/section&gt;
 
-import BlockUI from 'blockuijs';
-import 'blockuijs/blockui.css';
+&lt;div class="bui-product"&gt;
+  &lt;div class="bui-product-image"&gt;&lt;img data-photo="pizza 2"&gt;&lt;/div&gt;
+  &lt;div class="bui-product-body"&gt;
+    &lt;h3&gt;Pepperoni&lt;/h3&gt;
+    &lt;button class="bui-btn" data-add="Pepperoni" data-price="12"&gt;Add&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
 
-BlockUI.start({
+&lt;div data-map="London, Covent Garden" data-label="We are here"&gt;&lt;/div&gt;</pre>
+<pre class="code" data-pane="js" hidden>// One object configures the whole site
+const CONFIG = {
   name: 'Margherita',
-  style: 'cozy',     // clean, bright, dark, modern, cozy
-  color: 'red',      // 11 colours or any #hex
-  rain: '🍕'
-});</pre>
+  style: 'cozy',      // clean, bright, dark, modern, cozy
+  color: 'red',       // 11 colours or any '#hex'
+  lang: 'en',         // 'en' or 'ru'
+  rain: '🍕',         // emoji rain on the first visit
+  thanks: 'Thanks! We will call you back in 5 minutes.'
+};
+
+BlockUI.start(CONFIG);</pre>
     </div>
   </div>
 </section>
 
-<section class="bui-section" id="features">
-  <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Features</span><h2>Everything a landing page needs</h2></div>
-    <div class="bui-grid">
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:palette"></div><h3>Styles &amp; colours</h3><p>5 complete styles × 11 colours or any hex — fonts, shadows and shapes included.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:image-search"></div><h3>Photos by keyword</h3><p><code>data-photo="pizza"</code> — 68 topics of free Unsplash photos.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:cart"></div><h3>Cart &amp; orders</h3><p><code>data-add</code> and <code>data-open</code> — the cart and order dialog build themselves.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:form-select"></div><h3>Forms</h3><p>Floating labels, validation, thank-you toast and confetti.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:view-carousel"></div><h3>Sliders</h3><p>Wrap any cards in <code>.bui-slider</code> — Swiper loads on demand.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:map-marker-radius"></div><h3>Maps</h3><p><code>data-map="address"</code> — OpenStreetMap with a marker, no API key.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:emoticon-outline"></div><h3>Icons &amp; avatars</h3><p>200,000+ Iconify icons and DiceBear avatars from a name.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:tailwind"></div><h3>Tailwind mode</h3><p>Design with Tailwind + daisyUI, keep BlockUI's behaviour.</p></div>
-      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:translate"></div><h3>i18n &amp; types</h3><p>English and Russian texts, TypeScript types, ES module, SSR-safe.</p></div>
+<section class="section" id="playground">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow grad-text">// playground</span>
+      <h2>Pick a colour. <span class="grad-text">Watch this page change.</span></h2>
+      <p>The same 11 colours and 5 styles your site gets from one line of config.</p>
+    </div>
+    <div class="swatches reveal" id="swatches"></div>
+    <div class="config-line reveal"><span class="tk-f">BlockUI.start</span>({ <span class="tk-a">style</span>: <span class="tk-s" id="cfg-style">'modern'</span>, <span class="tk-a">color</span>: <span class="tk-s" id="cfg-color">'sky'</span> })</div>
+    <div class="styles reveal" id="styles"></div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow grad-text">// features</span>
+      <h2>Everything a landing page <span class="grad-text">needs</span></h2>
+      <p>Each feature is a class or an attribute. Heavy parts load only when the page uses them.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal" style="--h:200"><div class="ico">🎨</div><h3>Styles &amp; colours</h3><p>5 complete styles × 11 colours or any hex — fonts, shadows and shapes included.</p></div>
+      <div class="card reveal" style="--h:30;--d:.08s"><div class="ico">📸</div><h3>Photos by keyword</h3><p><code>data-photo="pizza"</code> — 68 topics of free Unsplash photos, no hunting for links.</p></div>
+      <div class="card reveal" style="--h:330;--d:.16s"><div class="ico">🛒</div><h3>Cart &amp; orders</h3><p><code>data-add</code> and <code>data-open</code> — the cart and the order dialog build themselves.</p></div>
+      <div class="card reveal" style="--h:150"><div class="ico">📝</div><h3>Forms</h3><p>Floating labels, validation, a thank-you toast and confetti.</p></div>
+      <div class="card reveal" style="--h:260;--d:.08s"><div class="ico">🎠</div><h3>Sliders</h3><p>Wrap any cards in <code>.bui-slider</code> — Swiper loads on demand.</p></div>
+      <div class="card reveal" style="--h:100;--d:.16s"><div class="ico">🗺️</div><h3>Maps</h3><p><code>data-map="address"</code> — OpenStreetMap with a marker, no API key.</p></div>
+      <div class="card reveal" style="--h:50"><div class="ico">✨</div><h3>Icons &amp; avatars</h3><p>200,000+ Iconify icons (Material, Lucide, Tabler…) and DiceBear avatars from a name.</p></div>
+      <div class="card reveal" style="--h:185;--d:.08s"><div class="ico">🌊</div><h3>Tailwind mode</h3><p>Design with Tailwind + daisyUI and keep LightWebsiteUi's behaviour.</p></div>
+      <div class="card reveal" style="--h:230;--d:.16s"><div class="ico">🔷</div><h3>i18n &amp; types</h3><p>English and Russian texts, TypeScript types, an ES module, SSR-safe.</p></div>
     </div>
   </div>
 </section>
 
-<section class="bui-section bui-section-alt" id="playground">
-  <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Playground</span><h2>Switch this page's style and colour</h2><p>One line of config: <code>BlockUI.start({ style, color })</code></p></div>
-    <div class="chips" id="styles"></div>
-    <div class="chips" id="colors"></div>
-    <div class="bui-grid">
-      <div class="bui-product">
-        <div class="bui-product-image"><img data-photo="pizza 2" alt="Pizza"><span class="bui-tag">Hit</span></div>
-        <div class="bui-product-body"><h3>Margherita</h3><p>Tomatoes, mozzarella and fresh basil</p>
-          <div class="bui-product-footer"><span class="bui-price">$9</span><button class="bui-btn bui-btn-small" data-add="Margherita" data-price="9">Add to cart</button></div></div>
+<section class="section" id="examples">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow grad-text">// examples</span>
+      <h2>Live demos. <span class="grad-text">Three files each.</span></h2>
+      <p>Open one, view the source, make it yours.</p>
+    </div>
+    <div class="examples">
+      <a class="ex reveal" style="--h:30" href="examples/coffee/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/coffee/" tabindex="-1" title="Coffee shop preview" loading="lazy"></iframe></div><div class="body"><h3>☕ Bean &amp; Brew</h3><p>Coffee shop: cart, review slider, map</p></div></a>
+      <a class="ex reveal" style="--h:220;--d:.08s" href="examples/robots/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/robots/" tabindex="-1" title="Robotics school preview" loading="lazy"></iframe></div><div class="body"><h3>🤖 RoboCode</h3><p>School: pricing, countdown, inline form</p></div></a>
+      <a class="ex reveal" style="--h:130;--d:.16s" href="examples/pets/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/pets/" tabindex="-1" title="Animal shelter preview" loading="lazy"></iframe></div><div class="body"><h3>🐾 Paws</h3><p>Shelter: gallery, emoji rain, map</p></div></a>
+      <a class="ex reveal" style="--h:160;--d:.24s" href="examples/yoga/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/yoga/" tabindex="-1" title="Yoga studio preview" loading="lazy"></iframe></div><div class="body"><h3>🧘 Lotus</h3><p>Yoga studio in Tailwind + daisyUI mode</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ai">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow grad-text">// made for AI</span>
+      <h2>Let AI <span class="grad-text">build the site</span></h2>
+      <p>Paste the prompt template into ChatGPT, Claude, Qwen, GigaChat or DeepSeek, describe your business — get a finished site in 3 files.</p>
+    </div>
+    <div class="flow reveal">
+      <div class="node"><span class="big">📝</span><b>Prompt</b><small>fill in “My site”</small></div>
+      <div class="wire" aria-hidden="true"></div>
+      <div class="node"><span class="big">🤖</span><b>Any AI model</b><small>reads AI.md</small></div>
+      <div class="wire" aria-hidden="true"></div>
+      <div class="node"><span class="big">🌐</span><b>3 files</b><small>ready to publish</small></div>
+    </div>
+    <div class="row reveal" style="justify-content:center">
+      <a class="btn btn-main" href="PROMPT.md">📋 Prompt template</a>
+      <a class="btn btn-ghost" href="PROMPT.ru.md">🇷🇺 Промт на русском</a>
+      <a class="btn btn-ghost" href="AI.md">📖 Full reference</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="final reveal">
+      <h2>Ship a landing page<br><span class="grad-text">tonight</span></h2>
+      <p>Free, open source under MIT. No build step, no install, no account — just two lines in your HTML.</p>
+      <div class="row">
+        <a class="btn btn-main" href="#start">⚡ Start building</a>
+        <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ Star on GitHub</a>
       </div>
-      <div class="bui-plan bui-popular">
-        <h3>Pro</h3><div class="bui-price">$29</div><p class="bui-muted">per month</p>
-        <ul class="bui-checks"><li>Unlimited pages</li><li>Custom domain</li><li>Priority support</li></ul>
-        <button class="bui-btn" data-open="order" data-pick="Pro">Choose</button>
-      </div>
-      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>I shipped a client landing page in one evening.</blockquote><div class="bui-author"><img data-avatar="Sophia" alt="Sophia"><span>Sophia<small>freelance designer</small></span></div></div>
     </div>
   </div>
 </section>
+</main>
 
-<section class="bui-section" id="examples">
-  <div class="bui-container">
-    <div class="bui-head"><span class="bui-label">Examples</span><h2>Live demos — 3 files each</h2></div>
-    <div class="bui-grid bui-grid-4">
-      <a class="bui-product" href="examples/coffee/"><div class="bui-product-image"><img data-photo="coffee 2" alt="Coffee shop"></div><div class="bui-product-body"><h3>Bean &amp; Brew</h3><p>Coffee shop: cart, review slider, map</p></div></a>
-      <a class="bui-product" href="examples/robots/"><div class="bui-product-image"><img data-photo="robot 2" alt="Robotics school"></div><div class="bui-product-body"><h3>RoboCode</h3><p>School: pricing, countdown, inline form</p></div></a>
-      <a class="bui-product" href="examples/pets/"><div class="bui-product-image"><img data-photo="dog 3" alt="Animal shelter"></div><div class="bui-product-body"><h3>Paws</h3><p>Shelter: gallery, emoji rain, map</p></div></a>
-      <a class="bui-product" href="examples/yoga/"><div class="bui-product-image"><img data-photo="yoga 2" alt="Yoga studio"></div><div class="bui-product-body"><h3>Lotus</h3><p>Yoga studio in Tailwind + daisyUI mode</p></div></a>
-    </div>
+<footer>
+  <div class="wrap">
+    <div>© <span id="year"></span> LightWebsiteUi · MIT License</div>
+    <nav>
+      <a href="https://github.com/si0683/LightWebsiteUi">GitHub</a>
+      <a href="README.md">README</a>
+      <a href="AI.md">Docs</a>
+      <a href="CHANGELOG.md">Changelog</a>
+      <a href="THIRD_PARTY.md">Credits</a>
+    </nav>
+    <a class="sister" href="https://si0683.github.io/GameMonsterJS/">👾 Sister project: <b>GameMonsterJS</b> for games →</a>
   </div>
-</section>
+</footer>
 
-<section class="bui-section" id="ai">
-  <div class="bui-container">
-    <div class="bui-cta">
-      <h2>Let AI build the site</h2>
-      <p>Paste the prompt template into ChatGPT, Claude, Qwen or GigaChat, describe your business — get a finished site in 3 files.</p>
-      <div class="bui-row" style="justify-content:center">
-        <a class="bui-btn bui-btn-light bui-btn-big" href="PROMPT.md">Prompt template</a>
-        <a class="bui-btn bui-btn-light bui-btn-big" href="PROMPT.ru.md">Промт на русском</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="bui-footer">© <span data-year></span> BlockUI · MIT License · <a href="https://github.com/si0683/BlockUI">GitHub</a> · <a href="THIRD_PARTY.md">Credits</a> · Sister project: <a href="https://si0683.github.io/ArcadeJS/">ArcadeJS</a> for games</footer>
-
-<script src="blockui.js"></script>
 <script>
-  // Landing page settings + the style/colour playground
-  const state = { style: 'modern', color: 'purple' };
-  BlockUI.start({ name: 'BlockUI', lang: 'en', style: state.style, color: state.color, thanks: 'Thanks! This is a demo form 😊' });
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  const root = document.documentElement;
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  const STYLES = ['clean', 'bright', 'dark', 'modern', 'cozy'];
-  const COLORS = { red: '#dc2626', orange: '#f97316', yellow: '#eab308', green: '#16a34a', teal: '#0d9488', sky: '#0ea5e9', blue: '#2563eb', purple: '#7c3aed', pink: '#db2777', black: '#111827', brown: '#92400e' };
-  function chips(box, items, key, label) {
-    box.innerHTML = '';
-    items.forEach(id => {
-      const b = document.createElement('button');
-      b.innerHTML = label(id);
-      b.className = state[key] === id ? 'on' : '';
-      b.onclick = () => { state[key] = id; BlockUI.start({ style: state.style, color: state.color, dark: state.style === 'dark' }); render(); };
-      box.appendChild(b);
+  // ---- cursor spotlight on the dot grid ----
+  const bg = document.querySelector('.bg');
+  if (fine) addEventListener('pointermove', e => {
+    bg.style.setProperty('--cx', e.clientX + 'px'); bg.style.setProperty('--cy', e.clientY + 'px');
+  }, { passive: true });
+
+  // ---- nav + progress ----
+  const nav = document.querySelector('.nav'), bar = document.querySelector('.progress');
+  function onScroll() {
+    nav.classList.toggle('scrolled', scrollY > 30);
+    bar.style.setProperty('--p', scrollY / Math.max(1, root.scrollHeight - innerHeight));
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // ---- typewriter of use cases ----
+  const WORDS = ['coffee shops', 'pizzerias', 'yoga studios', 'online stores', 'schools', 'portfolios', 'dental clinics', 'events', 'startups'];
+  const word = document.getElementById('word');
+  let wi = 0, ci = WORDS[0].length, del = true;
+  function type() {
+    const w = WORDS[wi];
+    if (del) { ci--; if (ci === 0) { del = false; wi = (wi + 1) % WORDS.length; } }
+    else { ci++; if (ci === WORDS[wi].length) { del = true; word.textContent = WORDS[wi]; return setTimeout(type, 1800); } }
+    word.textContent = (del ? w : WORDS[wi]).slice(0, ci);
+    setTimeout(type, del ? 40 : 80);
+  }
+  if (!reduce) setTimeout(type, 2200);
+
+  // ---- browser mockup: scaled live demos that cycle ----
+  const view = document.querySelector('.viewport'), frames = [...view.querySelectorAll('iframe')];
+  const dtabs = [...document.querySelectorAll('.demo-tab')], addr = document.getElementById('addr');
+  const NAMES = ['coffee', 'robots', 'pets', 'yoga'], CYCLE = 7000;
+  let cur = 0, timer = 0, auto = !reduce;
+  function fit() {
+    const w = view.clientWidth, inner = w < 640 ? 390 : 1280, k = w / inner;
+    frames.forEach(f => { f.style.width = inner + 'px'; f.style.height = view.clientHeight / k + 'px'; f.style.transform = `scale(${k})`; });
+  }
+  function show(i) {
+    cur = i;
+    frames.forEach((f, k) => { if (k === i && f.dataset.src) { f.src = f.dataset.src; delete f.dataset.src; } f.classList.toggle('on', k === i); });
+    dtabs.forEach((t, k) => {
+      t.classList.toggle('on', k === i);
+      const b = t.querySelector('.bar'); b.classList.remove('run'); void b.offsetWidth;
+      if (k === i && auto) { b.style.setProperty('--t', CYCLE + 'ms'); b.classList.add('run'); }
+    });
+    addr.textContent = NAMES[i];
+    clearTimeout(timer);
+    if (auto) timer = setTimeout(() => show((cur + 1) % frames.length), CYCLE);
+  }
+  dtabs.forEach((t, i) => t.addEventListener('click', () => { auto = false; show(i); }));
+  view.addEventListener('pointerenter', () => { auto = false; clearTimeout(timer); dtabs.forEach(t => t.querySelector('.bar').classList.remove('run')); });
+  new ResizeObserver(fit).observe(view);
+  addEventListener('load', () => frames.forEach((f, k) => { if (k && f.dataset.src) setTimeout(() => { f.src = f.dataset.src; delete f.dataset.src; }, 600 * k); }));
+  show(0);
+
+  // ---- example thumbnails: real pages scaled down ----
+  document.querySelectorAll('.ex .thumb').forEach(t => {
+    const f = t.querySelector('iframe');
+    new ResizeObserver(() => { f.style.transform = `scale(${t.clientWidth / 1280})`; }).observe(t);
+  });
+  const thumbIO = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const f = e.target.querySelector('iframe'); f.src = f.dataset.src; thumbIO.unobserve(e.target);
+  }), { rootMargin: '200px' });
+  document.querySelectorAll('.ex .thumb').forEach(t => thumbIO.observe(t));
+
+  // ---- reveal ----
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('pre.code:not([hidden])').forEach(p => p.classList.add('play'));
+      io.unobserve(e.target);
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- syntax highlighter (HTML + JS) ----
+  const RX = /(\/\/.*$)|((?:\s)[\w-]+(?==))|('[^']*'|"[^"]*")|(\b(?:const|let|var|if|else|return|true|false|new)\b)|(\b\d+(?:\.\d+)?\b)|(&lt;\/?[\w!-]+|\/?&gt;)|(\b[a-zA-Z_][\w.]*(?=\())/gm;
+  const CLS = ['', 'tk-c', 'tk-a', 'tk-s', 'tk-k', 'tk-n', 'tk-t', 'tk-f'];
+  document.querySelectorAll('pre.code').forEach(pre => {
+    pre.dataset.raw = pre.textContent;
+    const lines = pre.innerHTML.split('\n');
+    pre.innerHTML = lines.map((line, i) => {
+      const hl = line.replace(RX, (...m) => { for (let k = 1; k <= 7; k++) if (m[k]) return `<span class="${CLS[k]}">${m[k]}</span>`; return m[0]; });
+      return `<span class="ln" style="--i:${i}">${hl || ' '}${i === lines.length - 1 ? '<span class="caret"></span>' : ''}</span>`;
+    }).join('');
+  });
+  document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t === tab));
+    document.querySelectorAll('pre.code').forEach(p => {
+      const on = p.dataset.pane === tab.dataset.tab;
+      p.hidden = !on; p.classList.remove('play');
+      if (on) { void p.offsetWidth; p.classList.add('play'); }
+    });
+  }));
+  const copy = document.querySelector('.copy');
+  copy.addEventListener('click', async () => {
+    const pre = document.querySelector('pre.code:not([hidden])');
+    try { await navigator.clipboard.writeText(pre.dataset.raw); copy.textContent = 'Copied ✓'; copy.classList.add('ok'); }
+    catch { copy.textContent = 'Select & copy'; }
+    setTimeout(() => { copy.textContent = 'Copy'; copy.classList.remove('ok'); }, 1800);
+  });
+
+  // ---- playground: the 11 library colours recolour this page ----
+  const COLORS = {
+    red: ['#dc2626', '#ff4d6d', '#ff9f1c', '#f72585'], orange: ['#f97316', '#ff8a3d', '#ffd166', '#ff4d6d'],
+    yellow: ['#eab308', '#ffd60a', '#ff9f1c', '#a3e635'], green: ['#16a34a', '#34d399', '#a3e635', '#22d3ee'],
+    teal: ['#0d9488', '#2dd4bf', '#22d3ee', '#818cf8'], sky: ['#0ea5e9', '#38bdf8', '#818cf8', '#f472b6'],
+    blue: ['#2563eb', '#6366f1', '#38bdf8', '#c084fc'], purple: ['#7c3aed', '#a855f7', '#f472b6', '#6366f1'],
+    pink: ['#db2777', '#f472b6', '#c084fc', '#fb7185'], black: ['#111827', '#e2e8f0', '#94a3b8', '#a5b4fc'],
+    brown: ['#92400e', '#d6a26b', '#f59e0b', '#fb7185']
+  };
+  const STYLES = {
+    clean: ['#ffffff', '#0f172a', 'calm and professional'], bright: ['#fff7ed', '#ea580c', 'bold and playful'],
+    dark: ['#0f172a', '#e2e8f0', 'night mode, neon accents'], modern: ['#eef2ff', '#4f46e5', 'gradients and glass'],
+    cozy: ['#fdf6ec', '#92400e', 'warm, rounded, friendly']
+  };
+  const sw = document.getElementById('swatches'), st = document.getElementById('styles');
+  let color = 'sky', style = 'modern';
+  Object.entries(COLORS).forEach(([name, c]) => {
+    const b = document.createElement('button');
+    b.className = 'sw' + (name === color ? ' on' : ''); b.style.setProperty('--s', name === 'black' ? '#334155' : c[0]);
+    b.setAttribute('aria-label', name); b.innerHTML = `<span>${name}</span>`;
+    b.onclick = () => {
+      color = name;
+      sw.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === b));
+      root.style.setProperty('--c1', c[1]); root.style.setProperty('--c2', c[2]); root.style.setProperty('--c3', c[3]);
+      document.getElementById('cfg-color').textContent = `'${name}'`;
+      paintStyles();
+    };
+    sw.appendChild(b);
+  });
+  function paintStyles() {
+    st.querySelectorAll('.style').forEach(el => {
+      const [bgc, fg] = STYLES[el.dataset.style], main = COLORS[color][0] === '#111827' ? '#334155' : COLORS[color][0];
+      const mini = el.querySelector('.mini');
+      mini.style.background = bgc;
+      mini.children[0].style.background = fg; mini.children[1].style.background = fg; mini.children[2].style.background = fg;
+      mini.children[3].style.background = main;
     });
   }
-  function render() {
-    chips(document.getElementById('styles'), STYLES, 'style', id => id);
-    chips(document.getElementById('colors'), Object.keys(COLORS), 'color', id => '<span class="swatch" style="background:' + COLORS[id] + '"></span>' + id);
+  Object.entries(STYLES).forEach(([name, s]) => {
+    const b = document.createElement('button');
+    b.className = 'style' + (name === style ? ' on' : ''); b.dataset.style = name;
+    b.innerHTML = `<div class="mini"><i></i><i></i><i></i><i></i></div><b>${name}</b><small>${s[2]}</small>`;
+    b.onclick = () => {
+      style = name;
+      st.querySelectorAll('.style').forEach(x => x.classList.toggle('on', x === b));
+      document.getElementById('cfg-style').textContent = `'${name}'`;
+    };
+    st.appendChild(b);
+  });
+  paintStyles();
+
+  // ---- spotlight cards + tilt ----
+  const grid = document.querySelector('.cards');
+  grid.addEventListener('pointermove', e => {
+    for (const c of grid.children) {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px');
+    }
+  });
+  if (fine && !reduce) document.querySelectorAll('.ex').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      card.style.transform = `rotateX(${(0.5 - py) * 12}deg) rotateY(${(px - 0.5) * 14}deg) translateZ(10px)`;
+      card.style.setProperty('--gx', px * 100 + '%'); card.style.setProperty('--gy', py * 100 + '%');
+    });
+    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+  });
+
+  // ---- rising sparks in the final call to action ----
+  if (!reduce) {
+    const box = document.querySelector('.final');
+    for (let i = 0; i < 28; i++) {
+      const s = document.createElement('span');
+      s.className = 'spark'; s.setAttribute('aria-hidden', 'true');
+      s.style.left = Math.random() * 100 + '%'; s.style.bottom = -10 + 'px';
+      s.style.animationDuration = 4 + Math.random() * 5 + 's'; s.style.animationDelay = -Math.random() * 8 + 's';
+      box.appendChild(s);
+    }
   }
-  render();
+})();
 </script>
 </body>
 </html>

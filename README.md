@@ -4,11 +4,11 @@
 
 Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all BlockUI behaviour while you design with Tailwind classes.
 
-[Website & live demos](https://si0683.github.io/BlockUI/) · [API reference](AI.md) · [AI prompt template](PROMPT.md) · [Русский](README.ru.md)
+[Website & live demos](https://si0683.github.io/LightWebsiteUi/) · [API reference](AI.md) · [AI prompt template](PROMPT.md) · [Русский](README.ru.md)
 
 | | | | |
 |---|---|---|---|
-| [Bean & Brew](https://si0683.github.io/BlockUI/examples/coffee/) — coffee shop | [RoboCode](https://si0683.github.io/BlockUI/examples/robots/) — school | [Paws](https://si0683.github.io/BlockUI/examples/pets/) — shelter | [Lotus](https://si0683.github.io/BlockUI/examples/yoga/) — Tailwind + daisyUI |
+| [Bean & Brew](https://si0683.github.io/LightWebsiteUi/examples/coffee/) — coffee shop | [RoboCode](https://si0683.github.io/LightWebsiteUi/examples/robots/) — school | [Paws](https://si0683.github.io/LightWebsiteUi/examples/pets/) — shelter | [Lotus](https://si0683.github.io/LightWebsiteUi/examples/yoga/) — Tailwind + daisyUI |
 
 ## Install
 
