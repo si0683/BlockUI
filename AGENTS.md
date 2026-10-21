@@ -1,13 +1,13 @@
 # AGENTS.md — rules for AI coding agents
 
-LightWebsiteUi is a general-purpose website building-block library, distributed via jsDelivr (git tags) and npm (`lightwebsiteui`).
+LightWebsiteUi (since 4.0.0) is a **project starter**, not a runtime library: the npm package `create-lightwebsiteui` copies `template/` (Astro + React + Tailwind CSS + shadcn/ui + Lucide) into a new folder and runs `npm install`.
 
-- **Never change a published version.** Projects pin `@x.y.z`; tags are immutable. Changes go into a new version: `VERSION` in lightwebsiteui.js, `version` in package.json, `@x.y.z` links (README*, AI.md, PROMPT*.md, examples), CHANGELOG.md, tag `vX.Y.Z`.
-- Any change to classes, attributes or options must be reflected in **AI.md**, **lightwebsiteui.d.ts**, both READMEs and the cheat sheets in **PROMPT.md / PROMPT.ru.md**.
-- Code: plain browser JavaScript, no build step, **English comments**. The only global is `window.LightWebsiteUi`. Interface strings live in `I18N` (en, ru) — never hard-code UI text.
-- Photo catalogue: `tools/photos.json` + `EXCLUDE` / `WORDS` / `TITLES` in `tools/build.py`; run `python tools/build.py` afterwards (it also writes `codepen.html` files, the AI.md topic list and `lightwebsiteui.mjs`). Only `images.unsplash.com` photos under the Unsplash License.
-- All styles stay inside `@layer bui` (lightwebsiteui.js declares the layer first in `<head>`), so Tailwind classes and user CSS always win. Third-party styles (Swiper, Leaflet) are outside the layer — override them with `!important`.
-- External libraries load on demand with exact versions: Tailwind 4.3.3 + daisyUI 5.7.47, iconify-icon 3.0.3, Swiper 14.3.0, Leaflet 1.9.4. Record every source in THIRD_PARTY.md.
-- Testing: serve the folder (`python -m http.server`), test copies of the examples with local lightwebsiteui.*; widths 320–1280 without horizontal scroll; no console errors. Types: compile a sample with `tsc --strict --noEmit`.
-- `examples/nextjs` (Next.js App Router) and `examples/astro` (Astro with `<ClientRouter />`) are framework projects, not built by tools/build.py. Test library changes there: `npm pack` the repo, install the tarball in the example, `npm run build` and `npm run dev`, then navigate between pages (no hydration warnings, no duplicated buttons; in Astro test with and without `<ClientRouter />`). Do not commit node_modules, .next, .astro, dist or package-lock.json.
-- Classroom repos (CreateSite01PROMT, lesson sites) pin BlockUI 1.1.0 (the former name) — do not migrate them without the owner's request.
+- `bin/create.mjs` — the CLI. Node ≥ 22.12, **no dependencies** (only `node:` modules). npm never publishes `.gitignore`, so the template keeps it as `template/_gitignore` and the CLI renames it.
+- `template/` — a working Astro project. Work on it in place: `cd template && npm install && npm run dev` (node_modules, dist, .astro and package-lock.json are git-ignored and excluded from the package).
+- shadcn/ui components in `template/src/components/ui/` come from the CLI only: `npx shadcn@latest add <name>` inside `template/`, then `npm run format`. Never hand-write them. Update the component list in both READMEs and `template/README.md`.
+- `template/AGENTS.md` is the guide for agents working in the user's new project — keep it in sync with the template (React islands in Astro: no shared context, no `asChild`, `client:*`).
+- Template texts are Russian (`lang="ru"`), code comments English.
+- Before a release, check the whole path: `npm pack`, then `npx ./create-lightwebsiteui-<v>.tgz "Test Site"` in a temp folder, and in the new project `npm run build`, `npm run typecheck`, `npm run lint`, `npx prettier --check .`; open `npm run dev`, test the order dialog, mobile menu, FAQ, theme toggle at 375 px and 1280 px.
+- Versions: `version` in package.json + CHANGELOG.md + tag `vX.Y.Z`. Published tags are never changed.
+- `index.html` in the root is the GitHub Pages landing (static, no build): Russian, light/dark theme, violet-pink-amber palette.
+- Old tags v1.0.0–v3.2.1 hold the former CDN library (`blockui.js` / `lightwebsiteui.js`). Lesson repos (CreateSite01PROMT and the lesson sites) pin them through jsDelivr — do not delete those tags.

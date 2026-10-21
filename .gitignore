@@ -1,1 +1,6 @@
 _test/
+node_modules/
+dist/
+.astro/
+template/package-lock.json
+*.tgz

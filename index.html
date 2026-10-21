@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LightWebsiteUi — лендинги для бизнеса из готовых блоков</title>
-  <meta name="description" content="Открытая библиотека для сайтов компаний: оформление, фото, корзина, заявки, карты и отзывы через обычные HTML-классы. Без сборки и фреймворков. Бесплатно, лицензия MIT.">
-  <meta property="og:title" content="LightWebsiteUi — лендинги для бизнеса из готовых блоков">
-  <meta property="og:description" content="Сайт компании из готовых блоков: две строки подключения, обычный HTML, без сборки.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
+  <title>LightWebsiteUi — стек для сайта одной командой</title>
+  <meta name="description" content="npm create lightwebsiteui — проект на Astro, React, Tailwind CSS, shadcn/ui и Lucide со всеми зависимостями.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%237c3aed'/><stop offset='.55' stop-color='%23ec4899'/><stop offset='1' stop-color='%23f59e0b'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><path fill='%23fff' d='M16 6l2.6 7.4L26 16l-7.4 2.6L16 26l-2.6-7.4L6 16l7.4-2.6z'/></svg>">
   <script>
     // Theme before the first paint: saved choice, otherwise the system setting
     (function () {
@@ -18,782 +16,110 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    @property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-    @property --c1 { syntax: '<color>'; inherits: true; initial-value: #a855f7; }
-    @property --c2 { syntax: '<color>'; inherits: true; initial-value: #ec4899; }
-    @property --c3 { syntax: '<color>'; inherits: true; initial-value: #f59e0b; }
-
-    /* ---------- theme tokens ---------- */
     :root {
-      --c1: #a855f7;
-      --c2: #ec4899;
-      --c3: #f59e0b;
-      --bg: #faf8ff;
-      --bg2: #f2eefc;
-      --surface: rgba(255, 255, 255, 0.78);
-      --solid: #ffffff;
-      --text: #1b1530;
-      --muted: #5f5878;
-      --line: rgba(27, 21, 48, 0.1);
-      --dot: rgba(27, 21, 48, 0.13);
-      --blob: 0.22;
-      --beam: 0.28;
-      --shadow: 0 22px 60px rgba(76, 29, 149, 0.13);
-      --grad: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c1));
-      --ring: conic-gradient(from var(--a), var(--c1), var(--c2), var(--c3), var(--c1));
-      --font-head: 'Unbounded', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
-      --pad: 110px;
+      --c1: #8b5cf6; --c2: #ec4899; --c3: #f59e0b;
+      --bg: #faf8ff; --surface: #ffffff; --text: #1b1530; --muted: #5f5878;
+      --line: rgba(27, 21, 48, 0.1); --term: #17122a;
+      --grad: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
       color-scheme: light;
-      transition: --c1 0.8s, --c2 0.8s, --c3 0.8s;
     }
     :root[data-theme="dark"] {
-      --bg: #08060f;
-      --bg2: #110d1f;
-      --surface: rgba(255, 255, 255, 0.035);
-      --solid: #13101f;
-      --text: #f2eefc;
-      --muted: #a8a1c4;
-      --line: rgba(255, 255, 255, 0.09);
-      --dot: rgba(255, 255, 255, 0.1);
-      --blob: 0.3;
-      --beam: 0.5;
-      --shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+      --bg: #08060f; --surface: #151027; --text: #f3effd; --muted: #a69fc2;
+      --line: rgba(243, 239, 253, 0.1); --term: #0d0a18;
       color-scheme: dark;
     }
-
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.65 Manrope, system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background 0.4s, color 0.4s; }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    code { font-family: var(--font-mono); font-size: 0.86em; padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, var(--c1) 14%, transparent); color: inherit; }
-    ::selection { background: var(--c2); color: #fff; }
-    .wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
-    h1, h2, h3 { margin: 0; font-family: var(--font-head); font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; }
-    h2 { font-size: clamp(1.75rem, 4.2vw, 3rem); line-height: 1.12; }
-    h3 { font-size: 1.08rem; line-height: 1.3; }
-    p { margin: 0; }
-
-    /* ---------- background: aurora, dot grid with cursor light, beams ---------- */
-    .bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
-    .bg .dots, .bg .lit { position: absolute; inset: 0; background-image: radial-gradient(var(--dot) 1px, transparent 1.5px); background-size: 30px 30px; }
-    .bg .lit { background-image: radial-gradient(var(--c1) 1.4px, transparent 2px); -webkit-mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); }
-    .bg .blob { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(120px); opacity: var(--blob); animation: drift 26s ease-in-out infinite alternate; }
-    .bg .blob:nth-of-type(3) { background: var(--c1); top: -30vmax; right: -20vmax; }
-    .bg .blob:nth-of-type(4) { background: var(--c2); bottom: -35vmax; left: -22vmax; animation-duration: 32s; animation-delay: -10s; }
-    @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-7vw, 6vh) scale(1.12); } 100% { transform: translate(5vw, -5vh) scale(0.94); } }
-    .beams { position: absolute; top: -140px; left: 50%; width: 1600px; height: 1000px; transform: translateX(-50%); pointer-events: none; z-index: 0; -webkit-mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); }
-    .beams i { position: absolute; top: 0; left: 50%; width: 140px; height: 100%; margin-left: -70px; transform-origin: 50% 0; filter: blur(30px); opacity: var(--beam); animation: sway 10s ease-in-out infinite alternate; background: linear-gradient(180deg, color-mix(in srgb, var(--c1) 75%, transparent), transparent 85%); }
-    .beams i:nth-child(1) { --r0: -38deg; --r1: -22deg; }
-    .beams i:nth-child(2) { --r0: -14deg; --r1: -4deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c2) 75%, transparent), transparent 85%); animation-duration: 12s; animation-delay: -3s; }
-    .beams i:nth-child(3) { --r0: 6deg; --r1: 16deg; width: 90px; animation-duration: 9s; animation-delay: -5s; }
-    .beams i:nth-child(4) { --r0: 22deg; --r1: 38deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c3) 75%, transparent), transparent 85%); animation-duration: 13s; animation-delay: -1s; }
-    @keyframes sway { from { transform: rotate(var(--r0)); } to { transform: rotate(var(--r1)); } }
-    .progress { position: fixed; top: 0; left: 0; z-index: 60; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: var(--grad); background-size: 200% 100%; animation: flow 4s linear infinite; }
-
-    /* ---------- shared ---------- */
-    .grad-text { background: var(--grad); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow 5s linear infinite; }
-    @keyframes flow { to { background-position: 200% 0; } }
-    @keyframes spin { to { --a: 360deg; } }
-    @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
-    .pill { display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px; border-radius: 999px; border: 1px solid transparent; background: linear-gradient(var(--solid), var(--solid)) padding-box, var(--ring) border-box; animation: spin 4s linear infinite; font: 600 0.8rem var(--font-mono); letter-spacing: 0.03em; }
-    .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c2); box-shadow: 0 0 12px var(--c2); animation: pulse 1.6s ease-in-out infinite; }
-
-    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 26px; border-radius: 14px; border: 0; font: 700 1rem Manrope, sans-serif; cursor: pointer; overflow: hidden; white-space: nowrap; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
-    .btn:hover { transform: translateY(-3px); }
-    .btn-main { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; box-shadow: 0 12px 34px color-mix(in srgb, var(--c1) 45%, transparent); }
-    .btn-main:hover { box-shadow: 0 16px 46px color-mix(in srgb, var(--c2) 55%, transparent); }
-    .btn-main::after { content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.6), transparent); transform: skewX(-20deg); animation: shine 3.4s ease-in-out infinite; }
-    @keyframes shine { 0%, 55% { left: -80%; } 100% { left: 140%; } }
-    .btn-ghost { color: var(--text); background: var(--surface); border: 1px solid var(--line); backdrop-filter: blur(10px); }
-    .btn-ghost:hover { border-color: var(--c1); box-shadow: 0 10px 30px color-mix(in srgb, var(--c1) 25%, transparent); }
-    .row { display: flex; flex-wrap: wrap; gap: 12px; }
-
-    .section { position: relative; padding: var(--pad) 0; }
-    .head { max-width: 780px; margin: 0 auto 56px; text-align: center; }
-    .eyebrow { display: inline-block; margin-bottom: 14px; font: 600 0.78rem var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; }
-    .head p { color: var(--muted); font-size: 1.08rem; margin-top: 16px; }
-
-    .reveal { opacity: 0; transform: translateY(32px); filter: blur(6px); transition: opacity 0.85s cubic-bezier(.2, .7, .2, 1), transform 0.85s cubic-bezier(.2, .7, .2, 1), filter 0.85s; transition-delay: var(--d, 0s); }
-    .reveal.in { opacity: 1; transform: none; filter: none; }
-
-    /* ---------- nav ---------- */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 14px 0; border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s, padding 0.3s; }
-    .nav.scrolled { background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(16px) saturate(1.4); border-color: var(--line); padding: 8px 0; }
-    .nav .wrap { display: flex; align-items: center; gap: 24px; }
-    .logo { display: flex; align-items: center; gap: 10px; font: 800 1.08rem var(--font-head); white-space: nowrap; }
-    .logo .bulb { font-size: 1.5rem; filter: drop-shadow(0 0 10px #ffd84d) drop-shadow(0 0 18px var(--c1)); }
-    .nav-links { display: flex; gap: 24px; margin-left: auto; font-weight: 600; font-size: 0.95rem; color: var(--muted); }
-    .nav-links a { position: relative; transition: color 0.2s; }
-    .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--grad); transform: scaleX(0); transition: transform 0.3s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-tools { display: flex; align-items: center; gap: 8px; }
-    .theme-btn { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: 1.15rem; cursor: pointer; transition: border-color 0.3s, transform 0.3s; }
-    .theme-btn:hover { border-color: var(--c1); transform: rotate(-12deg); }
-    .nav .btn { padding: 10px 16px; font-size: 0.9rem; border-radius: 12px; }
-
-    /* ---------- hero ---------- */
-    .hero { position: relative; padding: 150px 0 var(--pad); text-align: center; overflow: hidden; }
-    .hero .wrap { position: relative; z-index: 2; }
-    .hero h1 { font-size: clamp(2.3rem, 6.6vw, 5.2rem); line-height: 1.04; margin: 26px auto 22px; max-width: 1000px; }
-    .hero h1 .line { display: block; }
-    .hero .lead { font-size: 1.16rem; color: var(--muted); max-width: 700px; margin: 0 auto 14px; }
-    .typer { font: 600 1rem var(--font-mono); color: var(--muted); margin: 0 0 32px; min-height: 1.7em; }
-    .typer b { color: var(--text); }
-    .typer .cur { display: inline-block; width: 9px; height: 1.1em; vertical-align: -3px; margin-left: 2px; background: var(--c2); animation: pulse 1s steps(1) infinite; }
-    .hero .row { justify-content: center; }
-    .trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; margin-top: 26px; color: var(--muted); font-size: 0.92rem; }
-
-    .showcase { position: relative; margin: 72px auto 0; max-width: 1080px; }
-    .browser { position: relative; z-index: 1; padding: 2px; border-radius: 22px; background: var(--ring); animation: spin 6s linear infinite; }
-    .browser::before { content: ""; position: absolute; inset: -10px; z-index: -1; border-radius: 32px; background: var(--ring); animation: spin 6s linear infinite; filter: blur(40px); opacity: 0.5; }
-    .browser-in { border-radius: 20px; overflow: hidden; background: var(--solid); }
-    .browser-bar { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid var(--line); }
-    .browser-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-    .browser-bar > i:nth-child(1) { background: #ff5f57; } .browser-bar > i:nth-child(2) { background: #febc2e; } .browser-bar > i:nth-child(3) { background: #28c840; }
-    .addr { flex: 1; max-width: 440px; margin: 0 auto; padding: 5px 14px; border-radius: 9px; background: var(--bg2); color: var(--muted); font: 0.8rem var(--font-mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .addr b { color: var(--c2); font-weight: 600; }
-    .demo-tabs { display: flex; justify-content: center; gap: 6px; padding: 9px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
-    .demo-tabs::-webkit-scrollbar { display: none; }
-    .demo-tab { position: relative; flex: none; padding: 8px 15px; border-radius: 10px; border: 1px solid transparent; background: none; color: var(--muted); font: 700 0.88rem Manrope, sans-serif; cursor: pointer; overflow: hidden; transition: 0.25s; }
-    .demo-tab:hover { color: var(--text); }
-    .demo-tab.on { color: var(--text); border-color: color-mix(in srgb, var(--c1) 50%, transparent); background: color-mix(in srgb, var(--c1) 12%, transparent); }
-    .demo-tab .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); }
-    .demo-tab.on .bar.run { animation: fill var(--t, 8s) linear forwards; }
-    @keyframes fill { to { transform: scaleX(1); } }
-    .viewport { position: relative; height: 560px; overflow: hidden; background: #fff; }
-    .viewport iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; opacity: 0; transition: opacity 0.6s; pointer-events: none; background: #fff; }
-    .viewport iframe.on { opacity: 1; pointer-events: auto; }
-    .float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 15px; border-radius: 14px; background: color-mix(in srgb, var(--solid) 88%, transparent); backdrop-filter: blur(14px); border: 1px solid color-mix(in srgb, var(--c1) 35%, transparent); box-shadow: var(--shadow); font-weight: 700; font-size: 0.9rem; text-align: left; animation: bob 6s ease-in-out infinite; white-space: nowrap; }
-    .float span { font-size: 1.3rem; }
-    .float small { display: block; color: var(--muted); font: 500 0.72rem var(--font-mono); }
-    .float:nth-of-type(1) { top: 100px; left: -72px; }
-    .float:nth-of-type(2) { top: 250px; right: -82px; animation-delay: -2s; border-color: color-mix(in srgb, var(--c2) 40%, transparent); }
-    .float:nth-of-type(3) { bottom: 110px; left: -60px; animation-delay: -4s; border-color: color-mix(in srgb, var(--c3) 45%, transparent); }
-    .float:nth-of-type(4) { bottom: 40px; right: -54px; animation-delay: -1s; }
-    .showcase-note { margin-top: 18px; color: var(--muted); font-size: 0.9rem; }
-
-    /* ---------- marquee ---------- */
-    .marquee { padding: 30px 0; border-block: 1px solid var(--line); background: var(--surface); overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-    .track { display: flex; gap: 12px; width: max-content; animation: marquee 42s linear infinite; }
-    .track + .track { margin-top: 12px; animation-direction: reverse; animation-duration: 50s; }
-    .marquee:hover .track { animation-play-state: paused; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
-    .chip { display: inline-flex; align-items: center; gap: 9px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--solid); font-weight: 700; font-size: 0.95rem; white-space: nowrap; transition: border-color 0.3s, box-shadow 0.3s; }
-    .chip:hover { border-color: var(--c1); box-shadow: 0 0 22px color-mix(in srgb, var(--c1) 35%, transparent); }
-
-    /* ---------- spotlight cards ---------- */
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .cards.two { grid-template-columns: repeat(2, 1fr); }
-    .card { position: relative; padding: 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; isolation: isolate; transition: transform 0.35s, box-shadow 0.35s; }
-    .card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--c1) 14%, transparent), transparent 45%); opacity: 0; transition: opacity 0.4s; }
-    .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--c1), var(--c2) 35%, transparent 65%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
-    .cards:hover .card::before, .cards:hover .card::after { opacity: 1; }
-    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-    .ico { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 16px; font-size: 1.65rem; margin-bottom: 18px; background: linear-gradient(135deg, hsl(var(--h) 90% 60% / 0.3), hsl(calc(var(--h) + 50) 90% 60% / 0.1)); box-shadow: inset 0 0 0 1px hsl(var(--h) 90% 65% / 0.4), 0 0 26px hsl(var(--h) 90% 60% / 0.25); transition: transform 0.4s cubic-bezier(.3, 1.6, .5, 1); }
-    .card:hover .ico { transform: rotate(-10deg) scale(1.12); }
-    .card h3 { margin-bottom: 8px; }
-    .card p { color: var(--muted); font-size: 0.97rem; }
-    .who { display: flex; gap: 18px; align-items: flex-start; }
-    .who .ico { flex: none; margin: 0; }
-
-    /* ---------- playground ---------- */
-    .swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 28px; }
-    .sw { position: relative; width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer; background: var(--s); box-shadow: 0 0 0 3px var(--line), 0 6px 18px color-mix(in srgb, var(--s) 45%, transparent); transition: transform 0.35s cubic-bezier(.3, 1.6, .5, 1); }
-    .sw:hover { transform: translateY(-4px) scale(1.1); }
-    .sw.on { transform: scale(1.14); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--s), 0 0 30px var(--s); }
-    .sw span { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); font: 600 0.7rem var(--font-mono); color: var(--muted); opacity: 0; transition: 0.25s; white-space: nowrap; }
-    .sw:hover span, .sw.on span { opacity: 1; }
-    .config-line { margin: 38px auto 44px; width: fit-content; max-width: 100%; padding: 13px 20px; border-radius: 12px; background: #0f0c1d; color: #e6e1f7; border: 1px solid var(--line); font: 0.9rem var(--font-mono); overflow-x: auto; white-space: nowrap; }
-    .config-line .k { color: #fcd34d; } .config-line .s { color: #86efac; } .config-line .f { color: #c4b5fd; }
-    .styles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-    .style { padding: 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; color: inherit; font: inherit; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; }
-    .style:hover { transform: translateY(-5px); }
-    .style.on { border-color: var(--c1); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c1) 20%, transparent); }
-    .mini { height: 100px; border-radius: 12px; margin-bottom: 12px; padding: 12px; display: grid; gap: 7px; align-content: start; border: 1px solid var(--line); }
-    .mini i { display: block; height: 8px; border-radius: 4px; }
-    .mini i:nth-child(1) { width: 70%; height: 12px; }
-    .mini i:nth-child(2) { width: 90%; opacity: 0.45; }
-    .mini i:nth-child(3) { width: 55%; opacity: 0.45; }
-    .mini i:nth-child(4) { width: 46%; height: 20px; margin-top: 4px; }
-    .style b { display: block; font-family: var(--font-head); font-size: 0.92rem; }
-    .style small { color: var(--muted); font-size: 0.82rem; }
-
-    /* ---------- examples ---------- */
-    .examples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; perspective: 1200px; }
-    .ex { position: relative; display: block; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); background: var(--solid); transform-style: preserve-3d; transition: transform 0.2s ease-out, box-shadow 0.35s, border-color 0.35s; will-change: transform; }
-    .ex:hover { box-shadow: var(--shadow); border-color: color-mix(in srgb, hsl(var(--h) 85% 58%) 60%, transparent); }
-    .ex .thumb { position: relative; height: 200px; overflow: hidden; background: #fff; border-bottom: 1px solid var(--line); }
-    .ex .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 1000px; border: 0; transform-origin: 0 0; pointer-events: none; }
-    .ex .body { padding: 18px 20px 22px; }
-    .ex h3 { margin-bottom: 6px; }
-    .ex p { color: var(--muted); font-size: 0.93rem; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .tags span { padding: 3px 10px; border-radius: 999px; font: 600 0.72rem var(--font-mono); background: hsl(var(--h) 85% 58% / 0.13); color: hsl(var(--h) 75% 45%); }
-    :root[data-theme="dark"] .tags span { color: hsl(var(--h) 90% 76%); }
-    .ex .open { position: absolute; top: 14px; right: 14px; z-index: 2; padding: 6px 12px; border-radius: 999px; background: hsl(var(--h) 85% 55%); color: #fff; font: 700 0.76rem Manrope, sans-serif; transform: translateY(-8px); opacity: 0; transition: 0.35s cubic-bezier(.3, 1.6, .5, 1); }
-    .ex:hover .open { opacity: 1; transform: none; }
-    .ex .glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.16), transparent 50%); opacity: 0; transition: opacity 0.3s; }
-    .ex:hover .glare { opacity: 1; }
-
-    /* ---------- code ---------- */
-    .split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 52px; align-items: center; }
-    .split > * { min-width: 0; }
-    .steps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 14px; }
-    .steps li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); transition: border-color 0.3s, transform 0.3s; }
-    .steps li:hover { border-color: var(--c1); transform: translateX(6px); }
-    .steps .n { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; font: 800 0.95rem var(--font-head); color: #fff; background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; }
-    .steps b { display: block; }
-    .steps p { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
-    .window { border-radius: 20px; overflow: hidden; background: #0f0c1d; color: #e6e1f7; border: 1px solid color-mix(in srgb, var(--c1) 35%, transparent); box-shadow: var(--shadow); }
-    .window-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-    .window-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-    .window-bar > i:nth-child(1) { background: #ff5f57; } .window-bar > i:nth-child(2) { background: #febc2e; } .window-bar > i:nth-child(3) { background: #28c840; }
-    .tabs { display: flex; gap: 4px; margin-left: 12px; overflow-x: auto; }
-    .tab { padding: 6px 12px; border-radius: 8px; border: 0; background: none; color: #9d96b8; font: 600 0.8rem var(--font-mono); cursor: pointer; white-space: nowrap; }
-    .tab.on { background: rgba(255, 255, 255, 0.08); color: #fff; }
-    .copy { margin-left: auto; flex: none; padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.14); background: none; color: #cfc9e6; font: 600 0.78rem Manrope, sans-serif; cursor: pointer; }
-    .copy:hover { border-color: #fff; color: #fff; }
-    pre.code { margin: 0; padding: 20px 22px 24px; overflow-x: auto; font: 0.84rem/1.75 var(--font-mono); min-height: 380px; }
-    pre.code[hidden] { display: none; }
-    pre.code .ln { display: block; opacity: 0; transform: translateX(-10px); }
-    pre.code.play .ln { animation: ln 0.4s forwards; animation-delay: calc(var(--i) * 40ms); }
-    @keyframes ln { to { opacity: 1; transform: none; } }
-    .tk-c { color: #6c6588; font-style: italic; } .tk-s { color: #86efac; } .tk-k { color: #f9a8d4; } .tk-t { color: #93c5fd; } .tk-a { color: #fcd34d; } .tk-f { color: #c4b5fd; }
-    .stack { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 64px; }
-
-    /* ---------- AI flow ---------- */
-    .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; max-width: 960px; margin: 0 auto 44px; }
-    .node { text-align: center; padding: 28px 20px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); }
-    .node .big { display: block; font-size: 2.6rem; margin-bottom: 8px; animation: bob 4s ease-in-out infinite; }
-    .node:nth-child(3) .big { animation-delay: -1.3s; } .node:nth-child(5) .big { animation-delay: -2.6s; }
-    .node b { display: block; font-family: var(--font-head); font-size: 0.98rem; }
-    .node small { color: var(--muted); }
-    .wire { position: relative; width: 80px; height: 2px; background: linear-gradient(90deg, color-mix(in srgb, var(--c1) 40%, transparent), color-mix(in srgb, var(--c3) 40%, transparent)); }
-    .wire::after { content: ""; position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--c2); box-shadow: 0 0 14px var(--c2); animation: travel 1.8s ease-in-out infinite; }
-    .wire:nth-child(4)::after { animation-delay: -0.9s; }
-    @keyframes travel { from { left: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { left: calc(100% - 10px); opacity: 0; } }
-    @keyframes travel-y { from { top: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { top: calc(100% - 10px); opacity: 0; } }
-    .ai-row { justify-content: center; }
-
-    /* ---------- FAQ ---------- */
-    .faq { max-width: 860px; margin: 0 auto; display: grid; gap: 12px; }
-    .faq details { border-radius: 16px; border: 1px solid var(--line); background: var(--surface); transition: border-color 0.3s; }
-    .faq details[open] { border-color: color-mix(in srgb, var(--c1) 55%, transparent); }
-    .faq summary { list-style: none; cursor: pointer; padding: 18px 56px 18px 22px; font-weight: 700; position: relative; }
-    .faq summary::-webkit-details-marker { display: none; }
-    .faq summary::after { content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; background: color-mix(in srgb, var(--c1) 14%, transparent); color: var(--c1); font-size: 1.2rem; transition: transform 0.3s; }
-    .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
-    .faq details p { padding: 0 22px 20px; color: var(--muted); }
-
-    /* ---------- final ---------- */
-    .final { position: relative; padding: 72px 40px; border-radius: 30px; text-align: center; overflow: hidden; isolation: isolate; border: 2px solid transparent; background: linear-gradient(var(--solid), var(--solid)) padding-box, var(--ring) border-box; animation: spin 6s linear infinite; box-shadow: var(--shadow); }
-    .final::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(600px circle at 15% 0%, color-mix(in srgb, var(--c1) 20%, transparent), transparent 60%), radial-gradient(600px circle at 85% 100%, color-mix(in srgb, var(--c3) 18%, transparent), transparent 60%); }
-    .final h2 { font-size: clamp(1.8rem, 4.6vw, 3.4rem); }
-    .final p { color: var(--muted); font-size: 1.1rem; max-width: 600px; margin: 18px auto 32px; }
-    .final .row { justify-content: center; }
-    .spark { position: absolute; z-index: -1; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: var(--c2); box-shadow: 0 0 10px var(--c2); animation: rise linear infinite; }
-    @keyframes rise { from { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } to { transform: translateY(-440px) scale(0.3); opacity: 0; } }
-
-    footer { padding: 44px 0 52px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
-    footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 30px; align-items: center; justify-content: space-between; }
-    footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-    footer a:hover { color: var(--text); }
-
-    /* ---------- responsive ---------- */
-    @media (max-width: 1180px) { .float { display: none; } }
-    @media (max-width: 1000px) {
-      :root { --pad: 88px; }
-      .nav-links { display: none; }
-      .split { grid-template-columns: 1fr; gap: 36px; }
-      .cards, .examples { grid-template-columns: repeat(2, 1fr); }
-      .styles { grid-template-columns: repeat(3, 1fr); }
-      .viewport { height: 480px; }
-    }
-    @media (max-width: 680px) {
-      :root { --pad: 68px; }
-      body { font-size: 16px; }
-      .hero { padding-top: 116px; }
-      .head { margin-bottom: 40px; }
-      .cards, .cards.two, .examples { grid-template-columns: 1fr; }
-      .styles { grid-template-columns: repeat(2, 1fr); }
-      .flow { grid-template-columns: 1fr; }
-      .wire { width: 2px; height: 40px; margin: 0 auto; }
-      .wire::after { left: -4px; animation-name: travel-y; }
-      .final { padding: 52px 20px; }
-      .viewport { height: 520px; }
-      .addr { display: none; }
-      .demo-tabs { justify-content: flex-start; }
-      pre.code { min-height: 0; font-size: 0.76rem; }
-      .nav .btn { display: none; }
-      .pill { font-size: 0.7rem; padding: 6px 12px; letter-spacing: 0; }
-      .window-bar > i { display: none; }
-      .tabs { margin-left: 0; }
-      .sw { width: 40px; height: 40px; }
-      .btn { padding: 13px 22px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-      .reveal { opacity: 1; transform: none; filter: none; }
-      pre.code .ln { opacity: 1; transform: none; }
-    }
+    body { margin: 0; font: 400 17px/1.6 Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); }
+    a { color: var(--c1); }
+    main { width: min(720px, 100% - 32px); margin: 0 auto; padding: 32px 0 56px; }
+    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
+    .logo { display: flex; align-items: center; gap: 10px; font: 700 17px/1 Inter, sans-serif; letter-spacing: -0.01em; }
+    .logo b { width: 32px; height: 32px; border-radius: 9px; background: var(--grad); }
+    .top .end { margin-left: auto; display: flex; gap: 8px; }
+    .btn { display: grid; place-items: center; height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: 700 14px/1 Inter, sans-serif; text-decoration: none; cursor: pointer; }
+    h1 { font: 700 clamp(28px, 6vw, 44px)/1.15 Inter, sans-serif; letter-spacing: -0.03em; margin: 0 0 14px; }
+    .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { color: var(--muted); margin: 0 0 36px; }
+    h2 { font: 600 19px/1.3 Inter, sans-serif; letter-spacing: -0.01em; margin: 36px 0 14px; }
+    ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 18px; }
+    li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 4px 14px; }
+    li::before { content: counter(s); grid-row: span 2; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--grad); color: #fff; font-weight: 700; }
+    .cmd { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 6px 6px 6px 16px; border-radius: 12px; background: var(--term); color: #f3effd; }
+    .cmd code { flex: 1; min-width: 0; font: 14px/1.5 'JetBrains Mono', monospace; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .cmd button { flex: none; padding: 7px 12px; border: 0; border-radius: 8px; background: #fff; color: #17122a; font: 700 13px/1 Inter, sans-serif; cursor: pointer; }
+    .note { color: var(--muted); font-size: 15px; }
+    .note code, td code { font: 14px 'JetBrains Mono', monospace; }
+    table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    td { padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td:first-child { width: 150px; font-weight: 700; }
+    td:last-child { color: var(--muted); }
+    footer { margin-top: 44px; color: var(--muted); font-size: 14px; }
   </style>
 </head>
 <body>
-
-<div class="bg" aria-hidden="true"><div class="dots"></div><div class="lit"></div><i class="blob"></i><i class="blob"></i></div>
-<div class="progress" aria-hidden="true"></div>
-
-<header class="nav">
-  <div class="wrap">
-    <a class="logo" href="#top"><span class="bulb">💡</span><span>Light<span class="grad-text">Website</span>Ui</span></a>
-    <nav class="nav-links">
-      <a href="#features">Возможности</a>
-      <a href="#examples">Примеры</a>
-      <a href="#start">Как начать</a>
-      <a href="#ai">Для ИИ</a>
-      <a href="#faq">Вопросы</a>
-    </nav>
-    <div class="nav-tools" style="margin-left: auto">
-      <button class="theme-btn" type="button" aria-label="Сменить тему"><span id="theme-icon">🌙</span></button>
-      <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ GitHub</a>
-    </div>
-  </div>
-</header>
-
-<main>
-<!-- 1. ГЛАВНЫЙ ЭКРАН -->
-<section class="hero" id="top">
-  <div class="beams" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <div class="wrap">
-    <span class="pill reveal"><span class="dot"></span>Открытая библиотека · MIT · версия 3.2</span>
-    <h1 class="reveal" style="--d:.08s"><span class="line">Лендинги для бизнеса</span><span class="line grad-text">из готовых блоков</span></h1>
-    <p class="lead reveal" style="--d:.16s">Подключите две строки и соберите сайт компании из обычного HTML. Оформление, фото, корзина, заявки, карта и отзывы уже работают — без фреймворков, сборки и программиста на поддержке.</p>
-    <p class="typer reveal" style="--d:.22s">Подходит для <b id="word">ремонтных компаний</b><span class="cur"></span></p>
-    <div class="row reveal" style="--d:.28s">
-      <a class="btn btn-main" href="#examples">Смотреть примеры</a>
-      <a class="btn btn-ghost" href="#start">Начать за 5 минут</a>
-    </div>
-    <div class="trust reveal" style="--d:.34s">
-      <span>✅ Бесплатно для коммерческих проектов</span>
-      <span>📱 Адаптивно для телефонов</span>
-      <span>🌐 Любой хостинг, без сервера</span>
-    </div>
-
-    <div class="showcase reveal" style="--d:.4s">
-      <div class="float"><span>🛒</span><div>Корзина и заказ<small>data-add="Букет"</small></div></div>
-      <div class="float"><span>🗺️</span><div>Карта без ключа API<small>data-map="адрес"</small></div></div>
-      <div class="float"><span>🖼️</span><div>Галерея работ<small>.bui-gallery</small></div></div>
-      <div class="float"><span>⭐</span><div>Слайдер отзывов<small>.bui-slider</small></div></div>
-      <div class="browser">
-        <div class="browser-in">
-          <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">remont</b>/</div></div>
-          <div class="demo-tabs" role="tablist">
-            <button class="demo-tab on" data-demo="0">🛠️ Ремонт квартир<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="1">🔥 Шашлычная<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="2">👟 Ремонт обуви<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="3">💐 Цветы<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="4">🎨 Завод красок<span class="bar"></span></button>
-          </div>
-          <div class="viewport">
-            <iframe class="on" src="examples/remont/" title="Пример: компания по ремонту квартир"></iframe>
-            <iframe data-src="examples/shashlik/" title="Пример: шашлычная с корзиной"></iframe>
-            <iframe data-src="examples/obuv/" title="Пример: ремонт и химчистка обуви"></iframe>
-            <iframe data-src="examples/cvety/" title="Пример: цветочный магазин"></iframe>
-            <iframe data-src="examples/kraski/" title="Пример: завод лакокрасочных материалов"></iframe>
-          </div>
-        </div>
-      </div>
-      <p class="showcase-note">Это настоящие страницы на LightWebsiteUi — их можно прокручивать и нажимать.</p>
-    </div>
-  </div>
-</section>
-
-<div class="marquee" aria-label="Что входит в библиотеку">
-  <div class="track">
-    <span class="chip">🎨 5 стилей</span><span class="chip">🌈 11 цветов или цвет бренда</span><span class="chip">🛒 Корзина</span><span class="chip">🧾 Окно заявки</span><span class="chip">📝 Формы с проверкой</span><span class="chip">🗺️ OpenStreetMap</span><span class="chip">🎠 Слайдеры</span><span class="chip">🖼️ Галереи</span><span class="chip">✨ 200 000+ иконок</span>
-    <span class="chip">🎨 5 стилей</span><span class="chip">🌈 11 цветов или цвет бренда</span><span class="chip">🛒 Корзина</span><span class="chip">🧾 Окно заявки</span><span class="chip">📝 Формы с проверкой</span><span class="chip">🗺️ OpenStreetMap</span><span class="chip">🎠 Слайдеры</span><span class="chip">🖼️ Галереи</span><span class="chip">✨ 200 000+ иконок</span>
-  </div>
-  <div class="track">
-    <span class="chip">⏳ Таймер акции</span><span class="chip">🔢 Счётчики</span><span class="chip">🌙 Тёмная тема</span><span class="chip">🍔 Мобильное меню</span><span class="chip">🌊 Tailwind + daisyUI</span><span class="chip">▲ Next.js</span><span class="chip">🚀 Astro</span><span class="chip">🔷 TypeScript</span><span class="chip">🤖 Для нейросетей</span>
-    <span class="chip">⏳ Таймер акции</span><span class="chip">🔢 Счётчики</span><span class="chip">🌙 Тёмная тема</span><span class="chip">🍔 Мобильное меню</span><span class="chip">🌊 Tailwind + daisyUI</span><span class="chip">▲ Next.js</span><span class="chip">🚀 Astro</span><span class="chip">🔷 TypeScript</span><span class="chip">🤖 Для нейросетей</span>
-  </div>
-</div>
-
-<!-- 2. ДЛЯ КОГО -->
-<section class="section" id="who">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// для кого</span><h2>Когда сайт нужен <span class="grad-text">быстро и надолго</span></h2><p>Один лендинг вместо месяца разработки и абонентской платы конструктору.</p></div>
-    <div class="cards two">
-      <div class="card who reveal" style="--h:270"><div class="ico">🏪</div><div><h3>Малый и средний бизнес</h3><p>Сайт услуги, магазина или производства: цены, примеры работ, заявки и контакты с картой.</p></div></div>
-      <div class="card who reveal" style="--h:320;--d:.08s"><div class="ico">💼</div><div><h3>Веб-студии и фрилансеры</h3><p>Типовые блоки собраны и проверены — время уходит на тексты и дизайн клиента, а не на вёрстку слайдеров.</p></div></div>
-      <div class="card who reveal" style="--h:30"><div class="ico">📣</div><div><h3>Маркетологи</h3><p>Посадочные страницы под рекламные кампании за вечер, без очереди в разработку.</p></div></div>
-      <div class="card who reveal" style="--h:160;--d:.08s"><div class="ico">🎓</div><div><h3>Обучение</h3><p>Чистый HTML без сборки: удобно учить вёрстку и показывать результат сразу в браузере.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 3. ВОЗМОЖНОСТИ -->
-<section class="section" id="features" style="padding-top: 0">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// возможности</span><h2>Всё, что нужно <span class="grad-text">лендингу компании</span></h2><p>Каждая функция — класс или атрибут в HTML. Тяжёлые части загружаются, только если страница их использует.</p></div>
-    <div class="cards">
-      <div class="card reveal" style="--h:280"><div class="ico">🎨</div><h3>Фирменный стиль</h3><p>5 готовых стилей и 11 цветов или любой цвет бренда. Свой CSS всегда сильнее библиотеки.</p></div>
-      <div class="card reveal" style="--h:330;--d:.08s"><div class="ico">🛒</div><h3>Корзина и заявки</h3><p>Кнопки «В корзину» и «Заказать» — корзина и окно заявки появляются сами.</p></div>
-      <div class="card reveal" style="--h:150;--d:.16s"><div class="ico">📝</div><h3>Формы с проверкой</h3><p>Имя, телефон и почта проверяются в браузере. CRM подключается одним запросом.</p></div>
-      <div class="card reveal" style="--h:100"><div class="ico">🗺️</div><h3>Карта без ключа API</h3><p>OpenStreetMap с меткой по адресу или координатам — без регистрации и оплаты.</p></div>
-      <div class="card reveal" style="--h:40;--d:.08s"><div class="ico">⭐</div><h3>Отзывы и галереи</h3><p>Слайдер отзывов, галерея с увеличением фото, счётчики и таймер акции.</p></div>
-      <div class="card reveal" style="--h:200;--d:.16s"><div class="ico">🖼️</div><h3>Фото и иконки</h3><p>270 фотографий по ключевому слову, 200 000+ иконок и аватары по имени.</p></div>
-      <div class="card reveal" style="--h:250"><div class="ico">🌗</div><h3>Светлая и тёмная тема</h3><p>Переключатель темы в шапке и мобильное меню добавляются автоматически.</p></div>
-      <div class="card reveal" style="--h:10;--d:.08s"><div class="ico">🌍</div><h3>Русский и английский</h3><p>Все тексты интерфейса на русском или английском, любую надпись можно заменить.</p></div>
-      <div class="card reveal" style="--h:300;--d:.16s"><div class="ico">⚙️</div><h3>Для разработчиков</h3><p>npm-пакет, типы TypeScript, режим Tailwind + daisyUI, поддержка Next.js и Astro.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 4. ОФОРМЛЕНИЕ -->
-<section class="section" id="styles" style="padding-top: 0">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// оформление</span><h2>Выберите цвет — <span class="grad-text">страница перекрасится</span></h2><p>Те же 11 цветов и 5 стилей ваш сайт получает одной строкой настроек.</p></div>
-    <div class="swatches reveal" id="swatches"></div>
-    <div class="config-line reveal"><span class="f">LightWebsiteUi.start</span>({ <span class="k">style</span>: <span class="s" id="cfg-style">'clean'</span>, <span class="k">color</span>: <span class="s" id="cfg-color">'purple'</span> })</div>
-    <div class="styles reveal" id="styles-list"></div>
-  </div>
-</section>
-
-<!-- 5. ПРИМЕРЫ -->
-<section class="section" id="examples" style="padding-top: 0">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// примеры</span><h2>Сайты <span class="grad-text">реальных компаний</span></h2><p>Каждый пример — три файла: index.html, style.css и script.js. Откройте, посмотрите код, возьмите за основу.</p></div>
-    <div class="examples">
-      <a class="ex reveal" style="--h:25" href="examples/remont/"><span class="glare"></span><span class="open">Открыть ↗</span><div class="thumb"><iframe data-src="examples/remont/" tabindex="-1" title="Превью: ремонт квартир" loading="lazy"></iframe></div><div class="body"><h3>🛠️ Мастер в ремонте</h3><p>Ремонт квартир под ключ: цены по видам ремонта, портфолио, акция с таймером, отзывы.</p><div class="tags"><span>тарифы</span><span>галерея</span><span>карта</span></div></div></a>
-      <a class="ex reveal" style="--h:10;--d:.08s" href="examples/shashlik/"><span class="glare"></span><span class="open">Открыть ↗</span><div class="thumb"><iframe data-src="examples/shashlik/" tabindex="-1" title="Превью: шашлычная" loading="lazy"></iframe></div><div class="body"><h3>🔥 Шашлычная КАРС</h3><p>Меню из 17 блюд с корзиной и оформлением заказа, тёмный стиль.</p><div class="tags"><span>корзина</span><span>тёмный стиль</span></div></div></a>
-      <a class="ex reveal" style="--h:170;--d:.16s" href="examples/obuv/"><span class="glare"></span><span class="open">Открыть ↗</span><div class="thumb"><iframe data-src="examples/obuv/" tabindex="-1" title="Превью: ремонт обуви" loading="lazy"></iframe></div><div class="body"><h3>👟 PUFF</h3><p>Ремонт и химчистка обуви: «до и после», этапы работы, команда, обратный звонок.</p><div class="tags"><span>до и после</span><span>форма</span></div></div></a>
-      <a class="ex reveal" style="--h:330" href="examples/cvety/"><span class="glare"></span><span class="open">Открыть ↗</span><div class="thumb"><iframe data-src="examples/cvety/" tabindex="-1" title="Превью: цветочный магазин" loading="lazy"></iframe></div><div class="body"><h3>💐 Дом цветов</h3><p>Букеты с корзиной, каталог, доставка и пять адресов магазинов.</p><div class="tags"><span>каталог</span><span>корзина</span></div></div></a>
-      <a class="ex reveal" style="--h:215;--d:.08s" href="examples/kraski/"><span class="glare"></span><span class="open">Открыть ↗</span><div class="thumb"><iframe data-src="examples/kraski/" tabindex="-1" title="Превью: завод красок" loading="lazy"></iframe></div><div class="body"><h3>🎨 КРОН</h3><p>Завод лакокрасочных материалов: каталог продукции, сертификаты, заявка для B2B.</p><div class="tags"><span>tailwind + daisyUI</span><span>B2B</span></div></div></a>
-      <a class="ex reveal" style="--h:280;--d:.16s" href="https://si0683.github.io/mtoalliance/" target="_blank" rel="noopener"><span class="glare"></span><span class="open">Перейти ↗</span><div class="thumb"><iframe data-src="https://si0683.github.io/mtoalliance/" tabindex="-1" title="Превью: МТО-Альянс" loading="lazy"></iframe></div><div class="body"><h3>🛢️ МТО-Альянс</h3><p>Рабочий сайт компании: поставки нефтегазового оборудования и рефконтейнеров.</p><div class="tags"><span>действующий сайт</span></div></div></a>
-    </div>
-  </div>
-</section>
-
-<!-- 6. КАК НАЧАТЬ -->
-<section class="section" id="start" style="padding-top: 0">
-  <div class="wrap">
-    <div class="split">
-      <div class="reveal">
-        <span class="eyebrow grad-text">// как начать</span>
-        <h2>Три шага до <span class="grad-text">готового сайта</span></h2>
-        <ol class="steps">
-          <li><span class="n">1</span><div><b>Подключите библиотеку</b><p>Две строки в HTML — с CDN, без установки. Или <code>npm install lightwebsiteui</code>.</p></div></li>
-          <li><span class="n">2</span><div><b>Соберите страницу из блоков</b><p>Главный экран, услуги, цены, отзывы, вопросы, контакты — классы <code>bui-*</code>.</p></div></li>
-          <li><span class="n">3</span><div><b>Опубликуйте</b><p>Любой хостинг или GitHub Pages: это обычные статические файлы.</p></div></li>
-        </ol>
-      </div>
-      <div class="window reveal" style="--d:.12s">
-        <div class="window-bar">
-          <i></i><i></i><i></i>
-          <div class="tabs" role="tablist">
-            <button class="tab on" data-tab="html">index.html</button>
-            <button class="tab" data-tab="js">script.js</button>
-          </div>
-          <button class="copy" type="button">Копировать</button>
-        </div>
-<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css"&gt;
-&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"&gt;&lt;/script&gt;
-
-&lt;section class="bui-hero"&gt;
-  &lt;div class="bui-container"&gt;
-    &lt;div&gt;
-      &lt;h1&gt;Ремонт квартир под ключ&lt;/h1&gt;
-      &lt;p&gt;Гарантия 3 года, оплата по этапам.&lt;/p&gt;
-      &lt;button class="bui-btn" data-open="order"&gt;Вызвать сметчика&lt;/button&gt;
-    &lt;/div&gt;
-    &lt;div class="bui-hero-picture"&gt;&lt;img src="img/hero.jpg"&gt;&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-
-&lt;div data-map="53.22217, 50.24484" data-label="Мы здесь"&gt;&lt;/div&gt;</pre>
-<pre class="code" data-pane="js" hidden>// Все настройки сайта — в одном объекте
-const CONFIG = {
-  name: 'Мастер в ремонте',
-  style: 'modern',     // clean, bright, dark, modern, cozy
-  color: 'orange',     // 11 цветов или '#hex' бренда
-  lang: 'ru',
-  thanks: 'Спасибо! Перезвоним в течение дня.'
-};
-
-LightWebsiteUi.start(CONFIG);</pre>
+  <main>
+    <div class="top">
+      <span class="logo"><b></b>LightWebsiteUi</span>
+      <div class="end">
+        <a class="btn" href="https://github.com/si0683/LightWebsiteUi">GitHub</a>
+        <button class="btn theme" type="button" aria-label="Сменить тему">◐</button>
       </div>
     </div>
-    <div class="stack reveal">
-      <span class="chip">📄 HTML</span><span class="chip">▲ Next.js</span><span class="chip">🚀 Astro</span><span class="chip">⚛️ React</span><span class="chip">🌊 Tailwind + daisyUI</span><span class="chip">🔷 TypeScript</span><span class="chip">✏️ CodePen</span>
-    </div>
-  </div>
-</section>
 
-<!-- 7. ДЛЯ ИИ -->
-<section class="section" id="ai" style="padding-top: 0">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// для нейросетей</span><h2>Сайт <span class="grad-text">по описанию бизнеса</span></h2><p>Вставьте шаблон промта в ChatGPT, Claude, GigaChat, YandexGPT, Qwen или DeepSeek и опишите компанию. Справочник библиотеки написан так, чтобы модели работали с ней без ошибок.</p></div>
-    <div class="flow reveal">
-      <div class="node"><span class="big">📝</span><b>Промт</b><small>заполните «Мой сайт»</small></div>
-      <div class="wire" aria-hidden="true"></div>
-      <div class="node"><span class="big">🤖</span><b>Любая нейросеть</b><small>читает справочник AI.md</small></div>
-      <div class="wire" aria-hidden="true"></div>
-      <div class="node"><span class="big">🌐</span><b>3 файла</b><small>готово к публикации</small></div>
-    </div>
-    <div class="row ai-row reveal">
-      <a class="btn btn-main" href="PROMPT.ru.md">Шаблон промта</a>
-      <a class="btn btn-ghost" href="AI.md">Справочник API</a>
-      <a class="btn btn-ghost" href="PROMPT.md">Prompt in English</a>
-    </div>
-  </div>
-</section>
+    <h1>Стек для сайта <span class="grad">одной командой</span></h1>
+    <p class="lead">Astro + React + Tailwind CSS + shadcn/ui + Lucide — команда создаёт папку с проектом и сама ставит все пакеты.</p>
 
-<!-- 8. ВОПРОСЫ -->
-<section class="section" id="faq" style="padding-top: 0">
-  <div class="wrap">
-    <div class="head reveal"><span class="eyebrow grad-text">// вопросы</span><h2>Частые <span class="grad-text">вопросы</span></h2></div>
-    <div class="faq reveal">
-      <details><summary>Это бесплатно? Можно для коммерческих проектов?</summary><p>Да. Библиотека распространяется по лицензии MIT: используйте её в любых проектах, в том числе для клиентов, без отчислений.</p></details>
-      <details><summary>Чем это лучше конструктора сайтов?</summary><p>Нет абонентской платы и привязки к платформе: сайт — это ваши файлы, их можно разместить где угодно и передать клиенту. При этом не нужно писать вёрстку с нуля.</p></details>
-      <details><summary>Куда уходят заявки с форм?</summary><p>Библиотека проверяет форму и показывает благодарность в браузере. Чтобы заявки попадали в почту, Telegram или CRM, добавьте свой запрос <code>fetch</code> или сервис форм.</p></details>
-      <details><summary>Можно ли сделать фирменный дизайн?</summary><p>Да. Задайте цвет бренда в <code>color</code>, а любые правила — в своём CSS: они всегда сильнее стилей библиотеки. Для полной свободы есть режим Tailwind + daisyUI.</p></details>
-      <details><summary>Нужен ли сервер и сборка?</summary><p>Нет. Это статические файлы: подойдёт любой хостинг, GitHub Pages или ваш сервер. Для Next.js и Astro есть npm-пакет и примеры.</p></details>
-      <details><summary>Что будет при обновлении библиотеки?</summary><p>Каждая версия закреплена в ссылке (<code>@3.2.1</code>) и не меняется. Ваш сайт обновится, только когда вы сами поменяете номер версии.</p></details>
-    </div>
-  </div>
-</section>
+    <ol>
+      <li>
+        <b>Установите <a href="https://nodejs.org">Node.js</a> 22.12 или новее</b>
+        <span class="note">Проверить: <code>node -v</code></span>
+      </li>
+      <li>
+        <b>Создайте проект</b>
+        <div class="cmd"><code>npm create lightwebsiteui@latest my-site</code><button type="button" data-copy>Копировать</button></div>
+      </li>
+      <li>
+        <b>Запустите</b>
+        <div class="cmd"><code>cd my-site &amp;&amp; npm run dev</code><button type="button" data-copy>Копировать</button></div>
+      </li>
+    </ol>
+    <p class="note" style="margin-top:18px">Сайт откроется на <code>http://localhost:4321</code>. Пока пакета нет в npm, вместо шага 2: <code>npx github:si0683/LightWebsiteUi my-site</code></p>
 
-<!-- 9. ПРИЗЫВ -->
-<section class="section" style="padding-top: 0">
-  <div class="wrap">
-    <div class="final reveal">
-      <h2>Соберите лендинг компании <span class="grad-text">сегодня</span></h2>
-      <p>Возьмите пример, замените тексты и фотографии — и сайт готов к публикации. Бесплатно, без сборки и регистрации.</p>
-      <div class="row">
-        <a class="btn btn-main" href="#examples">Выбрать пример</a>
-        <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ Открыть на GitHub</a>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
+    <h2>Что установится</h2>
+    <table>
+      <tr><td>Astro 7</td><td>страницы и сборка</td></tr>
+      <tr><td>React 19</td><td>интерактивные компоненты</td></tr>
+      <tr><td>Tailwind CSS 4</td><td>стили классами</td></tr>
+      <tr><td>shadcn/ui</td><td>19 компонентов; ещё — <code>npx shadcn@latest add calendar</code></td></tr>
+      <tr><td>Lucide</td><td>иконки: <code>import { HeartIcon } from "lucide-react"</code></td></tr>
+      <tr><td>TypeScript</td><td>плюс ESLint и Prettier</td></tr>
+    </table>
 
-<footer>
-  <div class="wrap">
-    <div>© <span id="year"></span> LightWebsiteUi · лицензия MIT</div>
-    <nav>
-      <a href="https://github.com/si0683/LightWebsiteUi">GitHub</a>
-      <a href="README.ru.md">Документация</a>
-      <a href="AI.md">Справочник API</a>
-      <a href="CHANGELOG.md">Изменения</a>
-      <a href="THIRD_PARTY.md">Источники</a>
-      <a href="README.md">English</a>
-    </nav>
-  </div>
-</footer>
+    <h2>Команды</h2>
+    <table>
+      <tr><td><code>npm run dev</code></td><td>разработка</td></tr>
+      <tr><td><code>npm run build</code></td><td>готовый сайт в папке <code>dist/</code></td></tr>
+    </table>
 
-<script>
-(() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(pointer: fine)').matches;
-  const root = document.documentElement;
-  document.getElementById('year').textContent = new Date().getFullYear();
+    <footer>MIT · <a href="https://github.com/si0683/LightWebsiteUi#readme">подробнее в README</a></footer>
+  </main>
 
-  // ---- theme toggle (the choice is remembered) ----
-  const icon = document.getElementById('theme-icon');
-  const paintIcon = () => { icon.textContent = root.dataset.theme === 'dark' ? '☀️' : '🌙'; };
-  paintIcon();
-  document.querySelector('.theme-btn').addEventListener('click', () => {
-    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem('lwu-theme', root.dataset.theme); } catch (e) { /* ignore */ }
-    paintIcon(); paintStyles();
-  });
-
-  // ---- cursor light on the dot grid ----
-  const bg = document.querySelector('.bg');
-  if (fine) addEventListener('pointermove', e => { bg.style.setProperty('--cx', e.clientX + 'px'); bg.style.setProperty('--cy', e.clientY + 'px'); }, { passive: true });
-
-  // ---- nav + progress ----
-  const nav = document.querySelector('.nav'), bar = document.querySelector('.progress');
-  function onScroll() {
-    nav.classList.toggle('scrolled', scrollY > 20);
-    bar.style.setProperty('--p', scrollY / Math.max(1, root.scrollHeight - innerHeight));
-  }
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-  // ---- typewriter of business types ----
-  const WORDS = ['ремонтных компаний', 'шашлычных и кафе', 'мастерских', 'цветочных магазинов', 'производств', 'школ и студий', 'интернет-магазинов', 'стартапов'];
-  const word = document.getElementById('word');
-  let wi = 0, ci = WORDS[0].length, del = true;
-  function type() {
-    const w = WORDS[wi];
-    if (del) { ci--; if (ci === 0) { del = false; wi = (wi + 1) % WORDS.length; } }
-    else { ci++; if (ci === WORDS[wi].length) { del = true; word.textContent = WORDS[wi]; return setTimeout(type, 1800); } }
-    word.textContent = (del ? w : WORDS[wi]).slice(0, ci);
-    setTimeout(type, del ? 35 : 70);
-  }
-  if (!reduce) setTimeout(type, 2400);
-
-  // ---- browser mock-up: real example pages scaled to fit, switching every 8 s ----
-  const view = document.querySelector('.viewport'), frames = [...view.querySelectorAll('iframe')];
-  const dtabs = [...document.querySelectorAll('.demo-tab')], addr = document.getElementById('addr');
-  const NAMES = ['remont', 'shashlik', 'obuv', 'cvety', 'kraski'], CYCLE = 8000;
-  let cur = 0, timer = 0, auto = !reduce;
-  function fit() {
-    const w = view.clientWidth, inner = w < 640 ? 390 : 1280, k = w / inner;
-    frames.forEach(f => { f.style.width = inner + 'px'; f.style.height = view.clientHeight / k + 'px'; f.style.transform = `scale(${k})`; });
-  }
-  function show(i) {
-    cur = i;
-    frames.forEach((f, k) => { if (k === i && f.dataset.src) { f.src = f.dataset.src; delete f.dataset.src; } f.classList.toggle('on', k === i); });
-    dtabs.forEach((t, k) => {
-      t.classList.toggle('on', k === i);
-      const b = t.querySelector('.bar'); b.classList.remove('run'); void b.offsetWidth;
-      if (k === i && auto) { b.style.setProperty('--t', CYCLE + 'ms'); b.classList.add('run'); }
+  <script>
+    document.querySelector('.theme').addEventListener('click', function () {
+      var t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+      try { localStorage.setItem('lwu-theme', t); } catch (e) { /* storage blocked */ }
     });
-    if (dtabs[i].scrollIntoView && innerWidth < 680) dtabs[i].parentElement.scrollTo({ left: dtabs[i].offsetLeft - 20, behavior: 'smooth' });
-    addr.textContent = NAMES[i];
-    clearTimeout(timer);
-    if (auto) timer = setTimeout(() => show((cur + 1) % frames.length), CYCLE);
-  }
-  dtabs.forEach((t, i) => t.addEventListener('click', () => { auto = false; show(i); }));
-  view.addEventListener('pointerenter', () => { auto = false; clearTimeout(timer); dtabs.forEach(t => t.querySelector('.bar').classList.remove('run')); });
-  new ResizeObserver(fit).observe(view);
-  show(0);
-
-  // ---- example previews ----
-  document.querySelectorAll('.ex .thumb').forEach(t => {
-    const f = t.querySelector('iframe');
-    new ResizeObserver(() => { f.style.transform = `scale(${t.clientWidth / 1280})`; }).observe(t);
-  });
-  const thumbIO = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    const f = e.target.querySelector('iframe'); f.src = f.dataset.src; thumbIO.unobserve(e.target);
-  }), { rootMargin: '200px' });
-  document.querySelectorAll('.ex .thumb').forEach(t => thumbIO.observe(t));
-
-  // ---- reveal on scroll ----
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.classList.add('in');
-      e.target.querySelectorAll('pre.code:not([hidden])').forEach(p => p.classList.add('play'));
-      io.unobserve(e.target);
-    }
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // ---- code: highlighter, tabs, copy ----
-  const RX = /(\/\/.*$)|((?:\s)[\w-]+(?==))|('[^']*'|"[^"]*")|(\b(?:const|let)\b)|(&lt;\/?[\w!-]+|\/?&gt;)|(\b[a-zA-Z_][\w.]*(?=\())/gm;
-  const CLS = ['', 'tk-c', 'tk-a', 'tk-s', 'tk-k', 'tk-t', 'tk-f'];
-  document.querySelectorAll('pre.code').forEach(pre => {
-    pre.dataset.raw = pre.textContent;
-    const lines = pre.innerHTML.split('\n');
-    pre.innerHTML = lines.map((line, i) => `<span class="ln" style="--i:${i}">${line.replace(RX, (...m) => { for (let k = 1; k <= 6; k++) if (m[k]) return `<span class="${CLS[k]}">${m[k]}</span>`; return m[0]; }) || ' '}</span>`).join('');
-  });
-  document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t === tab));
-    document.querySelectorAll('pre.code').forEach(p => {
-      const on = p.dataset.pane === tab.dataset.tab;
-      p.hidden = !on; p.classList.remove('play');
-      if (on) { void p.offsetWidth; p.classList.add('play'); }
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(btn.previousElementSibling.textContent).then(function () {
+          btn.textContent = 'Готово';
+          setTimeout(function () { btn.textContent = 'Копировать'; }, 1500);
+        });
+      });
     });
-  }));
-  const copy = document.querySelector('.copy');
-  copy.addEventListener('click', async () => {
-    const pre = document.querySelector('pre.code:not([hidden])');
-    try { await navigator.clipboard.writeText(pre.dataset.raw); copy.textContent = 'Скопировано ✓'; }
-    catch (e) { copy.textContent = 'Выделите и скопируйте'; }
-    setTimeout(() => { copy.textContent = 'Копировать'; }, 1800);
-  });
-
-  // ---- playground: the library's colours recolour this page ----
-  const COLORS = {
-    purple: ['фиолетовый', '#7c3aed', '#a855f7', '#ec4899', '#f59e0b'], pink: ['розовый', '#db2777', '#ec4899', '#a855f7', '#f97316'],
-    red: ['красный', '#dc2626', '#ef4444', '#f97316', '#ec4899'], orange: ['оранжевый', '#f97316', '#f97316', '#f59e0b', '#ef4444'],
-    yellow: ['жёлтый', '#eab308', '#eab308', '#f97316', '#84cc16'], green: ['зелёный', '#16a34a', '#22c55e', '#14b8a6', '#84cc16'],
-    teal: ['бирюзовый', '#0d9488', '#14b8a6', '#06b6d4', '#a855f7'], sky: ['голубой', '#0ea5e9', '#0ea5e9', '#8b5cf6', '#ec4899'],
-    blue: ['синий', '#2563eb', '#3b82f6', '#8b5cf6', '#06b6d4'], brown: ['коричневый', '#92400e', '#d97706', '#f59e0b', '#ef4444'],
-    black: ['чёрный', '#111827', '#64748b', '#a855f7', '#ec4899']
-  };
-  const STYLES = {
-    clean: ['Строгий', '#ffffff', '#0f172a', 'спокойный деловой'], modern: ['Современный', '#eef2ff', '#4338ca', 'крупные заголовки'],
-    bright: ['Яркий', '#fff7ed', '#ea580c', 'сочные акценты'], cozy: ['Уютный', '#fdf6ec', '#92400e', 'мягкие формы'],
-    dark: ['Тёмный', '#0f172a', '#e2e8f0', 'неон на тёмном']
-  };
-  let color = 'purple', style = 'clean';
-  const sw = document.getElementById('swatches'), st = document.getElementById('styles-list');
-  Object.entries(COLORS).forEach(([id, c]) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'sw' + (id === color ? ' on' : ''); b.style.setProperty('--s', id === 'black' ? '#334155' : c[1]);
-    b.setAttribute('aria-label', c[0]); b.innerHTML = `<span>${c[0]}</span>`;
-    b.onclick = () => {
-      color = id;
-      sw.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === b));
-      root.style.setProperty('--c1', c[2]); root.style.setProperty('--c2', c[3]); root.style.setProperty('--c3', c[4]);
-      document.getElementById('cfg-color').textContent = `'${id}'`;
-      paintStyles();
-    };
-    sw.appendChild(b);
-  });
-  function paintStyles() {
-    st.querySelectorAll('.style').forEach(el => {
-      const s = STYLES[el.dataset.style], main = color === 'black' ? '#334155' : COLORS[color][1], mini = el.querySelector('.mini');
-      mini.style.background = s[1];
-      [0, 1, 2].forEach(i => { mini.children[i].style.background = s[2]; });
-      mini.children[3].style.background = main;
-    });
-  }
-  Object.entries(STYLES).forEach(([id, s]) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'style' + (id === style ? ' on' : ''); b.dataset.style = id;
-    b.innerHTML = `<div class="mini"><i></i><i></i><i></i><i></i></div><b>${s[0]}</b><small>${s[3]}</small>`;
-    b.onclick = () => {
-      style = id;
-      st.querySelectorAll('.style').forEach(x => x.classList.toggle('on', x === b));
-      document.getElementById('cfg-style').textContent = `'${id}'`;
-    };
-    st.appendChild(b);
-  });
-  paintStyles();
-
-  // ---- spotlight on cards ----
-  document.querySelectorAll('.cards').forEach(grid => grid.addEventListener('pointermove', e => {
-    for (const c of grid.children) {
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px');
-    }
-  }));
-
-  // ---- 3D tilt on example cards ----
-  if (fine && !reduce) document.querySelectorAll('.ex').forEach(card => {
-    card.addEventListener('pointermove', e => {
-      const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-      card.style.transform = `rotateX(${(0.5 - py) * 10}deg) rotateY(${(px - 0.5) * 12}deg) translateZ(8px)`;
-      card.style.setProperty('--gx', px * 100 + '%'); card.style.setProperty('--gy', py * 100 + '%');
-    });
-    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
-  });
-
-  // ---- rising sparks in the final block ----
-  if (!reduce) {
-    const box = document.querySelector('.final');
-    for (let i = 0; i < 26; i++) {
-      const s = document.createElement('span');
-      s.className = 'spark'; s.setAttribute('aria-hidden', 'true');
-      s.style.left = Math.random() * 100 + '%';
-      s.style.animationDuration = 4 + Math.random() * 5 + 's'; s.style.animationDelay = -Math.random() * 8 + 's';
-      box.appendChild(s);
-    }
-  }
-})();
-</script>
+  </script>
 </body>
 </html>

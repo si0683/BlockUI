@@ -1,4 +1,0 @@
-/* Свои стили. Всё остальное даёт LightWebsiteUi. */
-
-/* Фото букетов вертикальные: показываем их целиком по высоте */
-.bui-product-image img { object-position: center 30%; }

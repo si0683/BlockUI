@@ -1,0 +1,37 @@
+---
+import "@/styles/global.css"
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = "Мой сайт",
+  description = "Сайт на Astro, React, Tailwind CSS и shadcn/ui",
+} = Astro.props
+
+// BASE_URL is "/" locally and "/repo-name/" on GitHub Pages (see astro.config.mjs)
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title}</title>
+    <!-- Apply the saved (or system) theme before the first paint: no flash -->
+    <script is:inline>
+      const saved = localStorage.getItem("theme")
+      const dark =
+        saved === "dark" ||
+        (!saved && matchMedia("(prefers-color-scheme: dark)").matches)
+      document.documentElement.classList.toggle("dark", dark)
+    </script>
+  </head>
+  <body class="min-h-svh">
+    <slot />
+  </body>
+</html>

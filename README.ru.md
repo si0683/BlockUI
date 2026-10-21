@@ -1,114 +1,57 @@
-# 💡 LightWebsiteUi
+# LightWebsiteUi
 
-**Блоки для красивых сайтов.** Две строки в HTML — и у страницы уже есть стиль и цветовая схема, фото по слову, меню для телефона, тёмная тема, корзина, окно заказа, проверка форм, сообщения, салют, счётчики, таймер акции, слайдеры, карты, иконки и аватары. Всё управляется обычными классами и атрибутами HTML, без сборки.
+**Стартер сайта одной командой:** Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · TypeScript.
 
-Любите утилитарный CSS? **Режим Tailwind + daisyUI** сохраняет всё поведение LightWebsiteUi, а дизайн вы делаете классами Tailwind.
-
-[Сайт и живые примеры](https://si0683.github.io/LightWebsiteUi/) · [Справочник API](AI.md) · [Шаблон промта для ИИ](PROMPT.ru.md) · [English](README.md)
-
-Живые примеры — лендинги реальных компаний из Самары, собранные только на LightWebsiteUi:
-
-| | | |
-|---|---|---|
-| [Мастер в ремонте](https://si0683.github.io/LightWebsiteUi/examples/remont/) — ремонт квартир | [Шашлычная КАРС](https://si0683.github.io/LightWebsiteUi/examples/shashlik/) — тёмный стиль, корзина | [PUFF](https://si0683.github.io/LightWebsiteUi/examples/obuv/) — ремонт обуви, «до и после» |
-| [Дом цветов](https://si0683.github.io/LightWebsiteUi/examples/cvety/) — цветы с корзиной | [КРОН](https://si0683.github.io/LightWebsiteUi/examples/kraski/) — завод красок, Tailwind + daisyUI | [МТО-Альянс](https://si0683.github.io/mtoalliance/) — рабочий сайт компании |
-
-> **Раньше называлась BlockUI.** В версии 3.0.0 глобальный объект `BlockUI` стал `LightWebsiteUi`, файлы `blockui.*` — `lightwebsiteui.*`; классы (`bui-*`) и атрибуты в HTML те же. Старые версии остаются на CDN — см. [CHANGELOG](CHANGELOG.md).
-
-## Подключение
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"></script>
-```
-
-или
+[English](README.md) · [Сайт](https://si0683.github.io/LightWebsiteUi/)
 
 ```bash
-npm install lightwebsiteui
-```
-```js
-import LightWebsiteUi from 'lightwebsiteui';
-import 'lightwebsiteui/lightwebsiteui.css';
+npm create lightwebsiteui@latest my-site
+cd my-site
+npm run dev
 ```
 
-## Блок за несколько строк
+Команда копирует шаблон, сама ставит все зависимости и создаёт git-репозиторий. Пока пакета нет в npm, запускайте прямо с GitHub:
 
-```html
-<section class="bui-hero">
-  <div class="bui-container">
-    <div>
-      <h1 data-name>Маргарита</h1>
-      <p>Пицца из дровяной печи с доставкой за 30 минут.</p>
-      <button class="bui-btn" data-open="order">Заказать</button>
-    </div>
-    <div class="bui-hero-picture"><img data-photo="пицца"></div>
-  </div>
-</section>
-<script>LightWebsiteUi.start({ name: 'Маргарита', style: 'уютный', color: 'красный', lang: 'ru', rain: '🍕' });</script>
+```bash
+npx github:si0683/LightWebsiteUi my-site
 ```
 
-Окно заказа, проверка его формы и сообщение «спасибо» появятся сами.
+Ключи: `--no-install` (без `npm install`), `--no-git` (без `git init`). Работает и с pnpm, yarn, bun (`pnpm create lightwebsiteui`).
 
-## Возможности
+## Что внутри
 
-- **5 стилей × 11 цветов** — простой, яркий, тёмный, современный, уютный; у каждого свои шрифты, тени и формы; любой цвет в hex.
-- **Блоки:** 3 вида главного экрана, текст с фото, преимущества, карточки, товары, тарифы, отзывы, команда, шаги, цифры, вопросы, галерея, блок действия с таймером, контакты, соцсети, формы.
-- **Фото по слову:** `<img data-photo="пицца">` — 68 тем, 270 бесплатных фото Unsplash, русские и английские слова.
-- **Поведение атрибутами:** `data-open`, `data-add`, `data-count`, `data-timer`, `data-theme-toggle`… — окно заказа и корзина создаются сами.
-- **Иконки, слайдеры, карты, аватары:** `data-icon="mdi:pizza"` (200 000+ иконок Iconify), `.bui-slider` (Swiper), `data-map="адрес"` (Leaflet + OpenStreetMap, без ключей), `data-avatar="Анна"` (DiceBear). Библиотеки грузятся, только если используются.
-- **Режим Tailwind + daisyUI** — полная свобода дизайна.
-- **Языки:** английский и русский интерфейс (`lang`), любой текст можно заменить (`texts`).
-- **Типы TypeScript**, ES-модуль, безопасный импорт на сервере (SSR). Все стили — в слое CSS, поэтому ваш CSS всегда сильнее.
+| | |
+|---|---|
+| [Astro](https://astro.build) | страницы — обычный HTML, JavaScript только где нужен (острова) |
+| [React](https://react.dev) | интерактивные компоненты |
+| [Tailwind CSS 4](https://tailwindcss.com) | стили, через `@tailwindcss/vite` |
+| [shadcn/ui](https://ui.shadcn.com) | 19 компонентов уже в проекте, остальные — `npx shadcn@latest add` |
+| [Lucide](https://lucide.dev) | 1600+ иконок, `lucide-react` |
+| TypeScript, ESLint, Prettier | строгие типы, линтер, сортировка классов Tailwind |
 
-## Next.js и React
+А ещё: готовый лендинг (шапка, мобильное меню, первый экран, преимущества, тарифы, отзывы, FAQ, окно заявки, подвал), все тексты в одном файле `src/data/site.ts`, светлая/тёмная тема без мигания, фиолетово-розово-янтарная палитра, `AGENTS.md` для нейросетей и выкладка на GitHub Pages.
 
-При импорте из npm LightWebsiteUi ждёт `start()`, поэтому React гидрирует страницу нетронутой. Блоки пишутся как JSX (`class` → `className`, `data-name` → `data-name=""`), а в корневой layout добавляется один клиентский компонент:
+## Структура шаблона
 
-```jsx
-'use client';
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
-import LightWebsiteUi from 'lightwebsiteui';
-
-export default function LightWebsite({ options }) {
-  const pathname = usePathname();
-  useEffect(() => {
-    LightWebsiteUi.start(options);           // когда React уже отрисовал страницу
-    return () => LightWebsiteUi.destroy();    // при размонтировании всё убрать
-  }, []);
-  useEffect(() => { LightWebsiteUi.refresh(); }, [pathname]); // новая страница → оживить её блоки
-  return null;
-}
+```
+src/
+  pages/index.astro       главная
+  layouts/main.astro      <head>, скрипт темы
+  data/site.ts            все тексты страницы
+  components/site/        блоки сайта (меню, заявка, FAQ, отзывы, тема)
+  components/ui/          компоненты shadcn/ui
+  styles/global.css       Tailwind + цвета темы
+.github/workflows/deploy.yml
+AGENTS.md / CLAUDE.md     правила для нейросетей
 ```
 
-- `refresh()` трогает только новые блоки; слайдеры, карты и таймеры ушедших страниц выключаются.
-- `destroy()` убирает всё, что добавил LightWebsiteUi (обработчики, кнопки, окна, слайдеры, карты); `start()` возвращает обратно.
-- Содержимое `.bui-slider` должно быть статичным: Swiper переносит эти узлы.
-- Полный пример на App Router: [examples/nextjs](examples/nextjs) (главная, меню с корзиной, контакты с картой и формой).
+## Разработка репозитория
 
-## Astro
-
-Astro отдаёт обычный HTML, поэтому блоки пишутся ровно как в сайте из 3 файлов. CSS подключается во frontmatter layout-а, библиотека запускается в `<script>`:
-
-```astro
----
-import 'lightwebsiteui/lightwebsiteui.css';
----
-<script>
-  import LightWebsiteUi from 'lightwebsiteui';
-  LightWebsiteUi.start({ name: 'Margherita', style: 'cozy', color: 'red' });
-  // Нужно только с <ClientRouter />: следующая страница заменяет <body> без перезагрузки
-  document.addEventListener('astro:after-swap', () => LightWebsiteUi.refresh());
-</script>
+```bash
+cd template && npm install && npm run dev   # правка шаблона
+npm pack                                    # проверка установщика: npx ./create-lightwebsiteui-<v>.tgz test
 ```
 
-С `<ClientRouter />` корзина, выбранная тема и окно заказа сохраняются между страницами. Полный пример: [examples/astro](examples/astro).
+Версии до 3.2.1 были CDN-библиотекой (`lightwebsiteui.js`). Их теги остаются на jsDelivr — старые страницы продолжают работать.
 
-## Сайты с помощью ИИ
-
-LightWebsiteUi сделан так, чтобы нейросеть (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) собирала аккуратный сайт по короткому описанию: [PROMPT.ru.md](PROMPT.ru.md) — готовый шаблон промта, [AI.md](AI.md) — компактный справочник.
-
-## Лицензия
-
-MIT — см. [LICENSE](LICENSE). У фото, иконок, карт и дополнений свои условия: [THIRD_PARTY.md](THIRD_PARTY.md).
+MIT © si0683

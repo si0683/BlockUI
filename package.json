@@ -1,28 +1,15 @@
 {
-  "name": "lightwebsiteui",
-  "version": "3.2.1",
-  "description": "Building blocks for beautiful websites: 5 styles × 11 colours, photos by keyword, cart, order dialog, forms, sliders, maps, icons, avatars — with plain HTML attributes. Optional Tailwind + daisyUI mode.",
-  "keywords": ["ui", "nextjs", "react", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
+  "name": "create-lightwebsiteui",
+  "version": "4.0.0",
+  "description": "Website starter in one command: Astro + React + Tailwind CSS + shadcn/ui + Lucide icons, ready-made landing page, dark theme, GitHub Pages deploy.",
+  "keywords": ["create", "starter", "template", "astro", "react", "tailwindcss", "shadcn", "shadcn-ui", "lucide", "landing-page", "website"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",
   "repository": { "type": "git", "url": "git+https://github.com/si0683/LightWebsiteUi.git" },
   "bugs": { "url": "https://github.com/si0683/LightWebsiteUi/issues" },
   "license": "MIT",
   "author": "si0683",
-  "main": "lightwebsiteui.js",
-  "module": "lightwebsiteui.mjs",
-  "types": "lightwebsiteui.d.ts",
-  "style": "lightwebsiteui.css",
-  "unpkg": "lightwebsiteui.js",
-  "jsdelivr": "lightwebsiteui.js",
-  "exports": {
-    ".": {
-      "types": "./lightwebsiteui.d.ts",
-      "import": "./lightwebsiteui.mjs",
-      "default": "./lightwebsiteui.js"
-    },
-    "./lightwebsiteui.css": "./lightwebsiteui.css",
-    "./lightwebsiteui.js": "./lightwebsiteui.js"
-  },
-  "files": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.manual.mjs", "lightwebsiteui.css", "lightwebsiteui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
-  "sideEffects": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.manual.mjs", "*.css"]
+  "type": "module",
+  "bin": { "create-lightwebsiteui": "bin/create.mjs" },
+  "files": ["bin", "template", "!template/node_modules", "!template/dist", "!template/.astro", "!template/package-lock.json"],
+  "engines": { "node": ">=22.12.0" }
 }

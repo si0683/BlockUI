@@ -1,0 +1,209 @@
+---
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  MailIcon,
+  PhoneIcon,
+  SparklesIcon,
+  StarIcon,
+} from "lucide-react"
+
+import Layout from "@/layouts/main.astro"
+import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Faq } from "@/components/site/faq"
+import { FeatureIcon } from "@/components/site/feature-icon"
+import { MobileMenu } from "@/components/site/mobile-menu"
+import { OrderDialog } from "@/components/site/order-dialog"
+import { ReviewCard } from "@/components/site/review-card"
+import { ThemeToggle } from "@/components/site/theme-toggle"
+import { faq, features, plans, reviews, site } from "@/data/site"
+
+// React components without client:* render to plain HTML (no JavaScript).
+// Add client:load (or client:visible) only where the component must react to clicks.
+// Each React component in .astro renders separately: compose parts that share
+// context (Avatar, Dialog, Tabs, Accordion...) inside a .tsx file, see components/site/.
+// For the same reason asChild does not work here: style a link with buttonVariants().
+---
+
+<Layout title={`${site.name} — ${site.tagline}`} description={site.description}>
+  <header class="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
+      <a href="#" class="flex items-center gap-2 font-semibold">
+        <span class="grid size-8 place-items-center rounded-lg bg-brand text-white">
+          <SparklesIcon className="size-4" />
+        </span>
+        {site.name}
+      </a>
+      <nav class="hidden gap-6 text-sm text-muted-foreground md:flex">
+        {site.nav.map((link) => (
+          <a href={link.href} class="transition-colors hover:text-foreground">
+            {link.label}
+          </a>
+        ))}
+      </nav>
+      <div class="ml-auto flex items-center gap-1">
+        <ThemeToggle client:load />
+        <OrderDialog
+          client:load
+          label="Связаться"
+          size="default"
+          className="hidden sm:inline-flex"
+        />
+        <MobileMenu client:load title={site.name} links={site.nav} />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden">
+      <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_50%_0%,color-mix(in_oklch,var(--primary),transparent_80%),transparent)]"></div>
+      <div class="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-24 text-center md:py-32">
+        <Badge
+          variant="secondary"
+          className="animate-in fade-in slide-in-from-bottom-2 duration-700"
+        >
+          <StarIcon /> 120+ запущенных проектов
+        </Badge>
+        <h1 class="animate-in fade-in slide-in-from-bottom-4 text-4xl font-bold tracking-tight text-balance duration-700 sm:text-6xl">
+          <span class="text-brand">{site.tagline}</span>
+        </h1>
+        <p class="max-w-2xl text-lg text-pretty text-muted-foreground">
+          {site.description}
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <OrderDialog client:load />
+          <a
+            href="#pricing"
+            class={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            Смотреть тарифы <ArrowRightIcon data-icon="inline-end" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-20">
+      <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+        Что вы получите
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {features.map((item) => (
+          <Card className="transition-shadow hover:shadow-lg">
+            <CardHeader>
+              <span class="mb-2 grid size-10 place-items-center rounded-lg bg-accent text-accent-foreground">
+                <FeatureIcon name={item.icon} className="size-5" />
+              </span>
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.text}</CardDescription>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+    </section>
+
+    <section id="pricing" class="scroll-mt-20 bg-muted/50 py-20">
+      <div class="mx-auto max-w-6xl px-4">
+        <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+          Тарифы
+        </h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          {plans.map((plan) => (
+            <Card className={plan.popular ? "ring-2 ring-primary" : ""}>
+              <CardHeader>
+                {plan.popular && (
+                  <CardAction>
+                    <Badge>Популярный</Badge>
+                  </CardAction>
+                )}
+                <CardTitle>{plan.name}</CardTitle>
+                <CardDescription>{plan.text}</CardDescription>
+                <p class="pt-2 text-3xl font-bold">{plan.price}</p>
+              </CardHeader>
+              <CardContent className="grow">
+                <ul class="grid gap-2 text-sm">
+                  {plan.items.map((item) => (
+                    <li class="flex gap-2">
+                      <CheckIcon className="size-4 shrink-0 text-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <OrderDialog
+                  client:visible
+                  label="Выбрать"
+                  plan={plan.name}
+                  variant={plan.popular ? "default" : "outline"}
+                  className="w-full"
+                />
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-20">
+      <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+        Отзывы
+      </h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        {reviews.map((review) => (
+          <ReviewCard {...review} />
+        ))}
+      </div>
+    </section>
+
+    <section id="faq" class="mx-auto max-w-3xl scroll-mt-20 px-4 pb-20">
+      <h2 class="mb-6 text-center text-3xl font-bold tracking-tight">
+        Вопросы
+      </h2>
+      <Faq client:visible items={faq} />
+    </section>
+
+    <section class="px-4 pb-20">
+      <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 rounded-3xl bg-brand px-6 py-14 text-center text-white">
+        <h2 class="text-3xl font-bold tracking-tight">Готовы начать?</h2>
+        <p class="max-w-xl text-white/85">
+          Расскажите о задаче — предложим решение и сроки в тот же день.
+        </p>
+        <OrderDialog client:visible variant="secondary" />
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t">
+    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center">
+      <span>
+        © {new Date().getFullYear()} {site.name}
+      </span>
+      <Separator orientation="vertical" className="hidden h-4 sm:block" />
+      <a
+        href={`tel:${site.phone.replace(/[^+\d]/g, "")}`}
+        class="flex items-center gap-2 hover:text-foreground"
+      >
+        <PhoneIcon className="size-4" />
+        {site.phone}
+      </a>
+      <a
+        href={`mailto:${site.email}`}
+        class="flex items-center gap-2 hover:text-foreground"
+      >
+        <MailIcon className="size-4" />
+        {site.email}
+      </a>
+    </div>
+  </footer>
+</Layout>
