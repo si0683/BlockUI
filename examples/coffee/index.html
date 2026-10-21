@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кофейня «Зерно» — BlockUI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ↓↓↓ Для CodePen копируйте в окно HTML всё, что ниже этой строки ↓↓↓
+     Сначала подключаем BlockUI, потом идёт разметка сайта. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+
+<!-- ШАПКА: кнопки темы, корзины и меню для телефона BlockUI добавит сам -->
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span>☕</span><span data-name>Зерно</span></a>
+    <nav class="bui-nav">
+      <a href="#about">О нас</a>
+      <a href="#menu">Меню</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. ГЛАВНЫЙ ЭКРАН -->
+<section class="bui-hero" id="top">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">☕ Свежая обжарка каждый день</span>
+      <h1 data-name>Зерно</h1>
+      <p>Уютная кофейня, где варят ароматный кофе и пекут тёплые круассаны.</p>
+      <div class="bui-row">
+        <button class="bui-btn" data-open="order">Заказать кофе</button>
+        <a class="bui-btn bui-btn-ghost" href="#menu">Смотреть меню</a>
+      </div>
+      <ul class="bui-facts">
+        <li><b>4.9 ⭐</b><span>оценка гостей</span></li>
+        <li><b>15 сортов</b><span>кофе со всего мира</span></li>
+        <li><b>7:00</b><span>открываемся рано</span></li>
+      </ul>
+    </div>
+    <div class="bui-hero-picture">
+      <img data-photo="кофе" alt="Чашка кофе">
+      <span class="bui-sticker">Второй кофе −50%</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. О НАС -->
+<section class="bui-section" id="about">
+  <div class="bui-container bui-split">
+    <img data-photo="кофе 3" alt="Кофейня изнутри">
+    <div>
+      <span class="bui-label">О нас</span>
+      <h2>Место, где хочется остаться</h2>
+      <p class="bui-muted">Мы сами обжариваем зёрна и готовим каждую чашку с любовью. Приходите с друзьями, с книгой или работать — для всех найдётся уютный уголок.</p>
+      <ul class="bui-checks">
+        <li>Кофе с собой за 3 минуты</li>
+        <li>Свежая выпечка каждое утро</li>
+        <li>Бесплатный Wi-Fi и розетки</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ПРЕИМУЩЕСТВА -->
+<section class="bui-section bui-section-alt">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Почему мы</span>
+      <h2>Три причины зайти к нам</h2>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon">🌱</div><h3>Своя обжарка</h3><p>Зёрна обжариваем сами — кофе всегда свежий.</p></div>
+      <div class="bui-feature"><div class="bui-icon">🥐</div><h3>Тёплая выпечка</h3><p>Круассаны и булочки прямо из печи.</p></div>
+      <div class="bui-feature"><div class="bui-icon">🎵</div><h3>Уютная атмосфера</h3><p>Мягкие кресла, тихая музыка и добрые бариста.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. МЕНЮ: кнопка data-add кладёт товар в корзину -->
+<section class="bui-section" id="menu">
+  <div class="bui-container">
+    <div class="bui-head">
+      <span class="bui-label">Меню</span>
+      <h2>Самое любимое</h2>
+      <p>Выбирайте и добавляйте в корзину</p>
+    </div>
+    <div class="bui-grid">
+      <div class="bui-product">
+        <div class="bui-product-image"><img data-photo="кофе 4" alt="Капучино"><span class="bui-tag">Хит</span></div>
+        <div class="bui-product-body">
+          <h3>Капучино</h3><p>Нежная молочная пенка и двойной эспрессо</p>
+          <div class="bui-product-footer"><span class="bui-price">220 ₽</span><button class="bui-btn bui-btn-small" data-add="Капучино" data-price="220">В корзину</button></div>
+        </div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img data-photo="выпечка" alt="Круассаны"><span class="bui-tag">Свежее</span></div>
+        <div class="bui-product-body">
+          <h3>Круассан</h3><p>Хрустящий, с маслом и сливочной начинкой</p>
+          <div class="bui-product-footer"><span class="bui-price">150 ₽</span><button class="bui-btn bui-btn-small" data-add="Круассан" data-price="150">В корзину</button></div>
+        </div>
+      </div>
+      <div class="bui-product">
+        <div class="bui-product-image"><img data-photo="торт" alt="Торт"><span class="bui-tag">Десерт</span></div>
+        <div class="bui-product-body">
+          <h3>Шоколадный торт</h3><p>Кусочек к кофе — настроение на весь день</p>
+          <div class="bui-product-footer"><span class="bui-price">290 ₽</span><button class="bui-btn bui-btn-small" data-add="Шоколадный торт" data-price="290">В корзину</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ОТЗЫВЫ -->
+<section class="bui-section bui-section-alt" id="reviews">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Отзывы</span><h2>Что говорят гости</h2></div>
+    <div class="bui-grid">
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Лучший капучино в городе! Хожу сюда каждое утро.</blockquote><div class="bui-author"><span class="bui-avatar">👩</span><span>Анна<small>постоянный гость</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Очень уютно, удобно работать с ноутбуком.</blockquote><div class="bui-author"><span class="bui-avatar">👨‍💻</span><span>Илья<small>программист</small></span></div></div>
+      <div class="bui-review"><div class="bui-stars">★★★★☆</div><blockquote>Круассаны просто тают во рту!</blockquote><div class="bui-author"><span class="bui-avatar">👧</span><span>Маша<small>школьница</small></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ВОПРОСЫ -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Вопросы</span><h2>Частые вопросы</h2></div>
+    <details class="bui-faq"><summary>Можно ли заказать кофе с собой?</summary><p>Да! Закажите на сайте — приготовим за 3 минуты.</p></details>
+    <details class="bui-faq"><summary>Есть ли растительное молоко?</summary><p>Есть овсяное, миндальное и кокосовое.</p></details>
+    <details class="bui-faq"><summary>Можно прийти с собакой?</summary><p>Конечно, мы рады гостям с питомцами.</p></details>
+  </div>
+</section>
+
+<!-- 7. КНОПКА ДЕЙСТВИЯ: окно «order» BlockUI создаст сам -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Хочется кофе прямо сейчас?</h2>
+      <p>Оформите заказ — заберёте без очереди.</p>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order">Заказать</button>
+    </div>
+  </div>
+</section>
+
+<!-- 8. КОНТАКТЫ -->
+<section class="bui-section bui-section-alt" id="contacts">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Контакты</span><h2>Ждём в гости</h2><p>Позвоните или напишите — забронируем столик!</p></div>
+    <div class="bui-contacts">
+      <a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>+7 (900) 123-45-67</b></span></a>
+      <a class="bui-contact" href="mailto:coffee@example.com"><span>✉️</span><span><small>Почта</small><b>coffee@example.com</b></span></a>
+      <div class="bui-contact"><span>📍</span><span><small>Адрес</small><b>г. Москва, ул. Кофейная, 5</b></span></div>
+      <div class="bui-contact"><span>🕒</span><span><small>Часы работы</small><b>Ежедневно 7:00–22:00</b></span></div>
+    </div>
+    <div class="bui-socials">
+      <a class="bui-social bui-vk" href="https://vk.com/" target="_blank" rel="noopener" data-tip="ВКонтакте">VK</a>
+      <a class="bui-social bui-max" href="https://max.ru/" target="_blank" rel="noopener" data-tip="Мессенджер MAX">MAX</a>
+    </div>
+  </div>
+</section>
+
+<footer class="bui-footer">© <span data-year></span> «<span data-name>Зерно</span>». Учебный сайт: контакты вымышленные.</footer>
+<!-- ↑↑↑ Для CodePen: конец части для окна HTML ↑↑↑ -->
+
+<script src="script.js"></script>
+</body>
+</html>

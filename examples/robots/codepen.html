@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span>🤖</span><span data-name>РобоКод</span></a>
+    <nav class="bui-nav">
+      <a href="#how">Как учимся</a>
+      <a href="#prices">Цены</a>
+      <a href="#team">Учителя</a>
+      <a href="#signup">Запись</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1. ГЛАВНЫЙ ЭКРАН с фото на фоне (data-photo на секции) -->
+<section class="bui-hero bui-hero-photo" id="top" data-photo="робот">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">🚀 Набор на новый сезон открыт</span>
+      <h1>Собери своего робота</h1>
+      <p>Школа робототехники и программирования для детей 7–14 лет. Первое занятие — бесплатно.</p>
+      <div class="bui-row">
+        <button class="bui-btn bui-btn-big" data-open="order">Записаться</button>
+        <a class="bui-btn bui-btn-light" href="#prices">Цены</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. ЦИФРЫ: data-count — число «досчитывается» при прокрутке -->
+<section class="bui-section">
+  <div class="bui-container bui-grid bui-grid-4">
+    <div class="bui-stat"><b data-count="1200" data-suffix="+">0</b><span>учеников</span></div>
+    <div class="bui-stat"><b data-count="350">0</b><span>собранных роботов</span></div>
+    <div class="bui-stat"><b data-count="27">0</b><span>побед на олимпиадах</span></div>
+    <div class="bui-stat"><b data-count="4.9">0</b><span>оценка родителей</span></div>
+  </div>
+</section>
+
+<!-- 3. ШАГИ -->
+<section class="bui-section bui-section-alt" id="how">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Как учимся</span><h2>От идеи до робота</h2><p>Каждое занятие — новый проект</p></div>
+    <div class="bui-grid bui-steps">
+      <div class="bui-step"><h3>Придумываем</h3><p>Выбираем, какого робота будем делать сегодня.</p></div>
+      <div class="bui-step"><h3>Собираем</h3><p>Работаем с моторами, датчиками и деталями.</p></div>
+      <div class="bui-step"><h3>Программируем</h3><p>Пишем код, и робот оживает!</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ТАРИФЫ: data-pick выберет тариф в окне записи -->
+<section class="bui-section" id="prices">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Цены</span><h2>Выберите курс</h2></div>
+    <div class="bui-grid">
+      <div class="bui-plan">
+        <h3>Старт</h3><div class="bui-price">2 900 ₽</div><p class="bui-muted">в месяц, 4 занятия</p>
+        <ul class="bui-checks"><li>Конструктор на занятиях</li><li>Группа до 8 детей</li></ul>
+        <button class="bui-btn bui-btn-ghost" data-open="order" data-pick="Старт">Выбрать</button>
+      </div>
+      <div class="bui-plan bui-popular">
+        <h3>Инженер</h3><div class="bui-price">4 900 ₽</div><p class="bui-muted">в месяц, 8 занятий</p>
+        <ul class="bui-checks"><li>Всё из «Старта»</li><li>Программирование на Python</li><li>Подготовка к соревнованиям</li></ul>
+        <button class="bui-btn" data-open="order" data-pick="Инженер">Выбрать</button>
+      </div>
+      <div class="bui-plan">
+        <h3>Чемпион</h3><div class="bui-price">7 900 ₽</div><p class="bui-muted">в месяц, 12 занятий</p>
+        <ul class="bui-checks"><li>Личный наставник</li><li>Свой набор для дома</li></ul>
+        <button class="bui-btn bui-btn-ghost" data-open="order" data-pick="Чемпион">Выбрать</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. КОМАНДА -->
+<section class="bui-section bui-section-alt" id="team">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Учителя</span><h2>Наша команда</h2></div>
+    <div class="bui-grid">
+      <div class="bui-person"><img data-photo="наука" alt="Учитель"><h3>Анна Петрова</h3><p>Инженер-робототехник</p></div>
+      <div class="bui-person"><img data-photo="программирование" alt="Учитель"><h3>Илья Смирнов</h3><p>Программист</p></div>
+      <div class="bui-person"><img data-photo="робот 3" alt="Учитель"><h3>Робот Бип</h3><p>Помощник на занятиях</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. АКЦИЯ С ТАЙМЕРОМ: data-timer — дата окончания -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Скидка 20% до конца года</h2>
+      <div data-timer="2026-12-31T23:59:59"></div>
+      <p>Успейте записаться на первый месяц со скидкой.</p>
+      <button class="bui-btn bui-btn-light bui-btn-big" data-open="order">Хочу скидку</button>
+    </div>
+  </div>
+</section>
+
+<!-- 7. ФОРМА ПРЯМО НА СТРАНИЦЕ: BlockUI сам проверит поля -->
+<section class="bui-section bui-section-alt" id="signup">
+  <div class="bui-container bui-split">
+    <div>
+      <span class="bui-label">Запись</span>
+      <h2>Приходите на пробное занятие</h2>
+      <p class="bui-muted">Оставьте контакты — подберём группу по возрасту и удобное время.</p>
+      <div class="bui-socials" style="justify-content:flex-start">
+        <a class="bui-social bui-vk" href="https://vk.com/" target="_blank" rel="noopener" data-tip="ВКонтакте">VK</a>
+        <a class="bui-social bui-max" href="https://max.ru/" target="_blank" rel="noopener" data-tip="Мессенджер MAX">MAX</a>
+        <a class="bui-social bui-tg" href="tel:+79001234567" data-tip="+7 (900) 123-45-67">📞</a>
+      </div>
+    </div>
+    <form class="bui-form" data-thanks="Вы записаны! Ждём на пробном занятии 🤖">
+      <div class="bui-field"><input name="name" required><label>Имя ребёнка</label></div>
+      <div class="bui-field"><input name="phone" type="tel" required><label>Телефон родителя</label></div>
+      <div class="bui-field"><select name="age"><option>7–9 лет</option><option>10–12 лет</option><option>13–14 лет</option></select><label>Возраст</label></div>
+      <button class="bui-btn bui-btn-wide" type="submit">Записаться</button>
+    </form>
+  </div>
+</section>
+
+<footer class="bui-footer">© <span data-year></span> «<span data-name>РобоКод</span>». Учебный сайт: контакты вымышленные.</footer>

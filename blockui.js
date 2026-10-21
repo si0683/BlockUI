@@ -1,0 +1,645 @@
+/* ============================================================
+   BlockUI 1.0.0 — блоки для красивых сайтов: подключи и собирай.
+   Подключение (две строки в HTML):
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.css">
+     <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@1.0.0/blockui.js"></script>
+   Настройка сайта: BlockUI.start({ name, style, color, rain, thanks }).
+   Сам делает: стиль и цвет, фото по слову (data-photo="пицца"),
+   меню для телефона, тёмную тему, корзину, окно заказа, проверку форм,
+   сообщения, салют, счётчики, таймер акции, галерею, плавное появление.
+   Документация: https://github.com/si0683/BlockUI (AI.md — для нейросетей).
+   ============================================================ */
+(function () {
+  'use strict';
+
+  const VERSION = '1.0.0';
+
+  // Слой стилей bui объявляем самым первым — он самый слабый,
+  // поэтому классы Tailwind и свой style.css всегда сильнее BlockUI
+  const layerOrder = document.createElement('style');
+  layerOrder.textContent = '@layer bui;';
+  (document.head || document.documentElement).prepend(layerOrder);
+
+  /* ---------- 1. Фото Unsplash по темам ----------
+     Ключ — тема, слова — начала русских и английских слов, по которым тема находится.
+     Раздел заполняет tools/build.py — руками не править. */
+  // PHOTOS:START
+  const PHOTOS = {
+    pizza: ['1513104890138-7c749659a591', '1604382354936-07c5d9983bd3', '1769521140317-5c6dcd1266e7', '1574071318508-1cdbab80d002'],
+    coffee: ['1447933601403-0c6688de566e', '1495474472287-4d71bcdd2085', '1764489307253-da5c9c311fa2', '1541167760496-1628856ab772'],
+    cake: ['1588195538326-c5b1e9f80a1b', '1606983340126-99ab4feaa64a', '1778447964490-8e52582f081c', '1568827999250-3f6afff96e66'],
+    bakery: ['1608198093002-ad4e005484ec', '1568254183919-78a4f43a2877', '1587241321921-91a834d6d191', '1509440159596-0249088772ff'],
+    burger: ['1568901346375-23c9450c58cd', '1572802419224-296b0aeee0d9', '1757834787931-ddd70f3379a5', '1571091718767-18b5b1457add'],
+    sushi: ['1579871494447-9811cf80d66c', '1553621042-f6e147245754', '1611143669185-af224c5e3252', '1617196034183-421b4917c92d'],
+    icecream: ['1629385701021-fcd568a743e8', '1567206563064-6f60f40a2b57', '1782381513962-6395e8ea4de1', '1718810125230-e8e2271354f5'],
+    fruits: ['1610832958506-aa56368176cf', '1619566636858-adf3ef46400b', '1769489023737-6d907d807a57', '1464965911861-746a04b4bca6'],
+    food: ['1414235077428-338989a2e8c0', '1504674900247-0877df9cc836', '1783447036642-90a65ff85a0f', '1466978913421-dad2ebd01d17'],
+    candy: ['1666274694243-9997eb427237', '1617627191898-1408bf607b4d', '1633158832466-be592c721217', '1563262924-641a8b3d397f'],
+    flowers: ['1531120364508-a6b656c3e78d', '1619962992057-be492a5816f6', '1512056495345-913a0c261dc8', '1469317835793-6d02c2392778'],
+    dog: ['1561037404-61cd46aa615b', '1534361960057-19889db9621e', '1763718205007-fb085a276026', '1543466835-00a7907e9de1'],
+    cat: ['1514888286974-6c03e2ca1dba', '1478098711619-5ab0b478d6e6', '1759588032622-1388cf9505ad', '1472491235688-bdc81a63246e'],
+    horse: ['1553284965-83fd3e82fa5a', '1547581849-38ba650ad0de', '1764968351728-4b2938f56873', '1553284965-5dd8352ff1bd'],
+    pets: ['1548199973-03cce0bbc87b', '1534361960057-19889db9621e', '1780859037342-45befe40367a', '1516453734593-8d198ae84bcf'],
+    zoo: ['1597953601374-1ff2d5640c85', '1601089538814-fd6031cec6cc', '1759955074278-68439fe3d4b9', '1551077999-c067a4684abe'],
+    fish: ['1535591273668-578e31182c4f', '1524704654690-b56c05c78a00', '1784766029024-fe0adb02c313', '1497671954146-59a89ff626ff'],
+    birds: ['1486365227551-f3f90034a57c', '1767288832044-c522467b24e1', '1480044965905-02098d419e96', '1484704324500-528d0ae4dc7d'],
+    books: ['1550399105-c4db5fb85c18', '1495446815901-a7297e633e8d', '1759949205882-eaa31dc36174', '1722182877533-7378b60bf1e8'],
+    school: ['1580582932707-520aed937b7b', '1509062522246-3755977927d7', '1758270704262-ecc82b23dc37', '1588072432836-e10032774350'],
+    kids: ['1606092195730-5d7b9af1efc5', '1502086223501-7ea6ecd79368', '1761839262867-af53d08b0eb5', '1614113036347-9f60df80730a'],
+    toys: ['1596461404969-9ae70f2830c1', '1599623560574-39d485900c95', '1766090503766-623b62f0da26', '1558060370-d644479cb6f7'],
+    lego: ['1587654780291-39c9404d746b', '1772920909185-05b854e3858f', '1769700016169-a3aff2356663'],
+    art: ['1615184697985-c9bde1b07da7', '1536849460588-696219a9e98d', '1589996448606-27d38c70f3bc'],
+    music: ['1459749411175-04bf5292ceea', '1533174072545-7a4b6ad7a6c3', '1787169143208-455decfe5da7', '1493225457124-a3eb161ffa5f'],
+    guitar: ['1564186763535-ebb21ef5277f', '1510915361894-db8b60106cb1', '1511379938547-c1f69419868d', '1516924962500-2b4b3b99ea02'],
+    piano: ['1520523839897-bd0b52f945a0', '1552422535-c45813c61732', '1787074191712-083fa082d600', '1514119412350-e174d90d280e'],
+    dance: ['1504609813442-a8924e83f76e', '1511715282680-fbf93a50e721', '1529229504105-4ea795dcbf59', '1550026593-cb89847b168d'],
+    football: ['1431324155629-1a6deb1dec8d', '1574629810360-7efbbe195018', '1486286701208-1d58e9338013', '1575361204480-aadea25e6e68'],
+    basketball: ['1546519638-68e109498ffc', '1627627256672-027a4613d028', '1785060612254-b6eed57ec344', '1519861531473-9200262188bf'],
+    swimming: ['1558617320-e695f0d420de', '1530549387789-4c1017266635', '1787237876710-286560d4ff2f', '1614667288602-9ac6e37318a7'],
+    fitness: ['1534438327276-14e5300c3a48', '1571902943202-507ec2618e8f', '1757924284732-4189190321cf', '1517836357463-d25dfeac3438'],
+    yoga: ['1544367567-0f2fcb009e0b', '1758274535230-3641d0632878', '1552196563-55cd4e45efb3', '1552196527-bffef41ef674'],
+    chess: ['1586165368502-1bad197a6461', '1767972463898-e763a9f14995', '1529699211952-734e80c4d42b', '1528819622765-d6bcf132f793'],
+    bike: ['1485965120184-e220f721d03e', '1532298229144-0ec0c57515c7', '1768325400062-2b63fec226c3', '1452573992436-6d508f200b30'],
+    skate: ['1520045892732-304bc3ac5d8e', '1536318431364-5cc762cfc8ec', '1496886077455-6e206da90837', '1569074187119-c87815b476da'],
+    hockey: ['1545471977-94cac22e71ed', '1514511719-9f5849dc16d0', '1515703407324-5f753afd8be8', '1486128105845-91daff43f404'],
+    games: ['1542751371-adc38448a05e', '1612287230202-1ff1d85d1bdf', '1773332585815-f106a5d6ed6c', '1511512578047-dfb367046420'],
+    computer: ['1461749280684-dccba630e2f6', '1542831371-29b0f74f9713', '1605379399642-870262d3d051', '1619410283995-43d9134e7656'],
+    robot: ['1737644467636-6b0053476bb2', '1485827404703-89b55fcc595e', '1527430253228-e93688616381', '1601132359864-c974e79890ac'],
+    space: ['1457364887197-9150188c107b', '1517976487492-5750f3195933', '1768283808210-41196886ebf4', '1614728263952-84ea256f9679'],
+    science: ['1614935151651-0bea6508db6b', '1602052577122-f73b9710adba', '1788010234756-799c8cff02ec', '1532094349884-543bc11b234d'],
+    phone: ['1592890288564-76628a30a657', '1573152143286-0c422b4d2175', '1512428559087-560fa5ceab42', '1787734081268-01a06df25f4a'],
+    travel: ['1507525428034-b723cf961d3e', '1519046904884-53103b34b206', '1783597165290-8ebe8a01a76e', '1644333192141-1135d690734f'],
+    mountains: ['1464822759023-fed622ff2c3b', '1454496522488-7a8e488e8606', '1778431193202-b0e2345eeab9', '1483728642387-6c3bdd6c93e5'],
+    camping: ['1504280390367-361c6d9f38f4', '1631635589499-afd87d52bf64', '1510312305653-8ed496efae75', '1478131143081-80f7f84ca84d'],
+    sea: ['1507525428034-b723cf961d3e', '1468581264429-2548ef9eb732', '1783825772143-a2affdca150f', '1530053969600-caed2596d242'],
+    forest: ['1448375240586-882707db888b', '1542273917363-3b1817f69a2d', '1773318435531-101e57047732', '1425913397330-cf8af2ff40a1'],
+    winter: ['1453306458620-5bbef13a5bca', '1775574993270-050296265511', '1445543949571-ffc3e0e2f55e', '1547754980-3df97fed72a8'],
+    city: ['1513061379709-ef0cd1695189', '1444723121867-7a241cacace9', '1766034813208-84fadbd24eba', '1505811210036-052144988918'],
+    car: ['1503376780353-7e6692767b70', '1542362567-b07e54358753', '1765211003784-a82564cb8d3d', '1568605117036-5fe5e7bab0b7'],
+    train: ['1535535112387-56ffe8db21ff', '1527295110-5145f6b148d0', '1777026050794-a5e4ef7cd254', '1426086800127-2601510ca027'],
+    plane: ['1436491865332-7a61a109cc05', '1529074963764-98f45c47344b', '1771694583915-78f9b39fd6d1', '1569629743817-70d8db6c323b'],
+    clothes: ['1558769132-cb1aea458c5e', '1483985988355-763728e1935b', '1768758533474-5cd148638a98', '1441984904996-e0b6ba687e04'],
+    shoes: ['1542291026-7eec264c27ff', '1608231387042-66d1773070a5', '1783945345850-82f0b7fd38d3', '1600185365483-26d7a4cc7519'],
+    beauty: ['1634449571010-02389ed0f9b0', '1616394584738-fc6e612e71b9', '1761839256791-6a93f89fb8b0', '1580618672591-eb180b1a973f'],
+    barber: ['1585747860715-2ba37e788b70', '1621605815971-fbc98d665033', '1596728325488-58c87691e9af', '1761839256791-6a93f89fb8b0'],
+    hotel: ['1618773928121-c32242e63f39', '1611892440504-42a792e24d32', '1782890790046-2aefb0b503cb', '1551882547-ff40c63fe5fa'],
+    party: ['1530103862676-de8c9debad1d', '1765947383401-87cfa7d3e568', '1527529482837-4698179dc6ce', '1531956531700-dc0ee0f1f9a5'],
+    newyear: ['1545048702-79362596cdc9', '1765911524694-9903950a52ae', '1512389142860-9c449e58a543', '1543258103-a62bdc069871'],
+    doctor: ['1612349317150-e413f6a5b16d', '1758691461990-03b49d969495', '1673865641073-4479f93a7776', '1758691462878-6edc3d3da1be'],
+    vet: ['1791395275751-4f1ca7daef4a', '1596272875729-ed2ff7d6d9c5', '1758691463582-11aea602cd4a', '1632236542159-809925d85fc0'],
+    farm: ['1791395183081-ce1ecb0e6a03', '1560493676-04071c5f467b', '1761839258671-6495fdc188b3', '1444858291040-58f756a3bdd6'],
+    garden: ['1594498653385-d5172c532c00', '1601654253194-260e0b6984f9', '1778594006034-230d11763ebb', '1591383496652-db773e57b1d0'],
+    cooking: ['1556911220-e15b29be8c8f', '1556911261-6bd341186b2f', '1773332589460-5a5d43c80f5b', '1636647511729-6703539ba71f'],
+    cinema: ['1517604931442-7e0c8ed2963c', '1760024101626-d6d5709aad3d', '1478720568477-152d9b164e26', '1536440136628-849c177e76a1'],
+    photo: ['1542038784456-1ea8e935640e', '1502920917128-1aa500764cbd', '1541516160071-4bb0c5af65ba', '1495707902641-75cac588d2e9'],
+    dinosaur: ['1525877442103-5ddb2089b2bb', '1633876204719-dd74580764ea', '1785331472041-4b644676b93b', '1596138252452-463802fb8fc1']
+  };
+  const PHOTO_WORDS = {
+    pizza: ['пицц', 'pizza'],
+    coffee: ['коф', 'кафе', 'капуч', 'кофейн', 'coffee', 'cafe'],
+    cake: ['торт', 'кондитер', 'пирожн', 'десерт', 'cake'],
+    bakery: ['пекар', 'хлеб', 'булоч', 'выпеч', 'bakery'],
+    burger: ['бургер', 'фастфуд', 'burger'],
+    sushi: ['суши', 'ролл', 'японск', 'sushi'],
+    icecream: ['морожен', 'ice cream'],
+    fruits: ['фрукт', 'овощ', 'ягод', 'fruit'],
+    food: ['еда', 'ресторан', 'обед', 'столов', 'restaurant', 'food'],
+    candy: ['конфет', 'сладост', 'леденц', 'candy', 'sweet'],
+    flowers: ['цветы', 'цветоч', 'цветов', 'букет', 'flower'],
+    dog: ['собак', 'пёс', 'щен', 'dog'],
+    cat: ['кошк', 'котик', 'котён', 'котен', 'кошач', 'cat'],
+    horse: ['лошад', 'конюш', 'пони', 'конн', 'horse'],
+    pets: ['питом', 'зоомагаз', 'pet'],
+    zoo: ['зоопарк', '~животн', 'звер', 'zoo', 'animal'],
+    fish: ['рыб', 'аквариум', 'fish'],
+    birds: ['птиц', 'попуга', 'bird'],
+    books: ['книг', 'библиот', 'чтени', 'book'],
+    school: ['~школ', '~учёб', '~учеб', '~урок', '~курс', 'school'],
+    kids: ['~дет', '~ребён', '~ребен', 'малыш', 'лагер', 'детский сад', 'kids', 'child'],
+    toys: ['игрушк', 'игруш', 'toy'],
+    lego: ['лего', 'конструктор', 'lego'],
+    art: ['рисова', 'художе', 'искусств', 'живопис', 'творч', 'art'],
+    music: ['музык', 'концерт', 'music'],
+    guitar: ['гитар', 'guitar'],
+    piano: ['пианин', 'фортепиан', 'рояль', 'piano'],
+    dance: ['танц', 'балет', 'хореограф', 'dance'],
+    football: ['футбол', 'football', 'soccer'],
+    basketball: ['баскетбол', 'basketball'],
+    swimming: ['плаван', 'бассейн', 'swim'],
+    fitness: ['фитнес', 'спортзал', 'тренаж', '~трениров', '~спорт', 'gym', 'fitness', 'sport'],
+    yoga: ['йог', 'yoga'],
+    chess: ['шахмат', 'chess'],
+    bike: ['велосипед', 'вело', 'bike', 'bicycle'],
+    skate: ['скейт', 'самокат', 'skate'],
+    hockey: ['хоккей', 'хокке', 'коньк', 'hockey'],
+    games: ['игр', 'гейм', 'видеоигр', 'киберспорт', 'приставк', 'game'],
+    computer: ['компьютер', 'программ', 'айти', 'ноутбук', 'код', 'computer', 'coding'],
+    robot: ['робот', 'robot'],
+    space: ['космо', 'ракет', 'планет', 'астроном', 'space'],
+    science: ['наук', 'научн', 'лаборатор', 'хими', 'физик', 'эксперимент', 'science'],
+    phone: ['телефон', 'смартфон', 'гаджет', 'электрон', 'phone'],
+    travel: ['путешеств', 'туризм', 'турист', 'отпуск', 'пляж', 'travel', 'beach'],
+    mountains: ['горы', 'горах', 'горн', 'альпин', 'mountain'],
+    camping: ['кемпинг', 'палатк', 'поход', 'костёр', 'camping'],
+    sea: ['море', 'морск', 'океан', 'sea', 'ocean'],
+    forest: ['лес', '~природ', 'forest', 'nature'],
+    winter: ['зим', 'снег', 'лыж', 'winter', 'snow'],
+    city: ['~город', 'мегапол', 'city'],
+    car: ['автомоб', 'машин', 'авто', 'такси', 'car'],
+    train: ['поезд', 'вокзал', 'железн', 'train'],
+    plane: ['самолёт', 'самолет', 'авиа', 'аэропорт', 'plane'],
+    clothes: ['одежд', 'мода', 'модн', 'бутик', 'clothes', 'fashion'],
+    shoes: ['обув', 'кроссов', 'кед', 'shoes', 'sneaker'],
+    beauty: ['красот', '~салон', 'маникюр', 'косметик', 'спа', 'beauty'],
+    barber: ['барбер', 'стрижк', 'парикмах', 'barber'],
+    hotel: ['отел', 'гостиниц', 'хостел', 'hotel'],
+    party: ['праздник', 'день рожден', 'вечерин', 'аниматор', 'party', 'birthday'],
+    newyear: ['новый год', 'новогод', 'ёлк', 'елк', 'рождеств', 'christmas'],
+    doctor: ['врач', 'клиник', 'медиц', 'больниц', 'здоров', 'доктор', 'doctor'],
+    vet: ['ветеринар', 'vet'],
+    farm: ['ферм', 'деревн', 'farm'],
+    garden: ['сад', 'огород', 'растен', 'дача', 'garden'],
+    cooking: ['готовк', 'повар', 'кулинар', 'рецепт', 'cooking'],
+    cinema: ['кино', 'фильм', 'cinema', 'movie'],
+    photo: ['фото', 'фотограф', 'камер', 'photo'],
+    dinosaur: ['динозавр', 'dinosaur']
+  };
+  // PHOTOS:END
+
+  /* ---------- Tailwind + daisyUI: второй режим (tailwind: true) ---------- */
+  const LIBS = {
+    tailwind: 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3',
+    daisy: 'https://cdn.jsdelivr.net/npm/daisyui@5.7.47',
+    daisyThemes: 'https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css'
+  };
+  // Стиль BlockUI → тема daisyUI (если тема не указана)
+  const DAISY_THEMES = { cozy: 'retro', dark: 'synthwave', modern: 'corporate', bright: 'cupcake', clean: 'light' };
+
+  /* ---------- 2. Стили и цвета ---------- */
+  const STYLES = {
+    'уют': 'cozy', 'cozy': 'cozy',
+    'тём': 'dark', 'тем': 'dark', 'dark': 'dark',
+    'соврем': 'modern', 'modern': 'modern', 'строг': 'modern',
+    'ярк': 'bright', 'весел': 'bright', 'весёл': 'bright', 'bright': 'bright',
+    'прост': 'clean', 'аккурат': 'clean', 'clean': 'clean', 'минимал': 'clean'
+  };
+  const STYLE_CLASS = { cozy: 'bui-cozy', dark: 'bui-dark-style', modern: 'bui-modern', bright: 'bui-bright', clean: 'bui-clean' };
+
+  // Цвет: главный и подходящий к нему второй
+  const COLORS = {
+    'красн': ['#dc2626', '#fbbf24'], 'red': ['#dc2626', '#fbbf24'],
+    'оранж': ['#f97316', '#f9a8d4'], 'orange': ['#f97316', '#f9a8d4'],
+    'жёлт': ['#eab308', '#0ea5e9'], 'желт': ['#eab308', '#0ea5e9'], 'yellow': ['#eab308', '#0ea5e9'],
+    'зел': ['#16a34a', '#facc15'], 'green': ['#16a34a', '#facc15'],
+    'бирюз': ['#0d9488', '#fb7185'], 'teal': ['#0d9488', '#fb7185'],
+    'голуб': ['#0ea5e9', '#f59e0b'], 'sky': ['#0ea5e9', '#f59e0b'],
+    'син': ['#2563eb', '#f59e0b'], 'blue': ['#2563eb', '#f59e0b'],
+    'фиол': ['#7c3aed', '#ec4899'], 'purple': ['#7c3aed', '#ec4899'],
+    'роз': ['#db2777', '#8b5cf6'], 'pink': ['#db2777', '#8b5cf6'],
+    'черн': ['#111827', '#f59e0b'], 'чёрн': ['#111827', '#f59e0b'], 'black': ['#111827', '#f59e0b'],
+    'корич': ['#92400e', '#fbbf24'], 'brown': ['#92400e', '#fbbf24']
+  };
+
+  // Ищем вариант по началу слова: «Тёмный», «темного стиля», «синий» — всё подойдёт
+  function findOption(map, text) {
+    const word = String(text || '').trim().toLowerCase();
+    if (!word) return null;
+    const keys = Object.keys(map).sort((a, b) => b.length - a.length);
+    const key = keys.find(k => word.startsWith(k)) || keys.find(k => word.includes(k));
+    return key ? map[key] : null;
+  }
+
+  function isLight(hex) {
+    const rgb = hex.replace('#', '').match(/\w\w/g);
+    if (!rgb) return true;
+    const [r, g, b] = rgb.map(h => parseInt(h, 16));
+    return (r * 299 + g * 587 + b * 114) / 1000 > 150;
+  }
+
+  /* ---------- 3. Настройки ---------- */
+  const options = {
+    name: '',                       // название сайта: подставится во все [data-name]
+    style: 'простой',               // простой / яркий / тёмный / современный / уютный
+    color: 'синий',                 // красный, оранжевый, жёлтый, зелёный, бирюзовый, голубой, синий, фиолетовый, розовый, чёрный, коричневый или '#ff6600'
+    accent: '',                     // второй цвет ('' — подберётся сам)
+    dark: false,                    // true — сразу тёмная тема
+    rain: '',                       // эмодзи-дождь на главном экране, например '🍕'
+    thanks: 'Спасибо! Мы скоро свяжемся с вами 😊', // сообщение после отправки формы
+    orderTitle: 'Оставить заявку',  // заголовок окна заказа
+    orderText: 'Оставьте имя и телефон — мы перезвоним через 5 минут.',
+    emptyCart: 'Корзина пуста — выберите что-нибудь!',
+    currency: '₽',
+    themeButton: true,              // кнопка тёмной темы в шапке
+    tailwind: false,                // true — режим Tailwind + daisyUI (классы btn, card, hero…)
+    theme: '',                      // тема daisyUI: cupcake, retro, synthwave, corporate, forest, valentine…
+    darkTheme: 'dark',              // тема daisyUI для кнопки «тёмная тема»
+    confetti: ['🎉', '✨', '🎊', '⭐']
+  };
+  let started = false;
+  let colorGiven = false;  // цвет задан явно (а не по умолчанию)
+  let cart = [];
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
+  function el(tag, className, html) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (html !== undefined) node.innerHTML = html;
+    return node;
+  }
+
+  /* ---------- 4. Внешний вид: стиль, цвет, тема, название ---------- */
+  function applyLook() {
+    const body = document.body;
+    const style = findOption(STYLES, options.style) || 'clean';
+    Object.values(STYLE_CLASS).forEach(c => body.classList.remove(c));
+    body.classList.add(STYLE_CLASS[style]);
+    body.classList.toggle('bui-dark', !!options.dark || style === 'dark');
+
+    let main, accent;
+    if (/^#[0-9a-f]{6}$/i.test(String(options.color).trim())) {
+      main = options.color.trim();
+      accent = '#f59e0b';
+    } else {
+      [main, accent] = findOption(COLORS, options.color) || COLORS['син'];
+    }
+    if (options.accent) accent = (findOption(COLORS, options.accent) || [options.accent])[0];
+    const root = document.documentElement.style;
+    root.setProperty('--bui-main', main);
+    root.setProperty('--bui-accent', accent);
+    root.setProperty('--bui-on-accent', isLight(accent) ? '#1a1a1a' : '#ffffff');
+
+    if (options.tailwind) {
+      // daisyUI: тема на <html>, цвет — поверх цветов темы (только если его задали явно)
+      body.classList.add('bui-tw');
+      document.documentElement.dataset.theme = body.classList.contains('bui-dark') ? options.darkTheme : (options.theme || DAISY_THEMES[style]);
+      if (colorGiven) {
+        root.setProperty('--color-primary', main);
+        root.setProperty('--color-primary-content', isLight(main) ? '#1a1a1a' : '#ffffff');
+        root.setProperty('--color-accent', accent);
+      }
+    }
+
+    if (options.name) {
+      $$('[data-name]').forEach(n => { n.textContent = options.name; });
+      if (!document.title) document.title = options.name;
+    }
+  }
+
+  function toggleDark() {
+    const dark = document.body.classList.toggle('bui-dark');
+    if (options.tailwind) {
+      const style = findOption(STYLES, options.style) || 'clean';
+      document.documentElement.dataset.theme = dark ? options.darkTheme : (options.theme || DAISY_THEMES[style]);
+    }
+  }
+
+  // Подключаем Tailwind и daisyUI, если их ещё нет на странице
+  function loadTailwind() {
+    if (!document.querySelector('script[src*="tailwindcss/browser"]')) {
+      const s = document.createElement('script');
+      s.src = LIBS.tailwind;
+      document.head.appendChild(s);
+    }
+    [LIBS.daisy, LIBS.daisyThemes].forEach(href => {
+      if (document.querySelector('link[href="' + href + '"]')) return;
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = href;
+      document.head.appendChild(l);
+    });
+  }
+
+  /* ---------- 5. Фото ---------- */
+  function photoKey(word) {
+    const w = String(word || '').toLowerCase();
+    // Слово с ~ — общее (школа, спорт, дети): оно проигрывает любому точному слову,
+    // поэтому «школа танцев» — это танцы, а не школа
+    const hits = [];
+    Object.keys(PHOTO_WORDS).forEach(key => PHOTO_WORDS[key].forEach(s => {
+      const general = s[0] === '~';
+      const stem = general ? s.slice(1) : s;
+      if (w.includes(stem)) hits.push({ key: key, score: stem.length + (general ? 0 : 100) });
+    }));
+    hits.sort((a, b) => b.score - a.score);
+    return hits.length ? hits[0].key : null;
+  }
+  // BlockUI.photo('пицца', 0) → адрес фото; неизвестная тема — красивое случайное фото
+  function photo(word, n, width) {
+    const key = photoKey(word);
+    width = width || 900;
+    if (!key) return 'https://picsum.photos/seed/' + encodeURIComponent(word + (n || 0)) + '/' + width + '/' + Math.round(width * 0.75);
+    const list = PHOTOS[key];
+    return 'https://images.unsplash.com/photo-' + list[(n || 0) % list.length] + '?w=' + width + '&q=80&auto=format&fit=crop';
+  }
+  function applyPhotos() {
+    const used = {};
+    $$('[data-photo]').forEach(node => {
+      const raw = node.dataset.photo.trim();
+      const m = raw.match(/^(.*?)\s+(\d+)$/);           // «пицца 2» — второе фото темы
+      const word = m ? m[1] : raw;
+      const key = photoKey(word) || word;
+      const n = m ? Number(m[2]) - 1 : (used[key] = (used[key] === undefined ? 0 : used[key] + 1));
+      const url = photo(word, n, Number(node.dataset.width) || (node.closest('.bui-hero') ? 1200 : 900));
+      if (node.tagName === 'IMG') {
+        node.src = url;
+        if (!node.alt) node.alt = word;
+        if (!node.hasAttribute('loading') && !node.closest('.bui-hero')) node.loading = 'lazy';
+      } else {
+        node.style.backgroundImage = 'url("' + url + '")';
+      }
+    });
+  }
+
+  /* ---------- 6. Шапка: тень, бургер, тема, корзина ---------- */
+  function setupHeader() {
+    const header = $('.bui-header');
+    $$('[data-theme-toggle]').forEach(b => b.addEventListener('click', toggleDark));
+    if (!header) return;
+    window.addEventListener('scroll', () => header.classList.toggle('bui-scrolled', window.scrollY > 10));
+    const box = $('.bui-container', header) || header;
+    let actions = $('.bui-actions', header);
+    if (!actions) { actions = el('div', 'bui-actions'); box.appendChild(actions); }
+
+    if (options.themeButton && !$('[data-theme-toggle]', header)) {
+      const t = el('button', 'bui-theme');
+      t.type = 'button';
+      t.setAttribute('aria-label', 'Сменить тему');
+      t.addEventListener('click', toggleDark);
+      actions.prepend(t);
+    }
+    if ($('[data-add]') && !$('[data-cart]')) {
+      const c = el('button', 'bui-cart', '🛒<span data-cart-count>0</span>');
+      c.type = 'button';
+      c.dataset.cart = '';
+      c.setAttribute('aria-label', 'Корзина');
+      actions.appendChild(c);
+    }
+    const nav = $('.bui-nav', header);
+    if (nav) {
+      const burger = el('button', 'bui-burger', '<span></span><span></span><span></span>');
+      burger.type = 'button';
+      burger.setAttribute('aria-label', 'Меню');
+      actions.appendChild(burger);
+      burger.addEventListener('click', () => { nav.classList.toggle('bui-open'); burger.classList.toggle('bui-active'); });
+      $$('a', nav).forEach(a => a.addEventListener('click', () => { nav.classList.remove('bui-open'); burger.classList.remove('bui-active'); }));
+    }
+  }
+
+  /* ---------- 7. Сообщения и салют ---------- */
+  let toastBox = null, toastTimer = null;
+  function toast(text) {
+    if (!toastBox) { toastBox = el('div', 'bui-toast'); toastBox.setAttribute('role', 'status'); document.body.appendChild(toastBox); }
+    toastBox.textContent = text;
+    toastBox.classList.add('bui-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastBox.classList.remove('bui-show'), 2800);
+  }
+  function confetti(emojis) {
+    const list = emojis || options.confetti;
+    for (let i = 0; i < 28; i++) {
+      const p = el('span', 'bui-confetti', list[i % list.length]);
+      const a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 220;
+      p.style.setProperty('--x', Math.cos(a) * d + 'px');
+      p.style.setProperty('--y', Math.sin(a) * d + 'px');
+      p.style.setProperty('--r', Math.random() * 720 - 360 + 'deg');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1500);
+    }
+  }
+  function startRain(emoji) {
+    const hero = $('.bui-hero');
+    if (!hero || !emoji) return;
+    const rain = el('div', 'bui-rain');
+    rain.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 18; i++) {
+      const d = el('span', '', emoji);
+      d.style.left = Math.random() * 100 + '%';
+      d.style.fontSize = 18 + Math.random() * 22 + 'px';
+      d.style.animationDuration = 6 + Math.random() * 6 + 's';
+      d.style.animationDelay = -Math.random() * 12 + 's';
+      rain.appendChild(d);
+    }
+    hero.appendChild(rain);
+  }
+
+  /* ---------- 8. Корзина ---------- */
+  function updateCart() {
+    $$('[data-cart-count]').forEach(n => { n.textContent = cart.length; });
+    const total = cart.reduce((s, item) => s + item.price, 0);
+    $$('[data-cart-total]').forEach(n => { n.textContent = total.toLocaleString('ru-RU') + ' ' + options.currency; });
+  }
+  function addToCart(name, price) {
+    cart.push({ name: name, price: Number(String(price || 0).replace(/[^\d.]/g, '')) || 0 });
+    updateCart();
+    $$('[data-cart]').forEach(c => { c.classList.remove('bui-bump'); void c.offsetWidth; c.classList.add('bui-bump'); });
+    toast('«' + name + '» — в корзине!');
+  }
+
+  /* ---------- 9. Окна и формы ---------- */
+  function itemNames() {
+    const names = $$('[data-add], [data-pick]').map(n => n.dataset.add || n.dataset.pick).filter(Boolean);
+    return names.filter((n, i) => names.indexOf(n) === i);
+  }
+  // Окно заказа «order» создаётся само, если на сайте его нет
+  function ensureOrderModal() {
+    if ($('#order') || !($('[data-open="order"]') || $('[data-cart]'))) return;
+    const names = itemNames();
+    const pick = names.length
+      ? '<div class="bui-field"><select name="item">' + names.map(n => '<option>' + n + '</option>').join('') + '</select><label>Что выбрали</label></div>'
+      : '<div class="bui-field"><textarea name="comment" placeholder=" "></textarea><label>Комментарий</label></div>';
+    const modal = el('div', 'bui-modal');
+    modal.id = 'order';
+    modal.innerHTML =
+      '<div class="bui-modal-box" role="dialog" aria-modal="true">' +
+      '<button class="bui-close" type="button" data-close aria-label="Закрыть">✕</button>' +
+      '<h3>' + options.orderTitle + '</h3><p class="bui-muted">' + options.orderText + '</p>' +
+      '<form class="bui-form">' +
+      '<div class="bui-field"><input name="name" required placeholder=" " autocomplete="name"><label>Ваше имя</label></div>' +
+      '<div class="bui-field"><input name="phone" type="tel" required placeholder=" " autocomplete="tel"><label>Телефон</label></div>' +
+      pick +
+      '<button class="bui-btn bui-btn-wide" type="submit">Отправить</button></form></div>';
+    document.body.appendChild(modal);
+  }
+
+  function open(id, pick) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    close();
+    if (modal.tagName === 'DIALOG') { if (!modal.open) modal.showModal(); }   // окно daisyUI: <dialog class="modal">
+    else modal.classList.add('bui-open');
+    document.body.style.overflow = 'hidden';
+    const select = $('select', modal);
+    if (pick && select) {
+      if (!$$('option', select).some(o => o.value === pick)) select.appendChild(el('option', '', pick));
+      select.value = pick;
+    }
+    const first = $('input, textarea', modal);
+    if (first) setTimeout(() => first.focus(), 100);
+  }
+  function close() {
+    $$('.bui-modal.bui-open').forEach(m => m.classList.remove('bui-open'));
+    $$('dialog[open]').forEach(d => d.close());
+    document.body.style.overflow = '';
+  }
+
+  function checkField(input) {
+    const value = input.value.trim();
+    let ok = true;
+    if (input.required && !value) ok = false;
+    if (ok && value && input.type === 'tel') ok = value.replace(/\D/g, '').length >= 10;
+    if (ok && value && input.type === 'email') ok = /\S+@\S+\.\S+/.test(value);
+    if (ok && input.required && input.name === 'name') ok = value.length >= 2;
+    const field = input.closest('.bui-field');
+    if (field) {
+      field.classList.remove('bui-error');
+      if (!ok) { void field.offsetWidth; field.classList.add('bui-error'); }
+    } else {
+      input.classList.toggle('input-error', !ok);  // поле daisyUI или своё
+    }
+    return ok;
+  }
+  function setupForms() {
+    $$('.bui-field input, .bui-field textarea').forEach(i => { if (!i.hasAttribute('placeholder')) i.placeholder = ' '; });
+    $$('form.bui-form, form[data-form]').forEach(form => {
+      form.noValidate = true;
+      form.addEventListener('submit', e => {
+        e.preventDefault(); // учебный сайт: заявку никуда не отправляем
+        const fields = $$('input, textarea, select', form).filter(i => i.type !== 'submit' && i.type !== 'hidden');
+        const ok = fields.map(checkField).every(Boolean);
+        if (!ok) { toast('Проверьте выделенные поля'); return; }
+        form.reset();
+        close();
+        cart = [];
+        updateCart();
+        toast(form.dataset.thanks || options.thanks);
+        confetti();
+      });
+    });
+  }
+
+  /* ---------- 10. Счётчики, таймер, галерея, появление ---------- */
+  function animateCount(node) {
+    const target = parseFloat(node.dataset.count);
+    const suffix = node.dataset.suffix || '';
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / 1500);
+      const v = target * (1 - Math.pow(1 - t, 3));
+      node.textContent = (Number.isInteger(target) ? Math.round(v) : v.toFixed(1)).toLocaleString('ru-RU') + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function setupTimers() {
+    $$('[data-timer]').forEach(node => {
+      const end = new Date(node.dataset.timer).getTime();
+      node.classList.add('bui-timer');
+      function render() {
+        let left = Math.max(0, Math.floor((end - Date.now()) / 1000));
+        if (!left) { node.textContent = node.dataset.done || 'Акция завершилась'; return false; }
+        const parts = [[Math.floor(left / 86400), 'дней'], [Math.floor(left / 3600) % 24, 'часов'], [Math.floor(left / 60) % 60, 'минут'], [left % 60, 'секунд']];
+        node.innerHTML = parts.map(([v, l]) => '<span>' + String(v).padStart(2, '0') + '<small>' + l + '</small></span>').join('');
+        return true;
+      }
+      if (render()) { const id = setInterval(() => { if (!render()) clearInterval(id); }, 1000); }
+    });
+  }
+
+  function setupGallery() {
+    $$('.bui-gallery img').forEach(img => img.addEventListener('click', () => {
+      const box = el('div', 'bui-lightbox');
+      const big = el('img');
+      big.src = img.src.replace(/w=\d+/, 'w=1600');
+      big.alt = img.alt;
+      box.appendChild(big);
+      box.addEventListener('click', () => box.remove());
+      document.body.appendChild(box);
+    }));
+  }
+
+  function setupReveal() {
+    const blocks = $$('.bui-section, .bui-reveal, [data-reveal]');
+    blocks.forEach(b => b.classList.add('bui-reveal'));
+    const counters = $$('[data-count]');
+    if (!('IntersectionObserver' in window)) {
+      blocks.forEach(b => b.classList.add('bui-visible'));
+      counters.forEach(animateCount);
+      return;
+    }
+    const io = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      if (entry.target.dataset.count !== undefined) animateCount(entry.target);
+      else entry.target.classList.add('bui-visible');
+      io.unobserve(entry.target);
+    }), { threshold: 0.1 });
+    blocks.forEach(b => io.observe(b));
+    counters.forEach(c => io.observe(c));
+  }
+
+  /* ---------- 11. Запуск ---------- */
+  function readBodyOptions() {
+    const d = document.body.dataset;
+    ['name', 'style', 'color', 'accent', 'rain', 'thanks', 'theme'].forEach(k => { if (d[k]) options[k] = d[k]; });
+    if (d.color) colorGiven = true;
+    if (d.tailwind === 'true') options.tailwind = true;
+    if (d.dark === 'true') options.dark = true;
+  }
+
+  let bodyRead = false;
+  function init() {
+    if (started) return;
+    started = true;
+    document.documentElement.classList.add('bui-js');
+    if (options.tailwind) loadTailwind();
+    applyLook();
+    applyPhotos();
+    setupHeader();
+    ensureOrderModal();
+    setupForms();
+    setupTimers();
+    setupGallery();
+    setupReveal();
+    startRain(options.rain);
+    $$('[data-year]').forEach(n => { n.textContent = new Date().getFullYear(); });
+
+    document.addEventListener('click', e => {
+      const add = e.target.closest('[data-add]');
+      if (add) { addToCart(add.dataset.add, add.dataset.price); return; }
+      const cartBtn = e.target.closest('[data-cart]');
+      if (cartBtn) { if (cart.length) open('order', cart[cart.length - 1].name); else toast(options.emptyCart); return; }
+      const opener = e.target.closest('[data-open]');
+      if (opener) { e.preventDefault(); open(opener.dataset.open, opener.dataset.pick); return; }
+      if (e.target.closest('[data-close]') || e.target.classList.contains('bui-modal')) close();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); $$('.bui-lightbox').forEach(b => b.remove()); } });
+  }
+
+  // BlockUI.start({ ... }) можно вызвать в script.js — до или после загрузки страницы
+  function start(opts) {
+    if (!bodyRead && document.body) { readBodyOptions(); bodyRead = true; }
+    Object.assign(options, opts || {});
+    if (opts && opts.color) colorGiven = true;
+    if (started) { applyLook(); if (opts && opts.rain) startRain(opts.rain); }
+  }
+
+  function boot() {
+    if (!bodyRead) { readBodyOptions(); bodyRead = true; }
+    init();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else setTimeout(boot, 0);
+
+  window.BlockUI = {
+    version: VERSION,
+    start: start,
+    toast: toast,
+    confetti: confetti,
+    open: open,
+    close: close,
+    photo: photo,
+    addToCart: addToCart,
+    topics: () => Object.keys(PHOTOS)
+  };
+})();
