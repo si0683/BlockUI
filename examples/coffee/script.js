@@ -1,6 +1,6 @@
-/* Bean & Brew coffee shop on BlockUI.
+/* Bean & Brew coffee shop on LightWebsiteUi.
    All behaviour (menu, cart, order dialog, theme, slider, map, animations)
-   comes from BlockUI — this file only holds the settings. */
+   comes from LightWebsiteUi — this file only holds the settings. */
 
 const CONFIG = {
   name: 'Bean & Brew',      // written into every [data-name]
@@ -12,4 +12,4 @@ const CONFIG = {
   thanks: 'Thank you! Your coffee is brewing ☕'
 };
 
-BlockUI.start(CONFIG);
+LightWebsiteUi.start(CONFIG);

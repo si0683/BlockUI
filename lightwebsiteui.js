@@ -1,11 +1,11 @@
 /*!
- * BlockUI 2.0.0 — building blocks for beautiful websites. Connect and compose.
- * https://github.com/si0683/BlockUI · MIT License
+ * LightWebsiteUi 3.0.0 — building blocks for beautiful websites. Connect and compose.
+ * https://github.com/si0683/LightWebsiteUi · MIT License
  *
  * Usage (two lines of HTML):
- *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
- *   <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
- * Optional settings: BlockUI.start({ name, style, color, lang, rain, thanks }).
+ *   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
+ *   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
+ * Optional settings: LightWebsiteUi.start({ name, style, color, lang, rain, thanks }).
  *
  * Built in: 5 styles × 11 colours, photos by keyword (data-photo="pizza"), mobile menu,
  * dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown,
@@ -17,10 +17,10 @@
   'use strict';
   if (typeof window === 'undefined' || typeof document === 'undefined') return; // server-side rendering: nothing to do
 
-  const VERSION = '2.0.0';
+  const VERSION = '3.0.0';
 
   // Declare the 'bui' cascade layer first so it is the weakest:
-  // Tailwind classes and your own CSS always win over BlockUI
+  // Tailwind classes and your own CSS always win over LightWebsiteUi
   const layerOrder = document.createElement('style');
   layerOrder.textContent = '@layer bui;';
   (document.head || document.documentElement).prepend(layerOrder);
@@ -184,7 +184,7 @@
     leafletCss: 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css',
     dicebear: 'https://api.dicebear.com/9.x/'
   };
-  // BlockUI style → daisyUI theme (when no theme is given)
+  // LightWebsiteUi style → daisyUI theme (when no theme is given)
   const DAISY_THEMES = { cozy: 'retro', dark: 'synthwave', modern: 'corporate', bright: 'cupcake', clean: 'light' };
 
   /* ---------- Interface texts: lang 'en' | 'ru' (default: browser language), override with texts: { ... } ---------- */
@@ -369,7 +369,7 @@
     hits.sort((a, b) => b.score - a.score);
     return hits.length ? hits[0].key : null;
   }
-  // BlockUI.photo('pizza', 0) → photo URL; unknown topic → a nice random photo
+  // LightWebsiteUi.photo('pizza', 0) → photo URL; unknown topic → a nice random photo
   function photo(word, n, width) {
     const key = photoKey(word);
     width = width || 900;
@@ -631,7 +631,7 @@
         const s = document.createElement('script');
         s.src = url;
         s.onload = resolve;
-        s.onerror = () => reject(new Error('BlockUI: failed to load ' + url));
+        s.onerror = () => reject(new Error('LightWebsiteUi: failed to load ' + url));
         document.head.appendChild(s);
       });
     }
@@ -772,7 +772,7 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); $$('.bui-lightbox').forEach(b => b.remove()); } });
   }
 
-  // BlockUI.start({ ... }) may be called before or after the page has loaded
+  // LightWebsiteUi.start({ ... }) may be called before or after the page has loaded
   function start(opts) {
     if (!bodyRead && document.body) { readBodyOptions(); bodyRead = true; }
     Object.assign(options, opts || {});
@@ -787,7 +787,7 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else setTimeout(boot, 0);
 
-  window.BlockUI = {
+  window.LightWebsiteUi = {
     version: VERSION,
     languages: Object.keys(I18N),
     start: start,

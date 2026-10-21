@@ -1,10 +1,12 @@
-# 🧱 BlockUI
+# 💡 LightWebsiteUi
 
 **Building blocks for beautiful websites.** Two lines of HTML and your page has a style and colour scheme, photos by keyword, a mobile menu, dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown, sliders, maps, icons and avatars — all driven by plain HTML classes and attributes. No build step, no framework lock-in.
 
-Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all BlockUI behaviour while you design with Tailwind classes.
+Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all LightWebsiteUi behaviour while you design with Tailwind classes.
 
 [Website & live demos](https://si0683.github.io/LightWebsiteUi/) · [API reference](AI.md) · [AI prompt template](PROMPT.md) · [Русский](README.ru.md)
+
+> **Formerly BlockUI.** Version 3.0.0 renamed the global `BlockUI` → `LightWebsiteUi` and the files `blockui.*` → `lightwebsiteui.*`; HTML classes (`bui-*`) and attributes are unchanged. Old versions stay on the CDN — see [CHANGELOG](CHANGELOG.md).
 
 | | | | |
 |---|---|---|---|
@@ -13,18 +15,18 @@ Prefer utility CSS? The **Tailwind + daisyUI mode** keeps all BlockUI behaviour 
 ## Install
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
 ```
 
 or
 
 ```bash
-npm install blockuijs
+npm install lightwebsiteui
 ```
 ```js
-import BlockUI from 'blockuijs';
-import 'blockuijs/blockui.css';
+import LightWebsiteUi from 'lightwebsiteui';
+import 'lightwebsiteui/lightwebsiteui.css';
 ```
 
 ## A section in a few lines
@@ -40,7 +42,7 @@ import 'blockuijs/blockui.css';
     <div class="bui-hero-picture"><img data-photo="pizza"></div>
   </div>
 </section>
-<script>BlockUI.start({ name: 'Margherita', style: 'cozy', color: 'red', rain: '🍕' });</script>
+<script>LightWebsiteUi.start({ name: 'Margherita', style: 'cozy', color: 'red', rain: '🍕' });</script>
 ```
 
 The order dialog, its form validation and the thank-you toast appear automatically.
@@ -58,21 +60,21 @@ The order dialog, its form validation and the thank-you toast appear automatical
 
 ## Build sites with AI
 
-BlockUI is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) can assemble a polished site from a short brief: [PROMPT.md](PROMPT.md) is a ready-to-use prompt template, [AI.md](AI.md) is a compact reference the model can read.
+LightWebsiteUi is designed so that an LLM (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) can assemble a polished site from a short brief: [PROMPT.md](PROMPT.md) is a ready-to-use prompt template, [AI.md](AI.md) is a compact reference the model can read.
 
 ## Repository
 
 ```
-blockui.js / blockui.css   the library (VERSION constant in blockui.js)
-blockui.mjs / blockui.d.ts ES module entry and TypeScript types
+lightwebsiteui.js / lightwebsiteui.css   the library (VERSION constant in lightwebsiteui.js)
+lightwebsiteui.mjs / lightwebsiteui.d.ts ES module entry and TypeScript types
 examples/<site>/           examples: index.html, style.css, script.js, codepen.html
 AI.md                      API reference
 PROMPT.md, PROMPT.ru.md    prompt templates for LLMs
 tools/photos.json          Unsplash photo IDs by topic
-tools/build.py             writes the photo catalogue, AI.md topic list, codepen.html files and blockui.mjs
+tools/build.py             writes the photo catalogue, AI.md topic list, codepen.html files and lightwebsiteui.mjs
 ```
 
-Release: bump `VERSION` in `blockui.js` and `package.json`, update `@x.y.z` links, run `python tools/build.py`, commit, tag `vX.Y.Z`, `npm publish`. Published versions are never changed.
+Release: bump `VERSION` in `lightwebsiteui.js` and `package.json`, update `@x.y.z` links, run `python tools/build.py`, commit, tag `vX.Y.Z`, `npm publish`. Published versions are never changed.
 
 ## License
 

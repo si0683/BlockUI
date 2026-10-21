@@ -1,26 +1,28 @@
-# 🧱 BlockUI
+# 💡 LightWebsiteUi
 
 **Блоки для красивых сайтов.** Две строки в HTML — и у страницы уже есть стиль и цветовая схема, фото по слову, меню для телефона, тёмная тема, корзина, окно заказа, проверка форм, сообщения, салют, счётчики, таймер акции, слайдеры, карты, иконки и аватары. Всё управляется обычными классами и атрибутами HTML, без сборки.
 
-Любите утилитарный CSS? **Режим Tailwind + daisyUI** сохраняет всё поведение BlockUI, а дизайн вы делаете классами Tailwind.
+Любите утилитарный CSS? **Режим Tailwind + daisyUI** сохраняет всё поведение LightWebsiteUi, а дизайн вы делаете классами Tailwind.
 
 [Сайт и живые примеры](https://si0683.github.io/LightWebsiteUi/) · [Справочник API](AI.md) · [Шаблон промта для ИИ](PROMPT.ru.md) · [English](README.md)
+
+> **Раньше называлась BlockUI.** В версии 3.0.0 глобальный объект `BlockUI` стал `LightWebsiteUi`, файлы `blockui.*` — `lightwebsiteui.*`; классы (`bui-*`) и атрибуты в HTML те же. Старые версии остаются на CDN — см. [CHANGELOG](CHANGELOG.md).
 
 ## Подключение
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
 ```
 
 или
 
 ```bash
-npm install blockuijs
+npm install lightwebsiteui
 ```
 ```js
-import BlockUI from 'blockuijs';
-import 'blockuijs/blockui.css';
+import LightWebsiteUi from 'lightwebsiteui';
+import 'lightwebsiteui/lightwebsiteui.css';
 ```
 
 ## Блок за несколько строк
@@ -36,7 +38,7 @@ import 'blockuijs/blockui.css';
     <div class="bui-hero-picture"><img data-photo="пицца"></div>
   </div>
 </section>
-<script>BlockUI.start({ name: 'Маргарита', style: 'уютный', color: 'красный', lang: 'ru', rain: '🍕' });</script>
+<script>LightWebsiteUi.start({ name: 'Маргарита', style: 'уютный', color: 'красный', lang: 'ru', rain: '🍕' });</script>
 ```
 
 Окно заказа, проверка его формы и сообщение «спасибо» появятся сами.
@@ -54,7 +56,7 @@ import 'blockuijs/blockui.css';
 
 ## Сайты с помощью ИИ
 
-BlockUI сделан так, чтобы нейросеть (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) собирала аккуратный сайт по короткому описанию: [PROMPT.ru.md](PROMPT.ru.md) — готовый шаблон промта, [AI.md](AI.md) — компактный справочник.
+LightWebsiteUi сделан так, чтобы нейросеть (ChatGPT, Claude, Qwen, GigaChat, DeepSeek…) собирала аккуратный сайт по короткому описанию: [PROMPT.ru.md](PROMPT.ru.md) — готовый шаблон промта, [AI.md](AI.md) — компактный справочник.
 
 ## Лицензия
 

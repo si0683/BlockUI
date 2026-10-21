@@ -1,7 +1,7 @@
-// Type definitions for BlockUI 2.0.0
-// https://github.com/si0683/BlockUI — MIT License
+// Type definitions for LightWebsiteUi 3.0.0
+// https://github.com/si0683/LightWebsiteUi — MIT License
 
-declare namespace BlockUI {
+declare namespace LightWebsiteUi {
   type StyleName = 'clean' | 'bright' | 'dark' | 'modern' | 'cozy' | 'simple' | 'minimal' | 'playful' | 'neon' | 'warm' | (string & {});
   type ColorName = 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'sky' | 'blue' | 'purple' | 'pink' | 'black' | 'brown' | (string & {});
 
@@ -48,7 +48,7 @@ declare namespace BlockUI {
     confetti?: string[];
   }
 
-  interface BlockUIStatic {
+  interface LightWebsiteUiStatic {
     readonly version: string;
     readonly languages: string[];
     /** Apply options; may be called before or after the page has loaded */
@@ -68,14 +68,14 @@ declare namespace BlockUI {
   }
 }
 
-declare const BlockUI: BlockUI.BlockUIStatic;
+declare const LightWebsiteUi: LightWebsiteUi.LightWebsiteUiStatic;
 
-interface Window { BlockUI: BlockUI.BlockUIStatic; }
+interface Window { LightWebsiteUi: LightWebsiteUi.LightWebsiteUiStatic; }
 
-declare module 'blockuijs' {
-  const BlockUI: BlockUI.BlockUIStatic;
-  export default BlockUI;
-  export const start: (options?: BlockUI.Options) => void;
+declare module 'lightwebsiteui' {
+  const LightWebsiteUi: LightWebsiteUi.LightWebsiteUiStatic;
+  export default LightWebsiteUi;
+  export const start: (options?: LightWebsiteUi.Options) => void;
   export const version: string;
-  export type Options = BlockUI.Options;
+  export type Options = LightWebsiteUi.Options;
 }

@@ -1,6 +1,6 @@
-/* Lotus yoga studio: BlockUI in Tailwind + daisyUI mode.
+/* Lotus yoga studio: LightWebsiteUi in Tailwind + daisyUI mode.
    Design — Tailwind classes and daisyUI components in the HTML;
-   behaviour (booking dialog, validation, photos, counters, icons) — BlockUI. */
+   behaviour (booking dialog, validation, photos, counters, icons) — LightWebsiteUi. */
 
 const CONFIG = {
   name: 'Lotus',
@@ -11,4 +11,4 @@ const CONFIG = {
   thanks: "You're booked! Namaste 🧘"
 };
 
-BlockUI.start(CONFIG);
+LightWebsiteUi.start(CONFIG);

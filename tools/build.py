@@ -1,13 +1,13 @@
-"""Build helper for BlockUI. Run from the repository root:
+"""Build helper for LightWebsiteUi. Run from the repository root:
 
     python tools/build.py
 
 What it does:
-1. Writes the photo catalogue (tools/photos.json) and topic keywords into blockui.js
+1. Writes the photo catalogue (tools/photos.json) and topic keywords into lightwebsiteui.js
    between PHOTOS:START and PHOTOS:END.
 2. Writes examples/<site>/codepen.html — the part of index.html between the CodePen markers.
 3. Writes the topic list into AI.md between TOPICS:START and TOPICS:END.
-4. Writes blockui.mjs — the ES module entry for npm / bundlers.
+4. Writes lightwebsiteui.mjs — the ES module entry for npm / bundlers.
 """
 import json
 import re
@@ -86,12 +86,12 @@ def build_photos():
     lines[-1] = lines[-1].rstrip(',')
     lines.append('  };')
     block = '\n'.join(lines).replace("'", "'")
-    js_path = ROOT / 'blockui.js'
+    js_path = ROOT / 'lightwebsiteui.js'
     js = js_path.read_text(encoding='utf-8')
     start, end = '  // PHOTOS:START\n', '  // PHOTOS:END'
     js = js.split(start)[0] + start + block + '\n' + end + js.split(end, 1)[1]
     js_path.write_text(js, encoding='utf-8', newline='\n')
-    print(f'blockui.js: {len(photos)} topics, {sum(map(len, photos.values()))} photos')
+    print(f'lightwebsiteui.js: {len(photos)} topics, {sum(map(len, photos.values()))} photos')
     return photos
 
 
@@ -124,17 +124,17 @@ def build_codepen():
 
 
 def build_esm():
-    """blockui.mjs — ES module entry that re-exports window.BlockUI."""
-    version = re.search(r"VERSION = '([\d.]+)'", (ROOT / 'blockui.js').read_text(encoding='utf-8')).group(1)
-    (ROOT / 'blockui.mjs').write_text(
-        f"/*! BlockUI {version} — ES module entry. MIT License. https://github.com/si0683/BlockUI */\n"
-        "// BlockUI is a browser script that defines window.BlockUI; this file re-exports it.\n"
-        "import './blockui.js';\n\n"
-        "const BlockUI = typeof window !== 'undefined' ? window.BlockUI : undefined;\n"
-        "export default BlockUI;\n"
-        "export const start = (options) => BlockUI.start(options);\n"
+    """lightwebsiteui.mjs — ES module entry that re-exports window.LightWebsiteUi."""
+    version = re.search(r"VERSION = '([\d.]+)'", (ROOT / 'lightwebsiteui.js').read_text(encoding='utf-8')).group(1)
+    (ROOT / 'lightwebsiteui.mjs').write_text(
+        f"/*! LightWebsiteUi {version} — ES module entry. MIT License. https://github.com/si0683/LightWebsiteUi */\n"
+        "// LightWebsiteUi is a browser script that defines window.LightWebsiteUi; this file re-exports it.\n"
+        "import './lightwebsiteui.js';\n\n"
+        "const LightWebsiteUi = typeof window !== 'undefined' ? window.LightWebsiteUi : undefined;\n"
+        "export default LightWebsiteUi;\n"
+        "export const start = (options) => LightWebsiteUi.start(options);\n"
         f"export const version = '{version}';\n", encoding='utf-8', newline='\n')
-    print('blockui.mjs: ok')
+    print('lightwebsiteui.mjs: ok')
 
 
 if __name__ == '__main__':

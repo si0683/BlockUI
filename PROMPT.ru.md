@@ -1,11 +1,11 @@
-# Шаблон промта: любой сайт на BlockUI
+# Шаблон промта: любой сайт на LightWebsiteUi
 
 Заполните блок **МОЙ САЙТ** и вставьте весь промт в любую нейросеть (ChatGPT, Claude, Gemini, Qwen, GigaChat, DeepSeek…). Получите аккуратный одностраничный сайт из 3 файлов, который работает локально, на любом хостинге или в CodePen. Внутри промта — краткая шпаргалка, поэтому он работает, даже если нейросеть не открывает ссылки.
 
 English version — [PROMPT.md](PROMPT.md). Полный справочник — [AI.md](AI.md).
 
 ````text
-Ты — опытный веб-дизайнер. Сделай готовый одностраничный сайт на библиотеке BlockUI.
+Ты — опытный веб-дизайнер. Сделай готовый одностраничный сайт на библиотеке LightWebsiteUi.
 
 МОЙ САЙТ:
 Бизнес: пиццерия
@@ -19,18 +19,18 @@ English version — [PROMPT.md](PROMPT.md). Полный справочник �
 
 РЕЗУЛЬТАТ — ровно 3 файла, каждый в своём блоке кода с именем файла над ним:
 1) index.html — полный HTML-документ; в начале <body>:
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
-   <script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
+   <script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
    дальше разметка страницы, в конце <body> — script.js;
 2) style.css — обычно почти пустой;
-3) script.js — объект CONFIG (name, style, color, lang, rain, dark, thanks) и BlockUI.start(CONFIG).
+3) script.js — объект CONFIG (name, style, color, lang, rain, dark, thanks) и LightWebsiteUi.start(CONFIG).
 Только HTML, CSS и чистый JavaScript: без TypeScript, React, Next.js, npm, import/export и сборки.
 
-Справочник BlockUI (прочитай сначала): https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/AI.md
-Запасная ссылка: https://raw.githubusercontent.com/si0683/BlockUI/main/AI.md · Примеры: https://github.com/si0683/BlockUI/tree/main/examples
+Справочник LightWebsiteUi (прочитай сначала): https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/AI.md
+Запасная ссылка: https://raw.githubusercontent.com/si0683/LightWebsiteUi/main/AI.md · Примеры: https://github.com/si0683/LightWebsiteUi/tree/main/examples
 
 Если ссылки не открываются, вот главное:
-- Каркас: <header class="bui-header"><div class="bui-container"><a class="bui-logo" href="#top"><span>🍕</span><span data-name>Название</span></a><nav class="bui-nav"><a href="#about">О нас</a>…</nav></div></header>; разделы: <section class="bui-section" id="…"> (bui-section-alt — с цветным фоном) с <div class="bui-container"><div class="bui-head"><span class="bui-label">…</span><h2>…</h2><p>…</p></div><div class="bui-grid">карточки</div></div>; <footer class="bui-footer">© <span data-year></span> <span data-name>Название</span></footer>. Кнопку темы, корзину и бургер BlockUI добавит сам.
+- Каркас: <header class="bui-header"><div class="bui-container"><a class="bui-logo" href="#top"><span>🍕</span><span data-name>Название</span></a><nav class="bui-nav"><a href="#about">О нас</a>…</nav></div></header>; разделы: <section class="bui-section" id="…"> (bui-section-alt — с цветным фоном) с <div class="bui-container"><div class="bui-head"><span class="bui-label">…</span><h2>…</h2><p>…</p></div><div class="bui-grid">карточки</div></div>; <footer class="bui-footer">© <span data-year></span> <span data-name>Название</span></footer>. Кнопку темы, корзину и бургер LightWebsiteUi добавит сам.
 - Главный экран: <section class="bui-hero" id="top"><div class="bui-container"><div><span class="bui-badge">…</span><h1 data-name>Название</h1><p>Слоган</p><div class="bui-row"><button class="bui-btn" data-open="order">Заказать</button><a class="bui-btn bui-btn-ghost" href="#menu">Меню</a></div><ul class="bui-facts"><li><b>4.9 ⭐</b><span>рейтинг</span></li></ul></div><div class="bui-hero-picture"><img data-photo="пицца"><span class="bui-sticker">−20%</span></div></div></section>. Варианты: bui-hero-center; bui-hero bui-hero-photo с data-photo на секции.
 - Карточки: преимущество <div class="bui-feature"><div class="bui-icon" data-icon="mdi:truck-fast"></div><h3>…</h3><p>…</p></div>; товар <div class="bui-product"><div class="bui-product-image"><img data-photo="пицца"><span class="bui-tag">Хит</span></div><div class="bui-product-body"><h3>…</h3><p>…</p><div class="bui-product-footer"><span class="bui-price">490 ₽</span><button class="bui-btn bui-btn-small" data-add="Маргарита" data-price="490">В корзину</button></div></div></div>; тариф bui-plan (bui-popular) с bui-price и bui-checks; отзыв <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>…</blockquote><div class="bui-author"><img data-avatar="Анна"><span>Анна<small>гость</small></span></div></div>; человек <div class="bui-person"><img data-avatar="Иван"><h3>…</h3><p>…</p></div>; шаги bui-steps + bui-step; цифра <div class="bui-stat"><b data-count="500" data-suffix="+">0</b><span>…</span></div>; вопрос <details class="bui-faq"><summary>…</summary><p>…</p></details>; галерея bui-gallery; блок действия <div class="bui-cta"><h2>…</h2><p>…</p><button class="bui-btn bui-btn-light bui-btn-big" data-open="order">…</button></div>; текст + фото bui-split.
 - Контакты: <div class="bui-contacts"><a class="bui-contact" href="tel:+79001234567"><span>📞</span><span><small>Телефон</small><b>…</b></span></a>…</div>; соцсети <div class="bui-socials"><a class="bui-social bui-vk" href="…" data-tip="ВКонтакте">VK</a><a class="bui-social bui-max" href="…" data-tip="MAX">MAX</a></div>; карта <div data-map="Москва, Тверская улица, 1" data-label="Мы здесь"></div>.
@@ -52,4 +52,4 @@ English version — [PROMPT.md](PROMPT.md). Полный справочник �
 - **CodePen:** в окно HTML — всё между `<body>` и `<script src="script.js">`, в CSS — style.css, в JS — script.js.
 - **Свой дизайн:** попросите «режим Tailwind + daisyUI» — раздел 7 в AI.md.
 - **Доработки:** «поменяй CONFIG.style на тёмный», «добавь раздел с тремя тарифами».
-- **Фиксируйте версию** (`@2.0.0`) в рабочих проектах: новые версии не ломают старые ссылки.
+- **Фиксируйте версию** (`@3.0.0`) в рабочих проектах: новые версии не ломают старые ссылки.

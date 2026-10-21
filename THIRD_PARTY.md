@@ -1,6 +1,6 @@
 # Third-party assets and libraries
 
-BlockUI code is MIT-licensed (see LICENSE). It uses the following — all loaded from public CDNs/APIs, only when the page needs them:
+LightWebsiteUi code is MIT-licensed (see LICENSE). It uses the following — all loaded from public CDNs/APIs, only when the page needs them:
 
 | What | When | Author | License |
 |---|---|---|---|

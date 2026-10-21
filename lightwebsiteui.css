@@ -1,6 +1,6 @@
 /*!
- * BlockUI 2.0.0 — styles. MIT License. https://github.com/si0683/BlockUI
- * Style and colour are set by blockui.js (BlockUI.start({ style, color }))
+ * LightWebsiteUi 3.0.0 — styles. MIT License. https://github.com/si0683/LightWebsiteUi
+ * Style and colour are set by lightwebsiteui.js (LightWebsiteUi.start({ style, color }))
  * or by <body data-style="cozy" data-color="red">. All classes start with bui-.
  * Sections:
  *  1. Colours, fonts, base     2. Grid and sections
@@ -14,14 +14,14 @@
  */
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Manrope:wght@400;600;800&family=Montserrat:wght@400;600;800&family=Nunito:wght@400;600;800&family=Rubik:wght@400;600;800&family=Russo+One&family=Unbounded:wght@500;700&display=swap');
 
-/* All BlockUI rules live in the 'bui' cascade layer: Tailwind classes and your own CSS
+/* All LightWebsiteUi rules live in the 'bui' cascade layer: Tailwind classes and your own CSS
    always win, so any rule is easy to override. */
 @layer bui {
 
 
 /* ===== 1. COLOURS, FONTS, BASE ===== */
 :root {
-  --bui-main: #2563eb;        /* main colour (set by BlockUI.start({ color })) */
+  --bui-main: #2563eb;        /* main colour (set by LightWebsiteUi.start({ color })) */
   --bui-accent: #f59e0b;      /* accent colour */
   --bui-on-accent: #1a1a1a;   /* text on the accent colour */
   --bui-radius: 16px;         /* corner radius */
@@ -382,7 +382,7 @@ iconify-icon { display: inline-block; width: 1em; height: 1em; vertical-align: -
 .bui-author img[data-avatar] { width: 48px; height: 48px; }
 @media (max-width: 700px) { .bui-slider .swiper-button-prev, .bui-slider .swiper-button-next { display: none !important; } }
 
-/* ===== 13. TAILWIND + DAISYUI MODE (BlockUI.start({ tailwind: true })) =====
-   The daisyUI theme sets background and text colour; BlockUI only adds behaviour */
+/* ===== 13. TAILWIND + DAISYUI MODE (LightWebsiteUi.start({ tailwind: true })) =====
+   The daisyUI theme sets background and text colour; LightWebsiteUi only adds behaviour */
 body.bui-tw { background: transparent; color: inherit; }
 }

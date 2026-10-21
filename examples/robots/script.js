@@ -1,5 +1,5 @@
-/* RoboCode robotics school on BlockUI.
-   Sign-up dialog, form validation, counters and countdown come from BlockUI. */
+/* RoboCode robotics school on LightWebsiteUi.
+   Sign-up dialog, form validation, counters and countdown come from LightWebsiteUi. */
 
 const CONFIG = {
   name: 'RoboCode',
@@ -10,4 +10,4 @@ const CONFIG = {
   orderTitle: 'Sign up for a class'
 };
 
-BlockUI.start(CONFIG);
+LightWebsiteUi.start(CONFIG);

@@ -313,7 +313,7 @@
 <section class="hero" id="top">
   <div class="beams" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
-    <span class="pill reveal"><span class="dot"></span>v2.0 · MIT · no build step</span>
+    <span class="pill reveal"><span class="dot"></span>v3.0 · MIT · no build step</span>
     <h1 class="reveal" style="--d:.1s">
       <span class="line">Beautiful websites</span>
       <span class="line grad-text">from plain HTML</span>
@@ -371,7 +371,7 @@
       <ol class="steps">
         <li><span class="n">1</span><div><b>Add two lines</b><p>The CSS and the script from the CDN.</p></div></li>
         <li><span class="n">2</span><div><b>Stack the blocks</b><p>Hero, products, reviews, pricing, FAQ, contacts, map.</p></div></li>
-        <li><span class="n">3</span><div><b>Pick a style and colour</b><p>One line: <code>BlockUI.start({ style, color })</code>.</p></div></li>
+        <li><span class="n">3</span><div><b>Pick a style and colour</b><p>One line: <code>LightWebsiteUi.start({ style, color })</code>.</p></div></li>
       </ol>
     </div>
     <div class="window reveal" style="--d:.15s">
@@ -383,8 +383,8 @@
         </div>
         <button class="copy" type="button">Copy</button>
       </div>
-<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@2.0.0/blockui.css"&gt;
-&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@2.0.0/blockui.js"&gt;&lt;/script&gt;
+<pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"&gt;&lt;/script&gt;
 
 &lt;section class="bui-hero"&gt;
   &lt;div class="bui-container"&gt;
@@ -417,7 +417,7 @@ const CONFIG = {
   thanks: 'Thanks! We will call you back in 5 minutes.'
 };
 
-BlockUI.start(CONFIG);</pre>
+LightWebsiteUi.start(CONFIG);</pre>
     </div>
   </div>
 </section>
@@ -430,7 +430,7 @@ BlockUI.start(CONFIG);</pre>
       <p>The same 11 colours and 5 styles your site gets from one line of config.</p>
     </div>
     <div class="swatches reveal" id="swatches"></div>
-    <div class="config-line reveal"><span class="tk-f">BlockUI.start</span>({ <span class="tk-a">style</span>: <span class="tk-s" id="cfg-style">'modern'</span>, <span class="tk-a">color</span>: <span class="tk-s" id="cfg-color">'sky'</span> })</div>
+    <div class="config-line reveal"><span class="tk-f">LightWebsiteUi.start</span>({ <span class="tk-a">style</span>: <span class="tk-s" id="cfg-style">'modern'</span>, <span class="tk-a">color</span>: <span class="tk-s" id="cfg-color">'sky'</span> })</div>
     <div class="styles reveal" id="styles"></div>
   </div>
 </section>

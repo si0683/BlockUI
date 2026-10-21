@@ -1,6 +1,6 @@
 {
-  "name": "blockuijs",
-  "version": "2.0.0",
+  "name": "lightwebsiteui",
+  "version": "3.0.0",
   "description": "Building blocks for beautiful websites: 5 styles × 11 colours, photos by keyword, cart, order dialog, forms, sliders, maps, icons, avatars — with plain HTML attributes. Optional Tailwind + daisyUI mode.",
   "keywords": ["ui", "css", "components", "landing-page", "website-builder", "tailwind", "daisyui", "swiper", "leaflet", "iconify", "no-build", "html"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",
@@ -8,21 +8,21 @@
   "bugs": { "url": "https://github.com/si0683/LightWebsiteUi/issues" },
   "license": "MIT",
   "author": "si0683",
-  "main": "blockui.js",
-  "module": "blockui.mjs",
-  "types": "blockui.d.ts",
-  "style": "blockui.css",
-  "unpkg": "blockui.js",
-  "jsdelivr": "blockui.js",
+  "main": "lightwebsiteui.js",
+  "module": "lightwebsiteui.mjs",
+  "types": "lightwebsiteui.d.ts",
+  "style": "lightwebsiteui.css",
+  "unpkg": "lightwebsiteui.js",
+  "jsdelivr": "lightwebsiteui.js",
   "exports": {
     ".": {
-      "types": "./blockui.d.ts",
-      "import": "./blockui.mjs",
-      "default": "./blockui.js"
+      "types": "./lightwebsiteui.d.ts",
+      "import": "./lightwebsiteui.mjs",
+      "default": "./lightwebsiteui.js"
     },
-    "./blockui.css": "./blockui.css",
-    "./blockui.js": "./blockui.js"
+    "./lightwebsiteui.css": "./lightwebsiteui.css",
+    "./lightwebsiteui.js": "./lightwebsiteui.js"
   },
-  "files": ["blockui.js", "blockui.mjs", "blockui.css", "blockui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
-  "sideEffects": ["blockui.js", "blockui.mjs", "*.css"]
+  "files": ["lightwebsiteui.js", "lightwebsiteui.mjs", "lightwebsiteui.css", "lightwebsiteui.d.ts", "README.md", "README.ru.md", "AI.md", "LICENSE", "THIRD_PARTY.md", "CHANGELOG.md"],
+  "sideEffects": ["lightwebsiteui.js", "lightwebsiteui.mjs", "*.css"]
 }

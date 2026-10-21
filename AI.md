@@ -1,17 +1,17 @@
-# BlockUI 2.0 — API reference (for developers and LLMs)
+# LightWebsiteUi 2.0 — API reference (for developers and LLMs)
 
-BlockUI builds one-page websites from ready-made blocks. A site is **3 files — HTML, CSS, JS** (plain JavaScript, no build step). BlockUI already provides: 5 styles × 11 colours, photos by keyword, mobile menu, dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown, gallery lightbox, scroll reveal, icons, sliders, maps and avatars. **Do not re-implement these** — compose the page from classes and attributes.
+LightWebsiteUi builds one-page websites from ready-made blocks. A site is **3 files — HTML, CSS, JS** (plain JavaScript, no build step). LightWebsiteUi already provides: 5 styles × 11 colours, photos by keyword, mobile menu, dark theme, cart, order dialog, form validation, toasts, confetti, counters, countdown, gallery lightbox, scroll reveal, icons, sliders, maps and avatars. **Do not re-implement these** — compose the page from classes and attributes.
 
 Two modes:
-- **BlockUI blocks** (default) — `bui-…` classes; style and colour in one line.
-- **Tailwind + daisyUI** — any design with Tailwind classes and daisyUI components; behaviour (dialogs, forms, photos, counters…) still comes from BlockUI.
+- **LightWebsiteUi blocks** (default) — `bui-…` classes; style and colour in one line.
+- **Tailwind + daisyUI** — any design with Tailwind classes and daisyUI components; behaviour (dialogs, forms, photos, counters…) still comes from LightWebsiteUi.
 
 ## 1. Install
 
 **CDN (CodePen, plain HTML)** — first lines of the page / HTML panel:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.css">
-<script src="https://cdn.jsdelivr.net/gh/si0683/BlockUI@2.0.0/blockui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.css">
+<script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.0.0/lightwebsiteui.js"></script>
 ```
 Tailwind + daisyUI mode — add these three lines before them:
 ```html
@@ -20,7 +20,7 @@ Tailwind + daisyUI mode — add these three lines before them:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.7.47/themes.css">
 ```
 
-**npm:** `npm install blockuijs`, then `import BlockUI from 'blockuijs'; import 'blockuijs/blockui.css';` (TypeScript types included; SSR import is safe).
+**npm:** `npm install lightwebsiteui`, then `import LightWebsiteUi from 'lightwebsiteui'; import 'lightwebsiteui/lightwebsiteui.css';` (TypeScript types included; SSR import is safe).
 
 ## 2. JS: site settings
 
@@ -34,14 +34,14 @@ const CONFIG = {
   dark: false,             // start in dark theme
   thanks: 'Thank you! We will call you back 😊' // message after a form is sent
 };
-BlockUI.start(CONFIG);
+LightWebsiteUi.start(CONFIG);
 ```
 More options: `orderTitle`, `orderText` (order dialog), `emptyCart`, `currency`, `themeButton: false` (no theme toggle), `avatarStyle: 'lorelei'` (notionists, thumbs, adventurer, fun-emoji, bottts…), `texts: { send: 'Order now', popular: '★ Best value' }` (override any interface text).
 Tailwind mode: `tailwind: true`, `theme: 'cupcake'` (daisyUI themes: light, dark, cupcake, retro, emerald, valentine, synthwave, cyberpunk, corporate, forest, aqua, pastel, fantasy, luxury, dracula, autumn, coffee, winter, nord, sunset…), `darkTheme: 'night'`.
 
 ## 3. CSS
 
-Usually almost empty — BlockUI does the styling. Your rules always win (BlockUI lives in `@layer bui`). Corner radius: `body { --bui-radius: 30px !important; }`.
+Usually almost empty — LightWebsiteUi does the styling. Your rules always win (LightWebsiteUi lives in `@layer bui`). Corner radius: `body { --bui-radius: 30px !important; }`.
 
 ## 4. Photos by keyword — `data-photo`
 
@@ -59,7 +59,7 @@ pizza · coffee, cafe · cakes, desserts · bakery, bread · burgers · sushi ·
 
 Unknown topic → a nice random photo. Your own picture: a normal `src`.
 
-## 5. Blocks (BlockUI mode)
+## 5. Blocks (LightWebsiteUi mode)
 
 Page skeleton:
 ```html
@@ -69,7 +69,7 @@ Page skeleton:
     <nav class="bui-nav"><a href="#about">About</a><a href="#menu">Menu</a><a href="#contacts">Contacts</a></nav>
   </div>
 </header>
-<!-- BlockUI adds the theme toggle, the cart and the mobile burger to the header -->
+<!-- LightWebsiteUi adds the theme toggle, the cart and the mobile burger to the header -->
 
 <section class="bui-hero" id="top">
   <div class="bui-container">
@@ -139,7 +139,7 @@ Buttons: `bui-btn` + `bui-btn-ghost` / `bui-btn-light` / `bui-btn-small` / `bui-
 | `data-reveal` | fades in on scroll (`bui-section` does it automatically) |
 | `form.bui-form` or `form[data-form]` | validation: `required`, `type="tel"` (7+ digits), `type="email"`; then the `thanks` toast, confetti, reset. No backend — wire your own `fetch` if needed |
 
-From JS: `BlockUI.toast('Text')`, `BlockUI.confetti()`, `BlockUI.open('order', 'Margherita')`, `BlockUI.close()`, `BlockUI.addToCart('Pizza', 9)`, `BlockUI.photo('pizza', 0)`, `BlockUI.avatar('Anna')`.
+From JS: `LightWebsiteUi.toast('Text')`, `LightWebsiteUi.confetti()`, `LightWebsiteUi.open('order', 'Margherita')`, `LightWebsiteUi.close()`, `LightWebsiteUi.addToCart('Pizza', 9)`, `LightWebsiteUi.photo('pizza', 0)`, `LightWebsiteUi.avatar('Anna')`.
 
 Icons, sliders and maps load their libraries automatically, only when the page uses them.
 
@@ -170,16 +170,16 @@ Write markup with Tailwind utilities and daisyUI components (`navbar`, `hero`, `
 </dialog>
 ```
 ```js
-BlockUI.start({ name: 'Lotus', tailwind: true, theme: 'emerald', darkTheme: 'night', thanks: "You're booked!" });
+LightWebsiteUi.start({ name: 'Lotus', tailwind: true, theme: 'emerald', darkTheme: 'night', thanks: "You're booked!" });
 ```
 The theme sets the `btn-primary` colour; `color: 'blue'` overrides it.
 
 ## Examples (3 files each)
 
-https://github.com/si0683/BlockUI/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI).
+https://github.com/si0683/LightWebsiteUi/tree/main/examples — `coffee` (products, cart, review slider with avatars, icons, map), `robots` (background-photo hero, counters, steps, pricing, team, countdown, inline form), `pets` (gallery, pet cards, emoji rain, map), `yoga` (Tailwind + daisyUI).
 
 ## Rules for generated code
 
 - A typical landing page: hero, about, features, products/services, call to action, contacts (phone, email, address, social links, map).
 - Keep text short; colours via `color`, pictures via `data-photo`, icons via `data-icon`. Don't write your own menus, dialogs, carts or animations — they already exist.
-- Start the JS with a `CONFIG` object, then `BlockUI.start(CONFIG)`.
+- Start the JS with a `CONFIG` object, then `LightWebsiteUi.start(CONFIG)`.

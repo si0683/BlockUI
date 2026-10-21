@@ -1,5 +1,5 @@
-/* Paws animal shelter on BlockUI.
-   Gallery, meet-a-pet dialog, counters, icons and map come from BlockUI. */
+/* Paws animal shelter on LightWebsiteUi.
+   Gallery, meet-a-pet dialog, counters, icons and map come from LightWebsiteUi. */
 
 const CONFIG = {
   name: 'Paws',
@@ -12,4 +12,4 @@ const CONFIG = {
   orderText: 'Leave your name and phone — we will arrange a meeting.'
 };
 
-BlockUI.start(CONFIG);
+LightWebsiteUi.start(CONFIG);
