@@ -6,6 +6,10 @@
 
 **Примеры:** [Кофейня «Зерно»](https://si0683.github.io/BlockUI/examples/coffee/) · [Школа «РобоКод»](https://si0683.github.io/BlockUI/examples/robots/) · [Приют «Лапки»](https://si0683.github.io/BlockUI/examples/pets/) · [Студия йоги «Лотос»](https://si0683.github.io/BlockUI/examples/yoga/) (Tailwind + daisyUI)
 
+## 🚀 Быстрый старт с нейросетью
+
+Готовый шаблон промта — **[PROMPT.md](PROMPT.md)**: поменяйте строки «МОЙ САЙТ» (тема, название, стиль, цвет, кнопка) и отправьте в Qwen, ChatGPT или GigaChat — получите сайт в 3 файлах для CodePen.
+
 ## Подключение
 
 ```html
