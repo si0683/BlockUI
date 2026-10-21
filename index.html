@@ -1,570 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LightWebsiteUi — beautiful websites from plain HTML</title>
-  <meta name="description" content="Build polished one-page websites with plain HTML classes and attributes: 5 styles, 11 colours, photos by keyword, cart, forms, sliders, maps and 200,000+ icons. No build step. Works great with AI.">
-  <meta name="theme-color" content="#04050d">
-  <meta property="og:title" content="LightWebsiteUi — beautiful websites from plain HTML">
-  <meta property="og:description" content="Landing pages from ready-made blocks: styles, photos, cart, forms, sliders, maps, icons. No build step.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <title>LightWebsiteUi — лендинги для бизнеса из готовых блоков</title>
+  <meta name="description" content="Открытая библиотека для сайтов компаний: оформление, фото, корзина, заявки, карты и отзывы через обычные HTML-классы. Без сборки и фреймворков. Бесплатно, лицензия MIT.">
+  <meta name="theme-color" content="#2563eb">
+  <meta property="og:title" content="LightWebsiteUi — лендинги для бизнеса из готовых блоков">
+  <meta property="og:description" content="Сайт компании из готовых блоков: две строки подключения, обычный HTML, без сборки.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%232563eb'/><path d='M30 26v48h40v-11H43V26z' fill='white'/></svg>">
+  <!-- This page is built with LightWebsiteUi itself (local files, always the current version) -->
+  <link rel="stylesheet" href="lightwebsiteui.css">
   <style>
-    @property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-    @property --c1 { syntax: '<color>'; inherits: true; initial-value: #38bdf8; }
-    @property --c2 { syntax: '<color>'; inherits: true; initial-value: #818cf8; }
-    @property --c3 { syntax: '<color>'; inherits: true; initial-value: #f472b6; }
+    /* Own rules for this page; LightWebsiteUi styles sit in a weaker cascade layer */
+    body.bui-clean { --bui-font-title: 'Manrope', sans-serif; --bui-font-text: 'Manrope', sans-serif; --bui-title-weight: 800; --bui-radius: 12px; }
+    body { --code-bg: #0f172a; --code-text: #e2e8f0; }
+    .bui-hero h1 { color: var(--bui-text); max-width: 900px; letter-spacing: -0.03em; }
+    .bui-hero h1 em { font-style: normal; color: var(--bui-main); }
+    .bui-hero .lead { max-width: 720px; font-size: 1.15rem; color: var(--bui-muted); }
+    .bui-hero { padding-bottom: 40px; }
+    .trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 26px; margin-top: 26px; color: var(--bui-muted); font-size: 0.92rem; }
+    .trust > span { display: inline-flex; align-items: center; gap: 6px; }
+    .trust [data-icon] { color: var(--bui-main); display: inline-flex; }
 
-    :root {
-      --bg: #04050d;
-      --bg2: #0a0d1c;
-      --text: #eef2ff;
-      --muted: #9aa3c7;
-      --line: rgba(255, 255, 255, 0.09);
-      --c1: #38bdf8;
-      --c2: #818cf8;
-      --c3: #f472b6;
-      --grad: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c1));
-      --ring: conic-gradient(from var(--a), var(--c1), var(--c2), var(--c3), var(--c1));
-      --font-head: 'Unbounded', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
-      transition: --c1 0.9s, --c2 0.9s, --c3 0.9s;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 Inter, system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: none; }
-    code { font-family: var(--font-mono); font-size: 0.9em; padding: 2px 7px; border-radius: 6px; background: color-mix(in srgb, var(--c2) 22%, transparent); color: #e0e7ff; }
-    ::selection { background: var(--c1); color: #04050d; }
-    .wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
-
-    /* ---------- background: light beams, dot grid with cursor spotlight, aurora ---------- */
-    .bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
-    .bg .dots, .bg .dots-lit { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1.5px); background-size: 30px 30px; }
-    .bg .dots-lit { background-image: radial-gradient(var(--c1) 1.4px, transparent 2px); -webkit-mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); mask-image: radial-gradient(260px circle at var(--cx, 50%) var(--cy, -50%), #000, transparent 75%); }
-    .bg .blob { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(120px); opacity: 0.28; animation: drift 26s ease-in-out infinite alternate; }
-    .bg .blob:nth-of-type(3) { background: var(--c2); top: -30vmax; right: -20vmax; }
-    .bg .blob:nth-of-type(4) { background: var(--c3); bottom: -35vmax; left: -20vmax; animation-duration: 32s; animation-delay: -10s; opacity: 0.2; }
-    @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-7vw, 6vh) scale(1.12); } 100% { transform: translate(5vw, -5vh) scale(0.94); } }
-
-    .beams { position: absolute; top: -140px; left: 50%; width: 1600px; height: 1100px; transform: translateX(-50%); pointer-events: none; z-index: 0; -webkit-mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 30%, transparent 75%); }
-    .beams i { position: absolute; top: 0; left: 50%; width: 140px; height: 100%; margin-left: -70px; transform-origin: 50% 0; background: linear-gradient(180deg, color-mix(in srgb, var(--c1) 70%, transparent), transparent 85%); filter: blur(28px); opacity: 0.5; animation: sway 9s ease-in-out infinite alternate; }
-    .beams i:nth-child(1) { --r0: -38deg; --r1: -22deg; }
-    .beams i:nth-child(2) { --r0: -14deg; --r1: -4deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c2) 75%, transparent), transparent 85%); animation-duration: 11s; animation-delay: -3s; }
-    .beams i:nth-child(3) { --r0: 6deg; --r1: 16deg; animation-duration: 8s; animation-delay: -5s; width: 90px; }
-    .beams i:nth-child(4) { --r0: 22deg; --r1: 38deg; background: linear-gradient(180deg, color-mix(in srgb, var(--c3) 70%, transparent), transparent 85%); animation-duration: 12s; animation-delay: -1s; }
-    @keyframes sway { from { transform: rotate(var(--r0)); opacity: 0.35; } to { transform: rotate(var(--r1)); opacity: 0.65; } }
-
-    .progress { position: fixed; top: 0; left: 0; z-index: 60; height: 3px; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: var(--grad); background-size: 200% 100%; animation: flow 4s linear infinite; box-shadow: 0 0 14px var(--c1); }
-
-    /* ---------- shared ---------- */
-    .grad-text { background: var(--grad); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: flow 5s linear infinite; }
-    @keyframes flow { to { background-position: 200% 0; } }
-    @keyframes spin { to { --a: 360deg; } }
-    @keyframes bob { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) * -1)); } }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
-
-    .pill { display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px; border-radius: 999px; border: 1px solid transparent; background: linear-gradient(var(--bg2), var(--bg2)) padding-box, var(--ring) border-box; animation: spin 4s linear infinite; font: 600 0.82rem var(--font-mono); letter-spacing: 0.04em; color: #dbe4ff; }
-    .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c1); box-shadow: 0 0 12px var(--c1); animation: pulse 1.6s ease-in-out infinite; }
-
-    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 28px; border-radius: 14px; font: 700 1rem Inter, sans-serif; cursor: pointer; border: 0; overflow: hidden; white-space: nowrap; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
-    .btn:hover { transform: translateY(-3px) scale(1.03); }
-    .btn-main { color: #050712; background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; box-shadow: 0 0 32px color-mix(in srgb, var(--c1) 55%, transparent), 0 0 90px color-mix(in srgb, var(--c2) 30%, transparent); }
-    .btn-main:hover { box-shadow: 0 0 48px color-mix(in srgb, var(--c1) 80%, transparent), 0 0 130px color-mix(in srgb, var(--c3) 40%, transparent); }
-    .btn-main::after { content: ""; position: absolute; top: 0; left: -80%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.8), transparent); transform: skewX(-20deg); animation: shine 3.4s ease-in-out infinite; }
-    @keyframes shine { 0%, 55% { left: -80%; } 100% { left: 140%; } }
-    .btn-ghost { color: var(--text); background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.18); backdrop-filter: blur(10px); }
-    .btn-ghost:hover { border-color: var(--c1); box-shadow: 0 0 28px color-mix(in srgb, var(--c1) 45%, transparent), inset 0 0 18px color-mix(in srgb, var(--c1) 14%, transparent); }
-    .row { display: flex; flex-wrap: wrap; gap: 14px; }
-
-    .section { position: relative; padding: 120px 0; }
-    .head { max-width: 780px; margin: 0 auto 60px; text-align: center; }
-    .eyebrow { display: inline-block; margin-bottom: 14px; font: 600 0.8rem var(--font-mono); letter-spacing: 0.22em; text-transform: uppercase; }
-    h1, h2, h3 { font-family: var(--font-head); margin: 0; letter-spacing: -0.02em; }
-    h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.08; font-weight: 900; }
-    .head p { color: var(--muted); font-size: 1.12rem; margin: 18px 0 0; }
-
-    .reveal { opacity: 0; transform: translateY(36px) scale(0.98); filter: blur(6px); transition: opacity 0.9s cubic-bezier(.2, .7, .2, 1), transform 0.9s cubic-bezier(.2, .7, .2, 1), filter 0.9s; transition-delay: var(--d, 0s); }
-    .reveal.in { opacity: 1; transform: none; filter: none; }
-
-    /* ---------- nav ---------- */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 18px 0; border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s, padding 0.3s; }
-    .nav.scrolled { background: rgba(4, 5, 13, 0.72); backdrop-filter: blur(16px) saturate(1.4); border-color: var(--line); padding: 10px 0; }
-    .nav .wrap { display: flex; align-items: center; gap: 28px; }
-    .logo { display: flex; align-items: center; gap: 10px; font: 900 1.12rem var(--font-head); }
-    .logo .bulb { font-size: 1.6rem; filter: drop-shadow(0 0 10px #ffd84d) drop-shadow(0 0 22px var(--c1)); animation: flicker 5s infinite; }
-    @keyframes flicker { 0%, 92%, 100% { opacity: 1; } 93% { opacity: 0.3; } 94% { opacity: 1; } 96% { opacity: 0.5; } 97% { opacity: 1; } }
-    .nav-links { display: flex; gap: 26px; margin-left: auto; font-weight: 600; font-size: 0.95rem; color: var(--muted); }
-    .nav-links a { position: relative; transition: color 0.2s; }
-    .nav-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--grad); transform: scaleX(0); transition: transform 0.3s; }
-    .nav-links a:hover { color: #fff; }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav .btn { padding: 10px 18px; font-size: 0.9rem; border-radius: 12px; }
-
-    /* ---------- hero ---------- */
-    .hero { position: relative; padding: 160px 0 110px; text-align: center; overflow: hidden; }
-    .hero .wrap { position: relative; z-index: 2; }
-    .hero h1 { font-size: clamp(2.6rem, 7vw, 5.8rem); line-height: 1.02; font-weight: 900; margin: 28px auto 24px; max-width: 1050px; }
-    .hero h1 .line { display: block; }
-    .hero .lead { font-size: 1.2rem; color: var(--muted); max-width: 680px; margin: 0 auto 18px; }
-    .typer { font: 600 1.05rem var(--font-mono); color: var(--muted); margin: 0 0 36px; min-height: 1.7em; }
-    .typer b { color: var(--text); }
-    .typer .cur { display: inline-block; width: 10px; height: 1.15em; vertical-align: -3px; margin-left: 2px; background: var(--c1); box-shadow: 0 0 10px var(--c1); animation: pulse 1s steps(1) infinite; }
-    .hero .row { justify-content: center; }
-
-    .showcase { position: relative; margin: 80px auto 0; max-width: 1060px; }
-    .browser { position: relative; z-index: 1; padding: 2px; border-radius: 22px; background: var(--ring); animation: spin 6s linear infinite; }
-    .browser::before { content: ""; position: absolute; inset: -10px; z-index: -1; border-radius: 32px; background: var(--ring); animation: spin 6s linear infinite; filter: blur(44px); opacity: 0.6; }
-    .browser-in { border-radius: 20px; overflow: hidden; background: #0b0e1d; }
-    .browser-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #0d1124; border-bottom: 1px solid var(--line); }
-    .browser-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-    .browser-bar > i:nth-child(1) { background: #ff5f57; } .browser-bar > i:nth-child(2) { background: #febc2e; } .browser-bar > i:nth-child(3) { background: #28c840; }
-    .addr { flex: 1; max-width: 420px; margin: 0 auto; padding: 6px 14px; border-radius: 9px; background: rgba(255, 255, 255, 0.05); font: 0.8rem var(--font-mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .addr b { color: var(--c1); font-weight: 600; }
-    .demo-tabs { display: flex; justify-content: center; gap: 6px; padding: 10px; background: #0b0e1d; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-    .demo-tab { position: relative; padding: 8px 16px; border-radius: 10px; border: 1px solid transparent; background: none; color: var(--muted); font: 600 0.88rem Inter, sans-serif; cursor: pointer; overflow: hidden; transition: 0.25s; }
-    .demo-tab:hover { color: #fff; }
-    .demo-tab.on { color: #fff; border-color: color-mix(in srgb, var(--c1) 55%, transparent); background: color-mix(in srgb, var(--c1) 14%, transparent); box-shadow: 0 0 20px color-mix(in srgb, var(--c1) 30%, transparent); }
-    .demo-tab .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); }
-    .demo-tab.on .bar.run { animation: fill var(--t, 7s) linear forwards; }
+    /* Browser mock-up with live examples */
+    .showcase { padding-bottom: 70px; }
+    .browser { border: 1px solid var(--bui-line); border-radius: 14px; overflow: hidden; background: var(--bui-surface); box-shadow: 0 30px 70px color-mix(in srgb, var(--bui-text) 14%, transparent); }
+    .browser-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--bui-line); background: color-mix(in srgb, var(--bui-surface) 85%, var(--bui-bg)); }
+    .browser-bar > i { width: 10px; height: 10px; border-radius: 50%; background: var(--bui-line); flex: none; }
+    .addr { flex: 1; max-width: 460px; margin: 0 auto; padding: 5px 12px; border-radius: 8px; background: var(--bui-bg); color: var(--bui-muted); font-size: 0.82rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .demo-tabs { display: flex; gap: 4px; padding: 8px; border-bottom: 1px solid var(--bui-line); overflow-x: auto; }
+    .demo-tab { flex: none; padding: 7px 14px; border: 0; border-radius: 8px; background: none; color: var(--bui-muted); font: 600 0.9rem var(--bui-font-text); cursor: pointer; position: relative; }
+    .demo-tab:hover { color: var(--bui-text); }
+    .demo-tab.on { color: var(--bui-main); background: var(--bui-soft); }
+    .demo-tab .bar { position: absolute; left: 10px; right: 10px; bottom: 2px; height: 2px; background: var(--bui-main); transform-origin: 0 50%; transform: scaleX(0); }
+    .demo-tab.on .bar.run { animation: fill var(--t, 8s) linear forwards; }
     @keyframes fill { to { transform: scaleX(1); } }
-    .viewport { position: relative; height: 560px; overflow: hidden; background: #fff; }
-    .viewport iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; opacity: 0; transition: opacity 0.6s; pointer-events: none; background: #fff; }
+    .viewport { position: relative; height: 580px; overflow: hidden; background: #fff; }
+    .viewport iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; background: #fff; }
     .viewport iframe.on { opacity: 1; pointer-events: auto; }
-    .float { position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 14px; background: rgba(12, 15, 32, 0.82); backdrop-filter: blur(14px); border: 1px solid color-mix(in srgb, var(--c1) 40%, transparent); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 26px color-mix(in srgb, var(--c1) 25%, transparent); font-weight: 600; font-size: 0.92rem; animation: bob 6s ease-in-out infinite; white-space: nowrap; }
-    .float span { font-size: 1.3rem; }
-    .float small { display: block; color: var(--muted); font-weight: 500; font-size: 0.74rem; }
-    .float:nth-of-type(1) { top: 90px; left: -70px; --r: -3deg; }
-    .float:nth-of-type(2) { top: 230px; right: -80px; animation-delay: -2s; --r: 3deg; border-color: color-mix(in srgb, var(--c3) 45%, transparent); }
-    .float:nth-of-type(3) { bottom: 110px; left: -56px; animation-delay: -4s; --r: 2deg; border-color: color-mix(in srgb, var(--c2) 45%, transparent); }
-    .float:nth-of-type(4) { bottom: 40px; right: -50px; animation-delay: -1s; --r: -2deg; }
+    .showcase-note { text-align: center; color: var(--bui-muted); font-size: 0.9rem; margin-top: 14px; }
 
-    /* ---------- marquee ---------- */
-    .marquee { padding: 34px 0; border-block: 1px solid var(--line); background: rgba(255, 255, 255, 0.015); overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-    .track { display: flex; gap: 14px; width: max-content; animation: marquee 40s linear infinite; }
-    .track + .track { margin-top: 14px; animation-direction: reverse; animation-duration: 48s; }
-    .marquee:hover .track { animation-play-state: paused; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
-    .chip { display: inline-flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); font-weight: 600; white-space: nowrap; transition: border-color 0.3s, box-shadow 0.3s; }
-    .chip:hover { border-color: var(--c1); box-shadow: 0 0 22px color-mix(in srgb, var(--c1) 45%, transparent); }
-    .chip span { font-size: 1.25rem; }
+    /* Three columns for 9 features and 6 examples */
+    #features .bui-grid, #examples .bui-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+    @media (max-width: 700px) { #features .bui-grid, #examples .bui-grid { grid-template-columns: 1fr; } }
 
-    /* ---------- code ---------- */
-    .code-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: center; }
-    .code-grid > * { min-width: 0; }
-    .steps { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 16px; }
-    .steps li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 18px; border-radius: 16px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); transition: border-color 0.3s, transform 0.3s; }
-    .steps li:hover { border-color: color-mix(in srgb, var(--c1) 60%, transparent); transform: translateX(6px); }
-    .steps .n { flex: none; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; font: 900 1rem var(--font-head); color: #050712; background: var(--grad); background-size: 200% auto; animation: flow 5s linear infinite; }
-    .steps b { display: block; }
-    .steps p { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
-    .window { position: relative; border-radius: 20px; background: rgba(10, 13, 28, 0.88); border: 1px solid color-mix(in srgb, var(--c2) 40%, transparent); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px color-mix(in srgb, var(--c2) 25%, transparent); backdrop-filter: blur(12px); overflow: hidden; }
-    .window-bar { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
-    .window-bar > i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
-    .window-bar > i:nth-child(1) { background: #ff5f57; } .window-bar > i:nth-child(2) { background: #febc2e; } .window-bar > i:nth-child(3) { background: #28c840; }
-    .tabs { display: flex; gap: 4px; margin-left: 14px; overflow-x: auto; }
-    .tab { padding: 6px 12px; border-radius: 8px; border: 0; background: none; color: var(--muted); font: 600 0.8rem var(--font-mono); cursor: pointer; white-space: nowrap; }
-    .tab.on { background: color-mix(in srgb, var(--c2) 24%, transparent); color: #fff; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c2) 55%, transparent); }
-    .copy { margin-left: auto; flex: none; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); color: var(--muted); font: 600 0.78rem var(--font-mono); cursor: pointer; transition: 0.2s; }
-    .copy:hover { color: #fff; border-color: var(--c1); }
-    .copy.ok { color: #4ade80; border-color: #4ade80; }
-    pre.code { margin: 0; padding: 22px 22px 26px; overflow-x: auto; font: 0.86rem/1.75 var(--font-mono); color: #d5dcf5; min-height: 440px; }
-    pre.code[hidden] { display: none; }
-    pre.code .ln { display: block; opacity: 0; transform: translateX(-10px); }
-    pre.code.play .ln { animation: ln 0.45s forwards; animation-delay: calc(var(--i) * 45ms); }
-    @keyframes ln { to { opacity: 1; transform: none; } }
-    .tk-c { color: #66708f; font-style: italic; } .tk-s { color: #86efac; } .tk-k { color: #f472b6; } .tk-n { color: #fbbf24; } .tk-t { color: #67e8f9; } .tk-f { color: #c4b5fd; } .tk-a { color: #fda4af; }
-    .caret { display: inline-block; width: 9px; height: 1.1em; vertical-align: -3px; background: var(--c1); box-shadow: 0 0 10px var(--c1); animation: pulse 1s steps(1) infinite; }
-
-    /* ---------- playground ---------- */
-    .swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-bottom: 26px; }
-    .sw { position: relative; width: 54px; height: 54px; border-radius: 50%; border: 0; cursor: pointer; background: var(--s); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06), 0 0 24px color-mix(in srgb, var(--s) 55%, transparent); transition: transform 0.35s cubic-bezier(.3, 1.6, .5, 1), box-shadow 0.3s; }
-    .sw:hover { transform: scale(1.15) translateY(-4px); }
-    .sw.on { transform: scale(1.18); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--s), 0 0 40px var(--s); }
-    .sw span { position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); font: 600 0.72rem var(--font-mono); color: var(--muted); opacity: 0; transition: 0.25s; white-space: nowrap; }
-    .sw:hover span, .sw.on span { opacity: 1; }
-    .config-line { margin: 34px auto 54px; width: fit-content; max-width: 100%; padding: 14px 22px; border-radius: 14px; background: rgba(10, 13, 28, 0.9); border: 1px solid var(--line); font: 0.95rem var(--font-mono); overflow-x: auto; white-space: nowrap; }
-    .styles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-    .style { position: relative; padding: 18px; border-radius: 20px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.025); cursor: pointer; text-align: left; color: inherit; font: inherit; transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s; }
-    .style:hover { transform: translateY(-6px); }
-    .style.on { border-color: var(--c1); box-shadow: 0 0 34px color-mix(in srgb, var(--c1) 35%, transparent); }
-    .mini { height: 110px; border-radius: 12px; margin-bottom: 14px; padding: 12px; display: grid; gap: 7px; align-content: start; overflow: hidden; }
-    .mini i { display: block; height: 8px; border-radius: 4px; }
-    .mini i:nth-child(1) { width: 70%; height: 12px; }
-    .mini i:nth-child(2) { width: 90%; opacity: 0.45; }
-    .mini i:nth-child(3) { width: 55%; opacity: 0.45; }
-    .mini i:nth-child(4) { width: 46%; height: 22px; margin-top: 6px; }
-    .style b { font-family: var(--font-head); display: block; }
-    .style small { color: var(--muted); }
-
-    /* ---------- feature cards ---------- */
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .card { position: relative; padding: 30px 28px; border-radius: 22px; background: rgba(255, 255, 255, 0.025); border: 1px solid var(--line); overflow: hidden; isolation: isolate; transition: transform 0.35s, background 0.35s; }
-    .card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--c1) 16%, transparent), transparent 45%); opacity: 0; transition: opacity 0.4s; }
-    .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--c1), var(--c3) 35%, transparent 65%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
-    .cards:hover .card::before, .cards:hover .card::after { opacity: 1; }
-    .card:hover { transform: translateY(-6px); background: rgba(255, 255, 255, 0.045); }
-    .ico { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 17px; font-size: 1.8rem; margin-bottom: 20px; background: linear-gradient(135deg, hsl(var(--h) 95% 60% / 0.35), hsl(calc(var(--h) + 50) 95% 60% / 0.12)); box-shadow: 0 0 30px hsl(var(--h) 95% 60% / 0.35), inset 0 0 0 1px hsl(var(--h) 95% 70% / 0.45); transition: transform 0.4s cubic-bezier(.3, 1.6, .5, 1); }
-    .card:hover .ico { transform: rotate(-10deg) scale(1.15); }
-    .card h3 { font-size: 1.12rem; margin-bottom: 10px; }
-    .card p { margin: 0; color: var(--muted); }
-
-    /* ---------- examples ---------- */
-    .examples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; perspective: 1200px; }
-    .ex { position: relative; display: block; border-radius: 24px; overflow: hidden; border: 1px solid hsl(var(--h) 80% 65% / 0.3); background: linear-gradient(180deg, hsl(var(--h) 80% 50% / 0.18), rgba(255, 255, 255, 0.015)); transform-style: preserve-3d; transition: transform 0.2s ease-out, box-shadow 0.35s; will-change: transform; }
-    .ex:hover { box-shadow: 0 24px 70px hsl(var(--h) 90% 50% / 0.35), 0 0 0 1px hsl(var(--h) 90% 65% / 0.7); }
-    .ex .thumb { position: relative; height: 210px; overflow: hidden; background: #fff; }
+    /* Example cards with real page previews */
+    .ex { display: block; overflow: hidden; border: 1px solid var(--bui-line); border-radius: var(--bui-radius); background: var(--bui-surface); color: inherit; text-decoration: none; transition: transform var(--bui-speed), box-shadow var(--bui-speed); }
+    .ex:hover { transform: translateY(-4px); box-shadow: var(--bui-shadow); }
+    .ex .thumb { position: relative; height: 200px; overflow: hidden; background: #fff; border-bottom: 1px solid var(--bui-line); }
     .ex .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 1000px; border: 0; transform-origin: 0 0; pointer-events: none; }
-    .ex .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(4, 5, 13, 0.85)); }
-    .ex .body { padding: 20px 22px 24px; }
-    .ex h3 { font-size: 1.12rem; }
-    .ex p { margin: 6px 0 0; color: var(--muted); font-size: 0.93rem; }
-    .ex .open { position: absolute; top: 14px; right: 14px; z-index: 2; padding: 7px 13px; border-radius: 999px; background: hsl(var(--h) 90% 60%); color: #050712; font: 700 0.78rem Inter, sans-serif; box-shadow: 0 0 22px hsl(var(--h) 90% 60% / 0.7); transform: translateY(-8px); opacity: 0; transition: 0.35s cubic-bezier(.3, 1.6, .5, 1); }
-    .ex:hover .open { opacity: 1; transform: none; }
-    .ex .glare { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.14), transparent 50%); opacity: 0; transition: opacity 0.3s; }
-    .ex:hover .glare { opacity: 1; }
+    .ex .body { padding: 18px 20px 22px; }
+    .ex h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .ex p { margin: 0; color: var(--bui-muted); font-size: 0.93rem; }
+    .ex .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .ex .tags span { padding: 2px 9px; border-radius: 999px; background: var(--bui-soft); color: var(--bui-main); font-size: 0.75rem; font-weight: 700; }
 
-    /* ---------- AI flow ---------- */
-    .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; max-width: 980px; margin: 0 auto 50px; }
-    .node { text-align: center; padding: 30px 20px; border-radius: 24px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); }
-    .node .big { font-size: 3rem; display: block; margin-bottom: 10px; animation: bob 4s ease-in-out infinite; }
-    .node:nth-child(3) .big { animation-delay: -1.3s; } .node:nth-child(5) .big { animation-delay: -2.6s; }
-    .node b { font-family: var(--font-head); display: block; }
-    .node small { color: var(--muted); }
-    .wire { position: relative; width: 90px; height: 2px; background: linear-gradient(90deg, color-mix(in srgb, var(--c1) 35%, transparent), color-mix(in srgb, var(--c3) 35%, transparent)); }
-    .wire::after { content: ""; position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px var(--c1), 0 0 26px var(--c3); animation: travel 1.8s ease-in-out infinite; }
-    .wire:nth-child(4)::after { animation-delay: -0.9s; }
-    @keyframes travel { from { left: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { left: calc(100% - 10px); opacity: 0; } }
-    @keyframes travel-y { from { top: 0; opacity: 0; } 15%, 85% { opacity: 1; } to { top: calc(100% - 10px); opacity: 0; } }
+    /* Code */
+    .code-box { border-radius: var(--bui-radius); overflow: hidden; background: var(--code-bg); border: 1px solid color-mix(in srgb, var(--bui-main) 25%, transparent); min-width: 0; }
+    .code-bar { display: flex; align-items: center; gap: 4px; padding: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .code-tab { padding: 6px 12px; border: 0; border-radius: 6px; background: none; color: #94a3b8; font: 600 0.82rem ui-monospace, Consolas, monospace; cursor: pointer; }
+    .code-tab.on { background: rgba(255, 255, 255, 0.08); color: #fff; }
+    .copy { margin-left: auto; padding: 6px 12px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; background: none; color: #cbd5e1; font: 600 0.8rem var(--bui-font-text); cursor: pointer; }
+    .copy:hover { border-color: #fff; color: #fff; }
+    pre.code { margin: 0; padding: 18px 20px; overflow-x: auto; color: var(--code-text); font: 0.85rem/1.7 ui-monospace, Consolas, monospace; min-height: 330px; }
+    pre.code[hidden] { display: none; }
+    .tk-c { color: #64748b; } .tk-s { color: #86efac; } .tk-k { color: #f9a8d4; } .tk-t { color: #93c5fd; } .tk-a { color: #fcd34d; } .tk-f { color: #c4b5fd; }
 
-    /* ---------- final ---------- */
-    .final { position: relative; padding: 80px 40px; border-radius: 32px; text-align: center; overflow: hidden; isolation: isolate; border: 2px solid transparent; background: linear-gradient(rgba(10, 13, 28, 0.92), rgba(10, 13, 28, 0.92)) padding-box, var(--ring) border-box; animation: spin 6s linear infinite; box-shadow: 0 0 120px color-mix(in srgb, var(--c2) 30%, transparent); }
-    .final::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(600px circle at 20% 0%, color-mix(in srgb, var(--c1) 25%, transparent), transparent 60%), radial-gradient(600px circle at 80% 100%, color-mix(in srgb, var(--c3) 22%, transparent), transparent 60%); }
-    .final h2 { font-size: clamp(2rem, 5vw, 3.8rem); }
-    .final p { color: var(--muted); font-size: 1.15rem; max-width: 620px; margin: 18px auto 34px; }
-    .final .row { justify-content: center; }
-    .spark { position: absolute; z-index: -1; width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px var(--c1), 0 0 20px var(--c3); animation: rise linear infinite; }
-    @keyframes rise { from { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } to { transform: translateY(-460px) scale(0.3); opacity: 0; } }
+    /* Who it is for, integrations */
+    .who { display: flex; gap: 16px; align-items: flex-start; }
+    .who > [data-icon] { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: var(--bui-soft); color: var(--bui-main); font-size: 1.5rem; }
+    .who h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .who p { margin: 0; color: var(--bui-muted); font-size: 0.95rem; }
+    .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .logos > span { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--bui-line); border-radius: 10px; background: var(--bui-surface); font-weight: 700; }
+    .logos [data-icon] { font-size: 1.3rem; display: inline-flex; }
 
-    footer { padding: 50px 0 60px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
-    footer .wrap { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; }
-    footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-    footer a:hover { color: #fff; }
-    .sister { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 14px; border: 1px solid var(--line); transition: 0.3s; }
-    .sister:hover { border-color: var(--c3); box-shadow: 0 0 24px color-mix(in srgb, var(--c3) 40%, transparent); color: #fff; }
+    /* Style and colour playground */
+    .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 14px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--bui-line); border-radius: 999px; background: var(--bui-surface); color: var(--bui-text); font: 600 0.9rem var(--bui-font-text); cursor: pointer; }
+    .chip.on { border-color: var(--bui-main); color: var(--bui-main); box-shadow: 0 0 0 3px var(--bui-soft); }
+    .swatch { width: 14px; height: 14px; border-radius: 50%; }
+    .play-note { text-align: center; color: var(--bui-muted); font-size: 0.9rem; margin: 6px 0 30px; overflow-wrap: anywhere; }
 
-    /* ---------- responsive ---------- */
-    @media (max-width: 1180px) { .float { display: none; } }
-    @media (max-width: 1000px) {
-      .code-grid { grid-template-columns: 1fr; }
-      .cards { grid-template-columns: repeat(2, 1fr); }
-      .examples { grid-template-columns: repeat(2, 1fr); }
-      .styles { grid-template-columns: repeat(3, 1fr); }
-      .viewport { height: 460px; }
-    }
     @media (max-width: 760px) {
-      .nav-links { display: none; }
-      .nav .btn { margin-left: auto; }
-      .section { padding: 84px 0; }
-      .hero { padding: 130px 0 80px; }
-      .cards, .examples { grid-template-columns: 1fr; }
-      .styles { grid-template-columns: repeat(2, 1fr); }
-      .flow { grid-template-columns: 1fr; }
-      .wire { width: 2px; height: 46px; margin: 0 auto; }
-      .wire::after { left: -4px; animation-name: travel-y; }
-      .final { padding: 60px 22px; }
-      .viewport { height: 520px; }
-      .sw { width: 44px; height: 44px; }
-      pre.code { min-height: 0; font-size: 0.8rem; }
+      .viewport { height: 560px; }
+      pre.code { min-height: 0; font-size: 0.78rem; }
       .addr { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-      .reveal { opacity: 1; transform: none; filter: none; }
-      pre.code .ln { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
-<div class="bg" aria-hidden="true"><div class="dots"></div><div class="dots-lit"></div><i class="blob"></i><i class="blob"></i></div>
-<div class="progress" aria-hidden="true"></div>
-
-<header class="nav">
-  <div class="wrap">
-    <a class="logo" href="#top"><span class="bulb">💡</span><span>Light<span class="grad-text">Website</span>Ui</span></a>
-    <nav class="nav-links">
-      <a href="#start">Start</a>
-      <a href="#playground">Styles</a>
-      <a href="#features">Features</a>
-      <a href="#examples">Examples</a>
-      <a href="#ai">AI</a>
+<header class="bui-header">
+  <div class="bui-container">
+    <a class="bui-logo" href="#top"><span data-icon="mdi:alpha-l-box"></span><span data-name>LightWebsiteUi</span></a>
+    <nav class="bui-nav">
+      <a href="#features">Возможности</a>
+      <a href="#examples">Примеры</a>
+      <a href="#start">Как начать</a>
+      <a href="#ai">Для ИИ</a>
+      <a href="#faq">Вопросы</a>
+      <a href="https://github.com/si0683/LightWebsiteUi">GitHub</a>
     </nav>
-    <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ GitHub</a>
   </div>
 </header>
 
-<main>
-<section class="hero" id="top">
-  <div class="beams" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <div class="wrap">
-    <span class="pill reveal"><span class="dot"></span>v3.0 · MIT · no build step</span>
-    <h1 class="reveal" style="--d:.1s">
-      <span class="line">Beautiful websites</span>
-      <span class="line grad-text">from plain HTML</span>
-    </h1>
-    <p class="lead reveal" style="--d:.2s">Compose a landing page from ready-made blocks. Styles, photos, cart, order dialog, forms, sliders, maps and icons work through <b>classes and attributes</b> — and AI models write it fluently.</p>
-    <p class="typer reveal" style="--d:.25s">Perfect for <b id="word">renovation companies</b><span class="cur"></span></p>
-    <div class="row reveal" style="--d:.3s">
-      <a class="btn btn-main" href="#start">⚡ Get started</a>
-      <a class="btn btn-ghost" href="#playground">🎨 Try the styles</a>
-    </div>
-
-    <div class="showcase reveal" style="--d:.35s">
-      <div class="float"><span>🛒</span><div>Cart &amp; checkout<small>data-add="Шашлык"</small></div></div>
-      <div class="float"><span>🗺️</span><div>Live map<small>data-map="address"</small></div></div>
-      <div class="float"><span>📸</span><div>Photo gallery<small>.bui-gallery</small></div></div>
-      <div class="float"><span>⭐</span><div>Review slider<small>.bui-slider</small></div></div>
-      <div class="browser">
-        <div class="browser-in">
-          <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">remont</b>/</div></div>
-          <div class="demo-tabs" role="tablist">
-            <button class="demo-tab on" data-demo="0">🛠️ Мастер в ремонте<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="1">🔥 Шашлычная КАРС<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="2">👟 PUFF<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="3">💐 Дом цветов<span class="bar"></span></button>
-            <button class="demo-tab" data-demo="4">🎨 КРОН<span class="bar"></span></button>
-          </div>
-          <div class="viewport">
-            <iframe class="on" src="examples/remont/" title="Renovation company demo"></iframe>
-            <iframe data-src="examples/shashlik/" title="Grill house demo"></iframe>
-            <iframe data-src="examples/obuv/" title="Shoe repair demo"></iframe>
-            <iframe data-src="examples/cvety/" title="Flower shop demo"></iframe>
-            <iframe data-src="examples/kraski/" title="Paint factory demo"></iframe>
-          </div>
-        </div>
+<!-- 1. ГЛАВНЫЙ ЭКРАН -->
+<section class="bui-hero bui-hero-center" id="top">
+  <div class="bui-container">
+    <div>
+      <span class="bui-badge">Открытая библиотека · MIT · версия 3.2</span>
+      <h1>Лендинги для бизнеса <em>из готовых блоков</em></h1>
+      <p class="lead">Подключите две строки и соберите сайт компании из обычного HTML. Оформление, фотографии, корзина, заявки, карта и отзывы уже работают — без фреймворков, сборки и программиста на поддержке.</p>
+      <div class="bui-row">
+        <a class="bui-btn bui-btn-big" href="#examples">Смотреть примеры</a>
+        <a class="bui-btn bui-btn-ghost bui-btn-big" href="#start">Начать за 5 минут</a>
+      </div>
+      <div class="trust">
+        <span><span data-icon="mdi:check-decagram"></span>Бесплатно для коммерческих проектов</span>
+        <span><span data-icon="mdi:cellphone-check"></span>Адаптивно для телефонов</span>
+        <span><span data-icon="mdi:server-off"></span>Любой хостинг, без сервера</span>
       </div>
     </div>
   </div>
 </section>
 
-<div class="marquee" aria-label="What is included">
-  <div class="track">
-    <span class="chip"><span>🎨</span>5 styles</span><span class="chip"><span>🌈</span>11 colours or any #hex</span><span class="chip"><span>📸</span>270 photos by keyword</span><span class="chip"><span>🛒</span>Cart</span><span class="chip"><span>🧾</span>Order dialog</span><span class="chip"><span>📝</span>Smart forms</span><span class="chip"><span>🎠</span>Swiper sliders</span><span class="chip"><span>🗺️</span>OpenStreetMap</span><span class="chip"><span>✨</span>200k+ icons</span>
-    <span class="chip"><span>🎨</span>5 styles</span><span class="chip"><span>🌈</span>11 colours or any #hex</span><span class="chip"><span>📸</span>270 photos by keyword</span><span class="chip"><span>🛒</span>Cart</span><span class="chip"><span>🧾</span>Order dialog</span><span class="chip"><span>📝</span>Smart forms</span><span class="chip"><span>🎠</span>Swiper sliders</span><span class="chip"><span>🗺️</span>OpenStreetMap</span><span class="chip"><span>✨</span>200k+ icons</span>
-  </div>
-  <div class="track">
-    <span class="chip"><span>🙂</span>Avatars from a name</span><span class="chip"><span>⏳</span>Countdown timers</span><span class="chip"><span>🔢</span>Animated counters</span><span class="chip"><span>🌙</span>Dark mode switch</span><span class="chip"><span>🍔</span>Mobile menu</span><span class="chip"><span>🌊</span>Tailwind + daisyUI mode</span><span class="chip"><span>🌍</span>English &amp; Russian</span><span class="chip"><span>🔷</span>TypeScript types</span><span class="chip"><span>▲</span>Next.js &amp; React</span><span class="chip"><span>🚀</span>Astro</span><span class="chip"><span>🤖</span>Made for AI</span>
-    <span class="chip"><span>🙂</span>Avatars from a name</span><span class="chip"><span>⏳</span>Countdown timers</span><span class="chip"><span>🔢</span>Animated counters</span><span class="chip"><span>🌙</span>Dark mode switch</span><span class="chip"><span>🍔</span>Mobile menu</span><span class="chip"><span>🌊</span>Tailwind + daisyUI mode</span><span class="chip"><span>🌍</span>English &amp; Russian</span><span class="chip"><span>🔷</span>TypeScript types</span><span class="chip"><span>▲</span>Next.js &amp; React</span><span class="chip"><span>🚀</span>Astro</span><span class="chip"><span>🤖</span>Made for AI</span>
-  </div>
-</div>
-
-<section class="section" id="start">
-  <div class="wrap code-grid">
-    <div class="reveal">
-      <span class="eyebrow grad-text">// get started</span>
-      <h2>Two lines, <span class="grad-text">then just HTML</span></h2>
-      <p style="color:var(--muted);font-size:1.1rem;margin:18px 0 0">No framework to learn, no build step, no JavaScript for menus, dialogs or carts. Write semantic HTML with <code>bui-*</code> classes — the library does the rest.</p>
-      <ol class="steps">
-        <li><span class="n">1</span><div><b>Add two lines</b><p>The CSS and the script from the CDN.</p></div></li>
-        <li><span class="n">2</span><div><b>Stack the blocks</b><p>Hero, products, reviews, pricing, FAQ, contacts, map.</p></div></li>
-        <li><span class="n">3</span><div><b>Pick a style and colour</b><p>One line: <code>LightWebsiteUi.start({ style, color })</code>.</p></div></li>
-      </ol>
-    </div>
-    <div class="window reveal" style="--d:.15s">
-      <div class="window-bar">
-        <i></i><i></i><i></i>
-        <div class="tabs" role="tablist">
-          <button class="tab on" data-tab="html">index.html</button>
-          <button class="tab" data-tab="js">script.js</button>
-        </div>
-        <button class="copy" type="button">Copy</button>
+<!-- 2. ЖИВЫЕ ПРИМЕРЫ В ОКНЕ БРАУЗЕРА -->
+<section class="showcase">
+  <div class="bui-container">
+    <div class="browser">
+      <div class="browser-bar"><i></i><i></i><i></i><div class="addr">si0683.github.io/LightWebsiteUi/examples/<b id="addr">remont</b>/</div></div>
+      <div class="demo-tabs" role="tablist">
+        <button class="demo-tab on" data-demo="0">Ремонт квартир<span class="bar"></span></button>
+        <button class="demo-tab" data-demo="1">Шашлычная<span class="bar"></span></button>
+        <button class="demo-tab" data-demo="2">Ремонт обуви<span class="bar"></span></button>
+        <button class="demo-tab" data-demo="3">Цветочный магазин<span class="bar"></span></button>
+        <button class="demo-tab" data-demo="4">Завод красок<span class="bar"></span></button>
       </div>
+      <div class="viewport">
+        <iframe class="on" src="examples/remont/" title="Пример: компания по ремонту квартир"></iframe>
+        <iframe data-src="examples/shashlik/" title="Пример: шашлычная с корзиной"></iframe>
+        <iframe data-src="examples/obuv/" title="Пример: ремонт и химчистка обуви"></iframe>
+        <iframe data-src="examples/cvety/" title="Пример: цветочный магазин"></iframe>
+        <iframe data-src="examples/kraski/" title="Пример: завод лакокрасочных материалов"></iframe>
+      </div>
+    </div>
+    <p class="showcase-note">Это настоящие страницы на LightWebsiteUi — их можно прокручивать и нажимать.</p>
+  </div>
+</section>
+
+<!-- 3. ДЛЯ КОГО -->
+<section class="bui-section bui-section-alt" id="who">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Для кого</span><h2>Когда сайт нужен быстро и надолго</h2><p>Один лендинг вместо месяца разработки и абонентской платы конструктору.</p></div>
+    <div class="bui-grid bui-grid-2">
+      <div class="who"><span data-icon="mdi:storefront-outline"></span><div><h3>Малый и средний бизнес</h3><p>Сайт услуги, магазина или производства: цены, примеры работ, заявки и контакты с картой.</p></div></div>
+      <div class="who"><span data-icon="mdi:briefcase-outline"></span><div><h3>Веб-студии и фрилансеры</h3><p>Типовые блоки собраны и проверены — время уходит на тексты и дизайн клиента, а не на вёрстку слайдеров.</p></div></div>
+      <div class="who"><span data-icon="mdi:bullhorn-outline"></span><div><h3>Маркетологи</h3><p>Посадочные страницы под рекламные кампании за вечер, без очереди в разработку.</p></div></div>
+      <div class="who"><span data-icon="mdi:school-outline"></span><div><h3>Обучение</h3><p>Чистый HTML без сборки: удобно учить вёрстку и показывать результат сразу в браузере.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ВОЗМОЖНОСТИ -->
+<section class="bui-section" id="features">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Возможности</span><h2>Всё, что нужно лендингу компании</h2><p>Каждая функция — это класс или атрибут в HTML. Тяжёлые части загружаются, только если страница их использует.</p></div>
+    <div class="bui-grid">
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:palette-outline"></div><h3>Фирменный стиль</h3><p>5 готовых стилей и 11 цветов или любой цвет бренда. Свой CSS всегда сильнее библиотеки.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:cart-outline"></div><h3>Корзина и заявки</h3><p>Кнопки «В корзину» и «Заказать» — корзина и окно заявки появляются сами.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:form-select"></div><h3>Формы с проверкой</h3><p>Имя, телефон, почта проверяются в браузере. Подключите свою CRM одним запросом.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:map-marker-outline"></div><h3>Карта без ключа API</h3><p>OpenStreetMap с меткой по адресу или координатам — без регистрации и оплаты.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:view-carousel-outline"></div><h3>Отзывы и галереи</h3><p>Слайдер отзывов, галерея работ с увеличением фото, счётчики и таймер акции.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:image-search-outline"></div><h3>Фото и иконки</h3><p>270 фотографий по ключевому слову, 200 000+ иконок и аватары по имени.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:theme-light-dark"></div><h3>Светлая и тёмная тема</h3><p>Переключатель темы в шапке и мобильное меню добавляются автоматически.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:translate"></div><h3>Русский и английский</h3><p>Все тексты интерфейса на русском или английском, любую надпись можно заменить.</p></div>
+      <div class="bui-feature"><div class="bui-icon" data-icon="mdi:language-typescript"></div><h3>Для разработчиков</h3><p>npm-пакет, типы TypeScript, режим Tailwind + daisyUI, поддержка Next.js и Astro.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. СТИЛЬ И ЦВЕТ -->
+<section class="bui-section bui-section-alt" id="styles">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Оформление</span><h2>Стиль и цвет — одной строкой</h2><p>Нажмите на вариант: эта страница тоже собрана на LightWebsiteUi и перекрасится сразу.</p></div>
+    <div class="chips" id="style-chips"></div>
+    <div class="chips" id="color-chips"></div>
+    <p class="play-note"><code>LightWebsiteUi.start({ style: '<span id="cfg-style">clean</span>', color: '<span id="cfg-color">blue</span>' })</code></p>
+    <div class="bui-grid">
+      <div class="bui-plan">
+        <h3>Библиотека</h3><div class="bui-price">0 ₽</div><p class="bui-muted">лицензия MIT</p>
+        <ul class="bui-checks"><li>Все блоки и стили</li><li>Коммерческое использование</li><li>Исходный код на GitHub</li></ul>
+        <a class="bui-btn" href="https://github.com/si0683/LightWebsiteUi">Скачать</a>
+      </div>
+      <div class="bui-review"><div class="bui-stars">★★★★★</div><blockquote>Так выглядит блок отзыва: аватар по имени, звёзды и подпись — одной строкой HTML.</blockquote><div class="bui-author"><img data-avatar="Анна" alt="Анна"><span>Анна<small>пример блока</small></span></div></div>
+      <div class="bui-stat"><b data-count="5">0</b><span>готовых стилей и 11 цветов</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ПРИМЕРЫ -->
+<section class="bui-section" id="examples">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Примеры</span><h2>Сайты реальных компаний</h2><p>Каждый пример — три файла: index.html, style.css и script.js. Откройте, посмотрите код, возьмите за основу.</p></div>
+    <div class="bui-grid">
+      <a class="ex" href="examples/remont/"><div class="thumb"><iframe data-src="examples/remont/" tabindex="-1" title="Превью: ремонт квартир" loading="lazy"></iframe></div><div class="body"><h3>Мастер в ремонте</h3><p>Ремонт квартир под ключ: цены по видам ремонта, портфолио, акция с таймером, отзывы.</p><div class="tags"><span>Тарифы</span><span>Галерея</span><span>Карта</span></div></div></a>
+      <a class="ex" href="examples/shashlik/"><div class="thumb"><iframe data-src="examples/shashlik/" tabindex="-1" title="Превью: шашлычная" loading="lazy"></iframe></div><div class="body"><h3>Шашлычная КАРС</h3><p>Меню из 17 блюд с корзиной и оформлением заказа, тёмный стиль.</p><div class="tags"><span>Корзина</span><span>Тёмный стиль</span></div></div></a>
+      <a class="ex" href="examples/obuv/"><div class="thumb"><iframe data-src="examples/obuv/" tabindex="-1" title="Превью: ремонт обуви" loading="lazy"></iframe></div><div class="body"><h3>PUFF</h3><p>Ремонт и химчистка обуви: «до и после», этапы работы, команда, обратный звонок.</p><div class="tags"><span>До и после</span><span>Форма</span></div></div></a>
+      <a class="ex" href="examples/cvety/"><div class="thumb"><iframe data-src="examples/cvety/" tabindex="-1" title="Превью: цветочный магазин" loading="lazy"></iframe></div><div class="body"><h3>Дом цветов</h3><p>Букеты с корзиной, каталог, доставка и пять адресов магазинов.</p><div class="tags"><span>Каталог</span><span>Корзина</span></div></div></a>
+      <a class="ex" href="examples/kraski/"><div class="thumb"><iframe data-src="examples/kraski/" tabindex="-1" title="Превью: завод красок" loading="lazy"></iframe></div><div class="body"><h3>КРОН</h3><p>Завод лакокрасочных материалов: каталог продукции, сертификаты, заявка для B2B.</p><div class="tags"><span>Tailwind + daisyUI</span><span>B2B</span></div></div></a>
+      <a class="ex" href="https://si0683.github.io/mtoalliance/" target="_blank" rel="noopener"><div class="thumb"><iframe data-src="https://si0683.github.io/mtoalliance/" tabindex="-1" title="Превью: МТО-Альянс" loading="lazy"></iframe></div><div class="body"><h3>МТО-Альянс ↗</h3><p>Рабочий сайт компании: поставки нефтегазового оборудования и рефконтейнеров.</p><div class="tags"><span>Действующий сайт</span></div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. КАК НАЧАТЬ -->
+<section class="bui-section bui-section-alt" id="start">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Как начать</span><h2>Три шага до готового сайта</h2></div>
+    <div class="bui-grid bui-grid-2">
+      <div class="bui-grid bui-steps" style="grid-template-columns: 1fr; align-content: start">
+        <div class="bui-step"><h3>Подключите библиотеку</h3><p>Две строки в HTML — с CDN, без установки. Или <code>npm install lightwebsiteui</code>.</p></div>
+        <div class="bui-step"><h3>Соберите страницу из блоков</h3><p>Главный экран, услуги, цены, отзывы, вопросы, контакты — классы <code>bui-*</code>.</p></div>
+        <div class="bui-step"><h3>Опубликуйте</h3><p>Любой хостинг или GitHub Pages: это обычные статические файлы.</p></div>
+      </div>
+      <div class="code-box">
+        <div class="code-bar">
+          <button class="code-tab on" data-tab="html">index.html</button>
+          <button class="code-tab" data-tab="js">script.js</button>
+          <button class="copy" type="button">Копировать</button>
+        </div>
 <pre class="code" data-pane="html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.css"&gt;
 &lt;script src="https://cdn.jsdelivr.net/gh/si0683/LightWebsiteUi@3.2.1/lightwebsiteui.js"&gt;&lt;/script&gt;
 
 &lt;section class="bui-hero"&gt;
   &lt;div class="bui-container"&gt;
     &lt;div&gt;
-      &lt;span class="bui-badge"&gt;Since 2012&lt;/span&gt;
-      &lt;h1 data-name&gt;Margherita&lt;/h1&gt;
-      &lt;p&gt;Wood-fired pizza, delivered hot.&lt;/p&gt;
-      &lt;button class="bui-btn" data-open="order"&gt;Order now&lt;/button&gt;
+      &lt;h1&gt;Ремонт квартир под ключ&lt;/h1&gt;
+      &lt;p&gt;Гарантия 3 года, оплата по этапам.&lt;/p&gt;
+      &lt;button class="bui-btn" data-open="order"&gt;Вызвать сметчика&lt;/button&gt;
     &lt;/div&gt;
-    &lt;img data-photo="pizza" alt="Pizza"&gt;
+    &lt;div class="bui-hero-picture"&gt;&lt;img src="img/hero.jpg"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/section&gt;
 
-&lt;div class="bui-product"&gt;
-  &lt;div class="bui-product-image"&gt;&lt;img data-photo="pizza 2"&gt;&lt;/div&gt;
-  &lt;div class="bui-product-body"&gt;
-    &lt;h3&gt;Pepperoni&lt;/h3&gt;
-    &lt;button class="bui-btn" data-add="Pepperoni" data-price="12"&gt;Add&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div data-map="London, Covent Garden" data-label="We are here"&gt;&lt;/div&gt;</pre>
-<pre class="code" data-pane="js" hidden>// One object configures the whole site
+&lt;div data-map="53.22217, 50.24484" data-label="Мы здесь"&gt;&lt;/div&gt;</pre>
+<pre class="code" data-pane="js" hidden>// Все настройки сайта — в одном объекте
 const CONFIG = {
-  name: 'Margherita',
-  style: 'cozy',      // clean, bright, dark, modern, cozy
-  color: 'red',       // 11 colours or any '#hex'
-  lang: 'en',         // 'en' or 'ru'
-  rain: '🍕',         // emoji rain on the first visit
-  thanks: 'Thanks! We will call you back in 5 minutes.'
+  name: 'Мастер в ремонте',
+  style: 'modern',     // clean, bright, dark, modern, cozy
+  color: 'orange',     // 11 цветов или '#hex' бренда
+  lang: 'ru',
+  thanks: 'Спасибо! Перезвоним в течение дня.'
 };
 
 LightWebsiteUi.start(CONFIG);</pre>
+      </div>
+    </div>
+    <h3 class="bui-center" style="margin: 54px 0 18px">Работает с вашим стеком</h3>
+    <div class="logos">
+      <span><span data-icon="vscode-icons:file-type-html"></span>HTML</span>
+      <span><span data-icon="logos:nextjs-icon"></span>Next.js</span>
+      <span><span data-icon="logos:astro-icon"></span>Astro</span>
+      <span><span data-icon="logos:react"></span>React</span>
+      <span><span data-icon="logos:tailwindcss-icon"></span>Tailwind + daisyUI</span>
+      <span><span data-icon="logos:typescript-icon"></span>TypeScript</span>
+      <span><span data-icon="simple-icons:codepen"></span>CodePen</span>
     </div>
   </div>
 </section>
 
-<section class="section" id="playground">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow grad-text">// playground</span>
-      <h2>Pick a colour. <span class="grad-text">Watch this page change.</span></h2>
-      <p>The same 11 colours and 5 styles your site gets from one line of config.</p>
+<!-- 8. ДЛЯ ИИ -->
+<section class="bui-section" id="ai">
+  <div class="bui-container bui-split">
+    <div>
+      <span class="bui-label">Для нейросетей</span>
+      <h2>Сайт по описанию бизнеса</h2>
+      <p>Вставьте шаблон промта в ChatGPT, Claude, GigaChat, YandexGPT, Qwen или DeepSeek и опишите компанию. Нейросеть соберёт готовый сайт из трёх файлов: справочник библиотеки написан так, чтобы модели работали с ней без ошибок.</p>
+      <ul class="bui-checks"><li>Шаблон промта на русском и английском</li><li>Краткий справочник API для моделей</li><li>Правки обычным языком: «сделай тёмный стиль», «добавь тарифы»</li></ul>
+      <div class="bui-row">
+        <a class="bui-btn" href="PROMPT.ru.md">Шаблон промта</a>
+        <a class="bui-btn bui-btn-ghost" href="AI.md">Справочник API</a>
+      </div>
     </div>
-    <div class="swatches reveal" id="swatches"></div>
-    <div class="config-line reveal"><span class="tk-f">LightWebsiteUi.start</span>({ <span class="tk-a">style</span>: <span class="tk-s" id="cfg-style">'modern'</span>, <span class="tk-a">color</span>: <span class="tk-s" id="cfg-color">'sky'</span> })</div>
-    <div class="styles reveal" id="styles"></div>
-  </div>
-</section>
-
-<section class="section" id="features">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow grad-text">// features</span>
-      <h2>Everything a landing page <span class="grad-text">needs</span></h2>
-      <p>Each feature is a class or an attribute. Heavy parts load only when the page uses them.</p>
-    </div>
-    <div class="cards">
-      <div class="card reveal" style="--h:200"><div class="ico">🎨</div><h3>Styles &amp; colours</h3><p>5 complete styles × 11 colours or any hex — fonts, shadows and shapes included.</p></div>
-      <div class="card reveal" style="--h:30;--d:.08s"><div class="ico">📸</div><h3>Photos by keyword</h3><p><code>data-photo="pizza"</code> — 68 topics of free Unsplash photos, no hunting for links.</p></div>
-      <div class="card reveal" style="--h:330;--d:.16s"><div class="ico">🛒</div><h3>Cart &amp; orders</h3><p><code>data-add</code> and <code>data-open</code> — the cart and the order dialog build themselves.</p></div>
-      <div class="card reveal" style="--h:150"><div class="ico">📝</div><h3>Forms</h3><p>Floating labels, validation, a thank-you toast and confetti.</p></div>
-      <div class="card reveal" style="--h:260;--d:.08s"><div class="ico">🎠</div><h3>Sliders</h3><p>Wrap any cards in <code>.bui-slider</code> — Swiper loads on demand.</p></div>
-      <div class="card reveal" style="--h:100;--d:.16s"><div class="ico">🗺️</div><h3>Maps</h3><p><code>data-map="address"</code> — OpenStreetMap with a marker, no API key.</p></div>
-      <div class="card reveal" style="--h:50"><div class="ico">✨</div><h3>Icons &amp; avatars</h3><p>200,000+ Iconify icons (Material, Lucide, Tabler…) and DiceBear avatars from a name.</p></div>
-      <div class="card reveal" style="--h:185;--d:.08s"><div class="ico">🌊</div><h3>Tailwind mode</h3><p>Design with Tailwind + daisyUI and keep LightWebsiteUi's behaviour.</p></div>
-      <div class="card reveal" style="--h:230;--d:.16s"><div class="ico">🔷</div><h3>Next.js, Astro &amp; types</h3><p>Works inside Next.js, React and Astro with <code>refresh()</code> on page change. English and Russian texts, TypeScript types.</p></div>
+    <div class="code-box">
+      <div class="code-bar"><span class="code-tab on">Промт</span></div>
+<pre class="code">МОЙ САЙТ:
+Бизнес: цветочный магазин
+Название: Дом цветов
+Стиль: яркий
+Главный цвет: розовый
+Главная кнопка: Заказать букет
+Обязательно: 5 букетов с ценами,
+  доставка, адреса магазинов, карта
+Язык интерфейса: русский</pre>
     </div>
   </div>
 </section>
 
-<section class="section" id="examples">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow grad-text">// examples</span>
-      <h2>Real businesses. <span class="grad-text">Three files each.</span></h2>
-      <p>Landing pages in Russian for companies from Samara, built only with LightWebsiteUi. Open one, view the source, make it yours.</p>
-    </div>
-    <div class="examples">
-      <a class="ex reveal" style="--h:30" href="examples/remont/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/remont/" tabindex="-1" title="Renovation company demo preview" loading="lazy"></iframe></div><div class="body"><h3>🛠️ Мастер в ремонте</h3><p>Renovation company: pricing plans, portfolio gallery, offer countdown, map</p></div></a>
-      <a class="ex reveal" style="--h:15;--d:.08s" href="examples/shashlik/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/shashlik/" tabindex="-1" title="Grill house demo preview" loading="lazy"></iframe></div><div class="body"><h3>🔥 Шашлычная КАРС</h3><p>Grill house in dark style: 17-dish menu with cart and order dialog</p></div></a>
-      <a class="ex reveal" style="--h:170;--d:.16s" href="examples/obuv/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/obuv/" tabindex="-1" title="Shoe repair demo preview" loading="lazy"></iframe></div><div class="body"><h3>👟 PUFF</h3><p>Shoe repair and cleaning: before/after gallery, counters, team, map</p></div></a>
-      <a class="ex reveal" style="--h:330" href="examples/cvety/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/cvety/" tabindex="-1" title="Flower shop demo preview" loading="lazy"></iframe></div><div class="body"><h3>💐 Дом цветов</h3><p>Flower shop: bouquets with cart, catalogue, five shop addresses</p></div></a>
-      <a class="ex reveal" style="--h:215;--d:.08s" href="examples/kraski/"><span class="glare"></span><span class="open">Open ↗</span><div class="thumb"><iframe data-src="examples/kraski/" tabindex="-1" title="Paint factory demo preview" loading="lazy"></iframe></div><div class="body"><h3>🎨 КРОН</h3><p>Paint factory in Tailwind + daisyUI mode: catalogue, certificates, B2B form</p></div></a>
-      <a class="ex reveal" style="--h:200;--d:.16s" href="https://si0683.github.io/mtoalliance/" target="_blank" rel="noopener"><span class="glare"></span><span class="open">Visit ↗</span><div class="thumb"><iframe data-src="https://si0683.github.io/mtoalliance/" tabindex="-1" title="МТО-Альянс preview" loading="lazy"></iframe></div><div class="body"><h3>🛢️ МТО-Альянс</h3><p>A real production site: oil and gas equipment and reefer containers (built with Astro)</p></div></a>
-    </div>
+<!-- 9. ВОПРОСЫ -->
+<section class="bui-section bui-section-alt" id="faq">
+  <div class="bui-container">
+    <div class="bui-head"><span class="bui-label">Вопросы</span><h2>Частые вопросы</h2></div>
+    <details class="bui-faq"><summary>Это бесплатно? Можно для коммерческих проектов?</summary><p>Да. Библиотека распространяется по лицензии MIT: используйте её в любых проектах, в том числе для клиентов, без отчислений.</p></details>
+    <details class="bui-faq"><summary>Чем это лучше конструктора сайтов?</summary><p>Нет абонентской платы и привязки к платформе: сайт — это ваши файлы, их можно разместить где угодно и передать клиенту. При этом не нужно писать вёрстку с нуля.</p></details>
+    <details class="bui-faq"><summary>Куда уходят заявки с форм?</summary><p>Библиотека проверяет форму и показывает благодарность в браузере. Чтобы заявки попадали в почту, Telegram или CRM, добавьте свой запрос <code>fetch</code> или сервис форм.</p></details>
+    <details class="bui-faq"><summary>Можно ли сделать фирменный дизайн?</summary><p>Да. Задайте цвет бренда в <code>color</code>, а любые правила — в своём CSS: они всегда сильнее стилей библиотеки. Для полной свободы есть режим Tailwind + daisyUI.</p></details>
+    <details class="bui-faq"><summary>Нужен ли сервер и сборка?</summary><p>Нет. Это статические файлы: подойдёт любой хостинг, GitHub Pages или ваш сервер. Для Next.js и Astro есть npm-пакет и примеры.</p></details>
+    <details class="bui-faq"><summary>Что будет при обновлении библиотеки?</summary><p>Каждая версия закреплена в ссылке (<code>@3.2.1</code>) и не меняется. Ваш сайт обновится, только когда вы сами поменяете номер версии.</p></details>
   </div>
 </section>
 
-<section class="section" id="ai">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="eyebrow grad-text">// made for AI</span>
-      <h2>Let AI <span class="grad-text">build the site</span></h2>
-      <p>Paste the prompt template into ChatGPT, Claude, Qwen, GigaChat or DeepSeek, describe your business — get a finished site in 3 files.</p>
-    </div>
-    <div class="flow reveal">
-      <div class="node"><span class="big">📝</span><b>Prompt</b><small>fill in “My site”</small></div>
-      <div class="wire" aria-hidden="true"></div>
-      <div class="node"><span class="big">🤖</span><b>Any AI model</b><small>reads AI.md</small></div>
-      <div class="wire" aria-hidden="true"></div>
-      <div class="node"><span class="big">🌐</span><b>3 files</b><small>ready to publish</small></div>
-    </div>
-    <div class="row reveal" style="justify-content:center">
-      <a class="btn btn-main" href="PROMPT.md">📋 Prompt template</a>
-      <a class="btn btn-ghost" href="PROMPT.ru.md">🇷🇺 Промт на русском</a>
-      <a class="btn btn-ghost" href="AI.md">📖 Full reference</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="final reveal">
-      <h2>Ship a landing page<br><span class="grad-text">tonight</span></h2>
-      <p>Free, open source under MIT. No build step, no install, no account — just two lines in your HTML.</p>
-      <div class="row">
-        <a class="btn btn-main" href="#start">⚡ Start building</a>
-        <a class="btn btn-ghost" href="https://github.com/si0683/LightWebsiteUi">★ Star on GitHub</a>
+<!-- 10. ПРИЗЫВ -->
+<section class="bui-section">
+  <div class="bui-container">
+    <div class="bui-cta">
+      <h2>Соберите лендинг компании сегодня</h2>
+      <p>Возьмите пример, замените тексты и фотографии — и сайт готов к публикации.</p>
+      <div class="bui-row" style="justify-content: center">
+        <a class="bui-btn bui-btn-light bui-btn-big" href="https://github.com/si0683/LightWebsiteUi">Открыть на GitHub</a>
+        <a class="bui-btn bui-btn-light bui-btn-big" href="#examples">Выбрать пример</a>
       </div>
     </div>
   </div>
 </section>
-</main>
 
-<footer>
-  <div class="wrap">
-    <div>© <span id="year"></span> LightWebsiteUi · MIT License</div>
-    <nav>
-      <a href="https://github.com/si0683/LightWebsiteUi">GitHub</a>
-      <a href="README.md">README</a>
-      <a href="AI.md">Docs</a>
-      <a href="CHANGELOG.md">Changelog</a>
-      <a href="THIRD_PARTY.md">Credits</a>
-    </nav>
-    <a class="sister" href="https://si0683.github.io/GameMonsterJS/">👾 Sister project: <b>GameMonsterJS</b> for games →</a>
-  </div>
-</footer>
+<footer class="bui-footer">© <span data-year></span> <span data-name>LightWebsiteUi</span> · лицензия MIT · <a href="https://github.com/si0683/LightWebsiteUi">GitHub</a> · <a href="README.ru.md">Документация</a> · <a href="CHANGELOG.md">Изменения</a> · <a href="THIRD_PARTY.md">Источники</a> · <a href="README.md">English</a></footer>
 
+<script src="lightwebsiteui.js"></script>
 <script>
 (() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(pointer: fine)').matches;
-  const root = document.documentElement;
-  document.getElementById('year').textContent = new Date().getFullYear();
+  // Theme: the visitor's last choice, otherwise the system setting
+  let saved = null;
+  try { saved = localStorage.getItem('lwu-theme'); } catch (e) { /* storage blocked */ }
+  const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  const state = { style: 'clean', color: 'blue' };
+  LightWebsiteUi.start({ name: 'LightWebsiteUi', lang: 'ru', style: state.style, color: state.color, dark: dark, thanks: 'Спасибо! Это демонстрационная форма.' });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.bui-theme')) return;
+    setTimeout(() => { try { localStorage.setItem('lwu-theme', document.body.classList.contains('bui-dark') ? 'dark' : 'light'); } catch (err) { /* ignore */ } });
+  });
 
-  // ---- cursor spotlight on the dot grid ----
-  const bg = document.querySelector('.bg');
-  if (fine) addEventListener('pointermove', e => {
-    bg.style.setProperty('--cx', e.clientX + 'px'); bg.style.setProperty('--cy', e.clientY + 'px');
-  }, { passive: true });
-
-  // ---- nav + progress ----
-  const nav = document.querySelector('.nav'), bar = document.querySelector('.progress');
-  function onScroll() {
-    nav.classList.toggle('scrolled', scrollY > 30);
-    bar.style.setProperty('--p', scrollY / Math.max(1, root.scrollHeight - innerHeight));
-  }
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-  // ---- typewriter of use cases ----
-  const WORDS = ['renovation companies', 'grill houses', 'shoe repair shops', 'flower shops', 'paint factories', 'coffee shops', 'online stores', 'schools', 'startups'];
-  const word = document.getElementById('word');
-  let wi = 0, ci = WORDS[0].length, del = true;
-  function type() {
-    const w = WORDS[wi];
-    if (del) { ci--; if (ci === 0) { del = false; wi = (wi + 1) % WORDS.length; } }
-    else { ci++; if (ci === WORDS[wi].length) { del = true; word.textContent = WORDS[wi]; return setTimeout(type, 1800); } }
-    word.textContent = (del ? w : WORDS[wi]).slice(0, ci);
-    setTimeout(type, del ? 40 : 80);
-  }
-  if (!reduce) setTimeout(type, 2200);
-
-  // ---- browser mockup: scaled live demos that cycle ----
+  // Live examples in the browser mock-up: real pages scaled to fit, switching every 8 s
   const view = document.querySelector('.viewport'), frames = [...view.querySelectorAll('iframe')];
-  const dtabs = [...document.querySelectorAll('.demo-tab')], addr = document.getElementById('addr');
-  const NAMES = ['remont', 'shashlik', 'obuv', 'cvety', 'kraski'], CYCLE = 7000;
-  let cur = 0, timer = 0, auto = !reduce;
+  const tabs = [...document.querySelectorAll('.demo-tab')], addr = document.getElementById('addr');
+  const NAMES = ['remont', 'shashlik', 'obuv', 'cvety', 'kraski'], CYCLE = 8000;
+  let cur = 0, timer = 0, auto = !matchMedia('(prefers-reduced-motion: reduce)').matches;
   function fit() {
     const w = view.clientWidth, inner = w < 640 ? 390 : 1280, k = w / inner;
     frames.forEach(f => { f.style.width = inner + 'px'; f.style.height = view.clientHeight / k + 'px'; f.style.transform = `scale(${k})`; });
@@ -572,7 +354,7 @@ LightWebsiteUi.start(CONFIG);</pre>
   function show(i) {
     cur = i;
     frames.forEach((f, k) => { if (k === i && f.dataset.src) { f.src = f.dataset.src; delete f.dataset.src; } f.classList.toggle('on', k === i); });
-    dtabs.forEach((t, k) => {
+    tabs.forEach((t, k) => {
       t.classList.toggle('on', k === i);
       const b = t.querySelector('.bar'); b.classList.remove('run'); void b.offsetWidth;
       if (k === i && auto) { b.style.setProperty('--t', CYCLE + 'ms'); b.classList.add('run'); }
@@ -581,140 +363,68 @@ LightWebsiteUi.start(CONFIG);</pre>
     clearTimeout(timer);
     if (auto) timer = setTimeout(() => show((cur + 1) % frames.length), CYCLE);
   }
-  dtabs.forEach((t, i) => t.addEventListener('click', () => { auto = false; show(i); }));
-  view.addEventListener('pointerenter', () => { auto = false; clearTimeout(timer); dtabs.forEach(t => t.querySelector('.bar').classList.remove('run')); });
+  tabs.forEach((t, i) => t.addEventListener('click', () => { auto = false; show(i); }));
+  view.addEventListener('pointerenter', () => { auto = false; clearTimeout(timer); tabs.forEach(t => t.querySelector('.bar').classList.remove('run')); });
   new ResizeObserver(fit).observe(view);
-  addEventListener('load', () => frames.forEach((f, k) => { if (k && f.dataset.src) setTimeout(() => { f.src = f.dataset.src; delete f.dataset.src; }, 600 * k); }));
   show(0);
 
-  // ---- example thumbnails: real pages scaled down ----
+  // Example previews: load each page when its card comes into view
   document.querySelectorAll('.ex .thumb').forEach(t => {
     const f = t.querySelector('iframe');
     new ResizeObserver(() => { f.style.transform = `scale(${t.clientWidth / 1280})`; }).observe(t);
   });
-  const thumbIO = new IntersectionObserver(es => es.forEach(e => {
+  const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
-    const f = e.target.querySelector('iframe'); f.src = f.dataset.src; thumbIO.unobserve(e.target);
+    const f = e.target.querySelector('iframe'); f.src = f.dataset.src; io.unobserve(e.target);
   }), { rootMargin: '200px' });
-  document.querySelectorAll('.ex .thumb').forEach(t => thumbIO.observe(t));
+  document.querySelectorAll('.ex .thumb').forEach(t => io.observe(t));
 
-  // ---- reveal ----
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.classList.add('in');
-      e.target.querySelectorAll('pre.code:not([hidden])').forEach(p => p.classList.add('play'));
-      io.unobserve(e.target);
-    }
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // ---- syntax highlighter (HTML + JS) ----
-  const RX = /(\/\/.*$)|((?:\s)[\w-]+(?==))|('[^']*'|"[^"]*")|(\b(?:const|let|var|if|else|return|true|false|new)\b)|(\b\d+(?:\.\d+)?\b)|(&lt;\/?[\w!-]+|\/?&gt;)|(\b[a-zA-Z_][\w.]*(?=\())/gm;
-  const CLS = ['', 'tk-c', 'tk-a', 'tk-s', 'tk-k', 'tk-n', 'tk-t', 'tk-f'];
-  document.querySelectorAll('pre.code').forEach(pre => {
+  // Code tabs, copy button and a small highlighter
+  const RX = /(\/\/.*$)|((?:\s)[\w-]+(?==))|('[^']*'|"[^"]*")|(\b(?:const|let)\b)|(&lt;\/?[\w!-]+|\/?&gt;)|(\b[a-zA-Z_][\w.]*(?=\())/gm;
+  const CLS = ['', 'tk-c', 'tk-a', 'tk-s', 'tk-k', 'tk-t', 'tk-f'];
+  document.querySelectorAll('#start pre.code').forEach(pre => {
     pre.dataset.raw = pre.textContent;
-    const lines = pre.innerHTML.split('\n');
-    pre.innerHTML = lines.map((line, i) => {
-      const hl = line.replace(RX, (...m) => { for (let k = 1; k <= 7; k++) if (m[k]) return `<span class="${CLS[k]}">${m[k]}</span>`; return m[0]; });
-      return `<span class="ln" style="--i:${i}">${hl || ' '}${i === lines.length - 1 ? '<span class="caret"></span>' : ''}</span>`;
-    }).join('');
+    pre.innerHTML = pre.innerHTML.replace(RX, (...m) => { for (let k = 1; k <= 6; k++) if (m[k]) return `<span class="${CLS[k]}">${m[k]}</span>`; return m[0]; });
   });
-  document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t === tab));
-    document.querySelectorAll('pre.code').forEach(p => {
-      const on = p.dataset.pane === tab.dataset.tab;
-      p.hidden = !on; p.classList.remove('play');
-      if (on) { void p.offsetWidth; p.classList.add('play'); }
-    });
+  document.querySelectorAll('#start .code-tab').forEach(tab => tab.addEventListener('click', () => {
+    document.querySelectorAll('#start .code-tab').forEach(t => t.classList.toggle('on', t === tab));
+    document.querySelectorAll('#start pre.code').forEach(p => { p.hidden = p.dataset.pane !== tab.dataset.tab; });
   }));
   const copy = document.querySelector('.copy');
   copy.addEventListener('click', async () => {
-    const pre = document.querySelector('pre.code:not([hidden])');
-    try { await navigator.clipboard.writeText(pre.dataset.raw); copy.textContent = 'Copied ✓'; copy.classList.add('ok'); }
-    catch { copy.textContent = 'Select & copy'; }
-    setTimeout(() => { copy.textContent = 'Copy'; copy.classList.remove('ok'); }, 1800);
+    const pre = document.querySelector('#start pre.code:not([hidden])');
+    try { await navigator.clipboard.writeText(pre.dataset.raw); copy.textContent = 'Скопировано'; }
+    catch (e) { copy.textContent = 'Выделите и скопируйте'; }
+    setTimeout(() => { copy.textContent = 'Копировать'; }, 1800);
   });
 
-  // ---- playground: the 11 library colours recolour this page ----
-  const COLORS = {
-    red: ['#dc2626', '#ff4d6d', '#ff9f1c', '#f72585'], orange: ['#f97316', '#ff8a3d', '#ffd166', '#ff4d6d'],
-    yellow: ['#eab308', '#ffd60a', '#ff9f1c', '#a3e635'], green: ['#16a34a', '#34d399', '#a3e635', '#22d3ee'],
-    teal: ['#0d9488', '#2dd4bf', '#22d3ee', '#818cf8'], sky: ['#0ea5e9', '#38bdf8', '#818cf8', '#f472b6'],
-    blue: ['#2563eb', '#6366f1', '#38bdf8', '#c084fc'], purple: ['#7c3aed', '#a855f7', '#f472b6', '#6366f1'],
-    pink: ['#db2777', '#f472b6', '#c084fc', '#fb7185'], black: ['#111827', '#e2e8f0', '#94a3b8', '#a5b4fc'],
-    brown: ['#92400e', '#d6a26b', '#f59e0b', '#fb7185']
-  };
-  const STYLES = {
-    clean: ['#ffffff', '#0f172a', 'calm and professional'], bright: ['#fff7ed', '#ea580c', 'bold and playful'],
-    dark: ['#0f172a', '#e2e8f0', 'night mode, neon accents'], modern: ['#eef2ff', '#4f46e5', 'gradients and glass'],
-    cozy: ['#fdf6ec', '#92400e', 'warm, rounded, friendly']
-  };
-  const sw = document.getElementById('swatches'), st = document.getElementById('styles');
-  let color = 'sky', style = 'modern';
-  Object.entries(COLORS).forEach(([name, c]) => {
-    const b = document.createElement('button');
-    b.className = 'sw' + (name === color ? ' on' : ''); b.style.setProperty('--s', name === 'black' ? '#334155' : c[0]);
-    b.setAttribute('aria-label', name); b.innerHTML = `<span>${name}</span>`;
-    b.onclick = () => {
-      color = name;
-      sw.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === b));
-      root.style.setProperty('--c1', c[1]); root.style.setProperty('--c2', c[2]); root.style.setProperty('--c3', c[3]);
-      document.getElementById('cfg-color').textContent = `'${name}'`;
-      paintStyles();
-    };
-    sw.appendChild(b);
-  });
-  function paintStyles() {
-    st.querySelectorAll('.style').forEach(el => {
-      const [bgc, fg] = STYLES[el.dataset.style], main = COLORS[color][0] === '#111827' ? '#334155' : COLORS[color][0];
-      const mini = el.querySelector('.mini');
-      mini.style.background = bgc;
-      mini.children[0].style.background = fg; mini.children[1].style.background = fg; mini.children[2].style.background = fg;
-      mini.children[3].style.background = main;
+  // Style and colour: this page is built with LightWebsiteUi, so it restyles itself
+  const STYLES = { clean: 'Строгий', modern: 'Современный', bright: 'Яркий', cozy: 'Уютный', dark: 'Тёмный' };
+  const COLORS = { blue: ['синий', '#2563eb'], sky: ['голубой', '#0ea5e9'], teal: ['бирюзовый', '#0d9488'], green: ['зелёный', '#16a34a'], orange: ['оранжевый', '#f97316'], red: ['красный', '#dc2626'], purple: ['фиолетовый', '#7c3aed'], pink: ['розовый', '#db2777'], brown: ['коричневый', '#92400e'], black: ['чёрный', '#111827'] };
+  function chips(box, items, key, label) {
+    box.innerHTML = '';
+    Object.keys(items).forEach(id => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip' + (state[key] === id ? ' on' : ''); b.innerHTML = label(id);
+      b.onclick = () => {
+        const wasDark = document.body.classList.contains('bui-dark'), prev = state.style;
+        state[key] = id;
+        const opts = { style: state.style, color: state.color };
+        // The «dark» style switches the theme on; leaving it switches back to light
+        if (key === 'style') opts.dark = id === 'dark' ? true : (prev === 'dark' ? false : wasDark);
+        LightWebsiteUi.start(opts);
+        document.getElementById('cfg-style').textContent = state.style;
+        document.getElementById('cfg-color').textContent = state.color;
+        render();
+      };
+      box.appendChild(b);
     });
   }
-  Object.entries(STYLES).forEach(([name, s]) => {
-    const b = document.createElement('button');
-    b.className = 'style' + (name === style ? ' on' : ''); b.dataset.style = name;
-    b.innerHTML = `<div class="mini"><i></i><i></i><i></i><i></i></div><b>${name}</b><small>${s[2]}</small>`;
-    b.onclick = () => {
-      style = name;
-      st.querySelectorAll('.style').forEach(x => x.classList.toggle('on', x === b));
-      document.getElementById('cfg-style').textContent = `'${name}'`;
-    };
-    st.appendChild(b);
-  });
-  paintStyles();
-
-  // ---- spotlight cards + tilt ----
-  const grid = document.querySelector('.cards');
-  grid.addEventListener('pointermove', e => {
-    for (const c of grid.children) {
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px');
-    }
-  });
-  if (fine && !reduce) document.querySelectorAll('.ex').forEach(card => {
-    card.addEventListener('pointermove', e => {
-      const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-      card.style.transform = `rotateX(${(0.5 - py) * 12}deg) rotateY(${(px - 0.5) * 14}deg) translateZ(10px)`;
-      card.style.setProperty('--gx', px * 100 + '%'); card.style.setProperty('--gy', py * 100 + '%');
-    });
-    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
-  });
-
-  // ---- rising sparks in the final call to action ----
-  if (!reduce) {
-    const box = document.querySelector('.final');
-    for (let i = 0; i < 28; i++) {
-      const s = document.createElement('span');
-      s.className = 'spark'; s.setAttribute('aria-hidden', 'true');
-      s.style.left = Math.random() * 100 + '%'; s.style.bottom = -10 + 'px';
-      s.style.animationDuration = 4 + Math.random() * 5 + 's'; s.style.animationDelay = -Math.random() * 8 + 's';
-      box.appendChild(s);
-    }
+  function render() {
+    chips(document.getElementById('style-chips'), STYLES, 'style', id => STYLES[id]);
+    chips(document.getElementById('color-chips'), COLORS, 'color', id => `<span class="swatch" style="background:${COLORS[id][1]}"></span>${COLORS[id][0]}`);
   }
+  render();
 })();
 </script>
 </body>
