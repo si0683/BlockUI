@@ -68,6 +68,14 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --shop --pay=yookassa 
 
 Categories and products (price, old price, stock, photos, attributes) in the admin panel; `/catalog/`, category and product pages, a cart in the browser and `/order/` with the status. Checkout recalculates prices and checks stock in the CMS, reserves the goods and, with `--pay`, sends the buyer to the payment page. Details in the project's `SHOP.md`.
 
+## Optional exchange with 1C
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --shop --1c
+```
+
+The standard CommerceML exchange ("Обмен с сайтом" in 1C:УТ, КА, ERP, УНФ, Розница) at `/api/1c/exchange`: groups, products, properties, pictures, prices and stock come from 1C, new orders go to 1C, paid / shipped / canceled statuses come back. Large catalogs are loaded in batches, UTF-8 and windows-1251 both work, the exchange log is in the admin panel. Details in the project's `1C.md`.
+
 ## Template structure
 
 ```

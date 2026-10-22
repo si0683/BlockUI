@@ -45,6 +45,7 @@ for (let i = 0; i < args.length; i++) {
   // --2fa alone means "optional"; --2fa=required makes the code mandatory for everyone
   else if (/^--2fa(=|$)/.test(arg)) options.twofa = arg.includes("=") ? arg.slice(6) : "optional"
   else if (arg === "--shop") options.shop = true
+  else if (arg === "--1c") options.onec = true
   else if (arg.startsWith("-")) flags.add(arg)
   else target ??= arg
 }
@@ -53,7 +54,7 @@ if (flags.has("-h") || flags.has("--help")) {
   console.log(`
 ${bold("create-lightwebsiteui")} ${dim(version)}
 
-  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --2fa[=required] --shop --no-install --no-git]")}
+  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --2fa[=required] --shop --1c --no-install --no-git]")}
 
   --cms=<name>   ${cmsList.map((c) => c.name).join(" | ")}  (default: none)
   --db=<name>    with --cms=payload: sqlite | postgres  (default: sqlite)
@@ -61,6 +62,7 @@ ${bold("create-lightwebsiteui")} ${dim(version)}
   --2fa[=mode]   with --cms=payload: code from an authenticator app for the admin panel;
                  optional (what --2fa means) | required | none
   --shop         with --cms=payload: catalog, product pages, cart, shop orders
+  --1c           with --shop: exchange with 1C (CommerceML) — catalog, prices, stock, orders
   --no-install   do not run npm install
   --no-git       do not run git init
 `)
@@ -121,6 +123,15 @@ if (cms.shop && options.shop === undefined && rl) {
   fail("Магазин работает только вместе с CMS: добавьте --cms=payload")
 }
 const shop = Boolean(cms.shop && options.shop)
+if (cms.onec && shop && options.onec === undefined && rl) {
+  options.onec = (await choose("Обмен с 1С (каталог, цены, остатки, заказы):", [
+    { name: "no", title: "не нужен" },
+    { name: "yes", title: "добавить" },
+  ])) === "yes"
+} else if (options.onec && !shop) {
+  fail("Обмен с 1С работает только вместе с магазином: добавьте --cms=payload --shop")
+}
+const onec = Boolean(cms.onec && shop && options.onec)
 rl?.close()
 
 const root = resolve(target)
@@ -220,6 +231,21 @@ if (cms.name !== "none") {
       appendFileSync(join(root, file), readFileSync(join(dir, "shop", "append", file), "utf8"))
     }
   }
+  // 1C: CommerceML exchange endpoint /api/1c/exchange and the exchange log in the CMS
+  if (onec) {
+    cpSync(join(dir, "onec", "app"), app, { recursive: true })
+    cpSync(join(dir, "onec", "site"), root, { recursive: true })
+    const [name, ver] = cms.onec.package
+    const onecPkg = JSON.parse(readFileSync(appPkgPath, "utf8"))
+    onecPkg.dependencies = Object.fromEntries(Object.entries({ ...onecPkg.dependencies, [name]: ver }).sort())
+    writeFileSync(appPkgPath, JSON.stringify(onecPkg, null, 2) + "\n")
+    const onecEnv = ["", "# Exchange with 1C (see 1C.md)", ...cms.onec.env, ""].join("\n")
+    appendFileSync(join(app, ".env"), onecEnv.replace("ONEC_PASSWORD=", `ONEC_PASSWORD=${randomBytes(12).toString("hex")}`))
+    appendFileSync(join(app, ".env.example"), onecEnv)
+    for (const file of cms.onec.append ?? []) {
+      appendFileSync(join(root, file), readFileSync(join(dir, "onec", "append", file), "utf8"))
+    }
+  }
   pkg.scripts = { ...pkg.scripts, ...cms.scripts }
 }
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")
@@ -229,6 +255,7 @@ if (cms.name !== "none") console.log(`${green("✔")} CMS: ${cms.title}, баз�
 if (pay && pay.name !== "none") console.log(`${green("✔")} Оплата: ${pay.title} — ключи в cms/.env, см. PAYMENTS.md`)
 if (twofa && twofa.name !== "none") console.log(`${green("✔")} 2FA: ${twofa.title}`)
 if (shop) console.log(`${green("✔")} ${cms.shop.title} — см. SHOP.md`)
+if (onec) console.log(`${green("✔")} ${cms.onec.title} — логин и пароль в cms/.env, см. 1C.md`)
 // Options that add collections, fields or admin components need fresh types and the admin import map
 const addons = (pay && pay.name !== "none") || (twofa && twofa.name !== "none") || shop
 

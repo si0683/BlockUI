@@ -50,5 +50,7 @@ export const Products: CollectionConfig = {
       index: true,
       admin: { position: 'sidebar', readOnly: true, description: 'Заполняется обменом с 1С (--1c)' },
     },
+    // Picture paths from 1C already uploaded to "Фото": the exchange skips unchanged pictures
+    { name: 'syncedImages', type: 'text', admin: { hidden: true } },
   ],
 }

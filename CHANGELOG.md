@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.7.0 — 2026-10-22
+
+- Optional exchange with 1C: `--1c` together with `--cms=payload --shop` (or an interactive question). CommerceML 2.x endpoint `/api/1c/exchange` for "Обмен с сайтом": Basic auth + session cookie, files in parts with path checks, catalog import in batches (`progress`), groups → nested categories, properties → attributes, pictures → media (uploaded once), prices by `ONEC_PRICE_TYPE` (+ optional old price), stock over warehouses, characteristics merged, deletion marks and full catalogs hide products; orders to 1C (`sale/query`, `success` → "Выгружен в 1С") and statuses from 1C; UTF-8 and windows-1251; exchange log in the admin panel; `1C.md`.
+- New base seam `src/addons/integrations.ts` (collections and root endpoints for integrations).
+
 ## 4.6.0 — 2026-10-22
 
 - Optional shop: `--shop` together with `--cms=payload` (or an interactive question). CMS: categories, products (price, old price, stock, photos, attributes, 1C id), shop orders with `/api/shop-orders/checkout` (prices and stock from the CMS, reservation, honeypot, return URL check) and `/status`; demo catalog and a "Каталог" menu link on first start. Site: catalog with categories, product pages, a localStorage cart, checkout and the order page; with `--pay` the order is paid online.

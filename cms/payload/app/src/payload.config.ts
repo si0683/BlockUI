@@ -17,6 +17,7 @@ import { db } from './db'
 import { paymentCollections } from './addons/payments'
 import { securityPlugins } from './addons/security'
 import { shopCollections, shopSeed } from './addons/shop'
+import { integrationCollections, integrationEndpoints } from './addons/integrations'
 import { Site } from './globals/Site'
 import { seed } from './seed'
 
@@ -38,7 +39,19 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Features, Plans, Reviews, Faq, Leads, ...paymentCollections, ...shopCollections, Media, Users],
+  collections: [
+    Features,
+    Plans,
+    Reviews,
+    Faq,
+    Leads,
+    ...paymentCollections,
+    ...shopCollections,
+    ...integrationCollections,
+    Media,
+    Users,
+  ],
+  endpoints: integrationEndpoints,
   globals: [Site],
   editor: lexicalEditor(),
   // Admin panel in Russian (users can switch to English in their account)

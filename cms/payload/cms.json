@@ -82,5 +82,26 @@
       "README.md",
       "PROMT.md"
     ]
+  },
+  "onec": {
+    "title": "Обмен с 1С (CommerceML): каталог, цены, остатки, заказы",
+    "package": [
+      "fast-xml-parser",
+      "5.11.2"
+    ],
+    "env": [
+      "# Login and password that 1C uses for \"Обмен с сайтом\" (address: https://cms.your-site/api/1c/exchange)",
+      "ONEC_LOGIN=1c",
+      "ONEC_PASSWORD=",
+      "# Price type from 1C for the site price; empty — the first one in offers.xml",
+      "ONEC_PRICE_TYPE=",
+      "# Optional price type shown crossed out as the old price",
+      "ONEC_OLD_PRICE_TYPE="
+    ],
+    "append": [
+      "AGENTS.md",
+      "README.md",
+      "PROMT.md"
+    ]
   }
 }

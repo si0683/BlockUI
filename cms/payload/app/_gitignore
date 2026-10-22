@@ -14,3 +14,5 @@ next-env.d.ts
 /cms.db*
 AGENTS.md
 CLAUDE.md
+# Files received from 1C (--1c)
+/.1c-exchange
