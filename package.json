@@ -1,6 +1,6 @@
 {
   "name": "create-lightwebsiteui",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Website starter in one command: Astro + React + Tailwind CSS + shadcn/ui + Lucide icons + Motion animations, ready-made landing page, dark theme, GitHub Pages deploy.",
   "keywords": ["create", "starter", "template", "astro", "react", "tailwindcss", "shadcn", "shadcn-ui", "lucide", "motion", "animation", "landing-page", "website"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",

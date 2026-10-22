@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.1 — 2026-10-22
+
+- `PROMT.md` is now copy-paste ready: the whole file is the prompt (works in an AI chat without files and with unfilled fields); usage, the filled-in example and tips moved to README.ru.md.
+
 ## 4.2.0 — 2026-10-22
 
 - `PROMT.md`: a fill-in brief (in Russian) for building a site, web app, service or SaaS with an AI assistant — type, structure, features, design, quality rules, work stages and acceptance checklist. In the repository root for download and in every new project.

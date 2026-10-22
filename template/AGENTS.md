@@ -3,7 +3,7 @@
 Website on **Astro 7 + React 19 + Tailwind CSS 4 + shadcn/ui (radix, style "radix-nova") + lucide-react + Motion + TypeScript**.
 Created with `npm create lightwebsiteui`.
 
-If `PROMT.md` is filled in, it is the user's spec for this project (site, app, SaaS): follow its «Промт» section (plan and questions first, then stages), while the rules below stay in force. An unfilled template (only `«…»` placeholders) is not a task.
+`PROMT.md` is the user's spec for this project (site, app, SaaS); the whole file is the prompt. When the user asks to build from it, follow it: plan and questions first (including every unfilled `«…»` field), then stages; the rules below stay in force.
 
 ## Structure
 
