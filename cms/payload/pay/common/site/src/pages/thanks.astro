@@ -1,0 +1,15 @@
+---
+import Layout from "@/layouts/main.astro"
+import { PaymentStatus } from "@/components/site/payment-status"
+import { getContent } from "@/data/content"
+
+// The buyer returns here from the payment page: /thanks/?order=<token>
+const { site } = await getContent()
+const home = import.meta.env.BASE_URL
+---
+
+<Layout title={`Оплата — ${site.name}`} description={site.description}>
+  <main class="grid min-h-svh place-items-center px-4 py-16">
+    <PaymentStatus client:load home={home} />
+  </main>
+</Layout>

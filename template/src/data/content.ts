@@ -5,7 +5,8 @@ import { faq, features, plans, reviews, site } from "./site"
 export type Content = {
   site: typeof site
   features: typeof features
-  plans: typeof plans
+  // id and amount come from the CMS (--cms=payload) and enable online payment (--pay)
+  plans: ((typeof plans)[number] & { id?: string | number; amount?: number })[]
   reviews: typeof reviews
   faq: typeof faq
 }

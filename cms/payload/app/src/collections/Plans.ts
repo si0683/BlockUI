@@ -18,6 +18,13 @@ export const Plans: CollectionConfig = {
       type: 'array',
       fields: [{ name: 'text', label: 'Пункт', type: 'text', required: true }],
     },
+    {
+      name: 'amount',
+      label: 'Сумма для онлайн-оплаты, ₽',
+      type: 'number',
+      min: 1,
+      admin: { description: 'Пусто — кнопка «Оплатить» не показывается (работает с --pay)' },
+    },
     { name: 'popular', label: 'Популярный', type: 'checkbox', defaultValue: false },
     { name: 'order', label: 'Порядок', type: 'number', defaultValue: 0, admin: { position: 'sidebar' } },
   ],

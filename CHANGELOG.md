@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.4.0 — 2026-10-22
+
+- Optional online payment: `--pay=none|yookassa|stripe` together with `--cms=payload` (or an interactive question). Adds the "Заказы" collection and `/api/orders/pay`, `/api/orders/webhook`, `/api/orders/status` in the CMS; a "Pay" button with a buyer form on plans that have an amount; the `/thanks` page that polls the order status. The price comes only from the CMS, the return URL only to `SITE_URL`, the status only from the provider API; Stripe webhooks are signature-checked. Providers use plain `fetch` (no SDK). Test keys first, `PAYMENTS.md` per provider (test mode, webhooks, receipts under 54-FZ for YooKassa, going live).
+- Plans get an optional "Сумма для онлайн-оплаты" field; seams `plan-action.tsx` (site) and `extensions.ts` (CMS).
+
 ## 4.3.0 — 2026-10-22
 
 - Optional Payload CMS: `--cms=none|payload` and `--db=sqlite|postgres` (or interactive questions). Adds `cms/` — Payload 3.91 on Next.js 16 with a Russian admin panel, collections for the demo page (site settings, features, plans, reviews, FAQ), leads with public create only and a honeypot, media and users; demo content seeded on first start; CORS/CSRF from `SITE_URL`; SQLite file or PostgreSQL with `docker-compose.yml`. The installer writes `cms/.env` with a random secret and the site `.env` with `PUBLIC_CMS_URL`, installs both packages; `npm run cms`, `PAYLOAD.md`.

@@ -3,7 +3,7 @@
 // into a new folder and installs its dependencies. Optionally adds Payload CMS in cms/.
 //
 //   npm create lightwebsiteui@latest my-site
-//   npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres
+//   npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres --pay=yookassa
 //   npx create-lightwebsiteui my-site --no-install --no-git
 
 import { spawnSync } from "node:child_process"
@@ -40,7 +40,7 @@ const options = {}
 let target
 for (let i = 0; i < args.length; i++) {
   const arg = args[i]
-  const option = /^--(cms|db)(?:=(.*))?$/.exec(arg)
+  const option = /^--(cms|db|pay)(?:=(.*))?$/.exec(arg)
   if (option) options[option[1]] = option[2] ?? args[++i]
   else if (arg.startsWith("-")) flags.add(arg)
   else target ??= arg
@@ -50,10 +50,11 @@ if (flags.has("-h") || flags.has("--help")) {
   console.log(`
 ${bold("create-lightwebsiteui")} ${dim(version)}
 
-  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --no-install --no-git]")}
+  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --no-install --no-git]")}
 
   --cms=<name>   ${cmsList.map((c) => c.name).join(" | ")}  (default: none)
   --db=<name>    with --cms=payload: sqlite | postgres  (default: sqlite)
+  --pay=<name>   with --cms=payload: none | yookassa | stripe  (default: none)
   --no-install   do not run npm install
   --no-git       do not run git init
 `)
@@ -84,6 +85,16 @@ if (cms.dbs) {
   options.db ||= dbList[0].name
   db = dbList.find((d) => d.name === options.db)
   if (!db) fail(`Неизвестная база «${options.db}». Доступны: ${dbList.map((d) => d.name).join(", ")}`)
+}
+let pay
+if (cms.pays) {
+  const payList = [{ name: "none", title: "без онлайн-оплаты" }, ...Object.entries(cms.pays).map(([name, info]) => ({ name, ...info }))]
+  if (!options.pay && rl) options.pay = await choose("Онлайн-оплата:", payList)
+  options.pay ||= "none"
+  pay = payList.find((p) => p.name === options.pay)
+  if (!pay) fail(`Неизвестная оплата «${options.pay}». Доступны: ${payList.map((p) => p.name).join(", ")}`)
+} else if (options.pay && options.pay !== "none") {
+  fail("Онлайн-оплата работает только вместе с CMS: добавьте --cms=payload")
 }
 rl?.close()
 
@@ -137,12 +148,28 @@ if (cms.name !== "none") {
     const source = join(dir, "append", file === ".gitignore" ? "_gitignore" : file)
     appendFileSync(join(root, file), readFileSync(source, "utf8"))
   }
+
+  // Online payment: orders + endpoints in the CMS, pay dialog and /thanks on the site
+  if (pay.name !== "none") {
+    for (const part of ["common", pay.name]) {
+      const from = join(dir, "pay", part)
+      if (existsSync(join(from, "app"))) cpSync(join(from, "app"), app, { recursive: true })
+      if (existsSync(join(from, "site"))) cpSync(join(from, "site"), root, { recursive: true })
+    }
+    const payEnv = ["", `# Online payment (${pay.title}). Test keys first, see PAYMENTS.md`, ...pay.env, ""].join("\n")
+    appendFileSync(join(app, ".env"), payEnv)
+    appendFileSync(join(app, ".env.example"), payEnv)
+    for (const file of cms.payAppend ?? []) {
+      appendFileSync(join(root, file), readFileSync(join(dir, "pay", "append", file), "utf8"))
+    }
+  }
   pkg.scripts = { ...pkg.scripts, ...cms.scripts }
 }
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")
 
 console.log(`${green("✔")} Проект создан: ${bold(root)}`)
 if (cms.name !== "none") console.log(`${green("✔")} CMS: ${cms.title}, база: ${db.name}`)
+if (pay && pay.name !== "none") console.log(`${green("✔")} Оплата: ${pay.title} — ключи в cms/.env, см. PAYMENTS.md`)
 
 // ---------- install ----------
 const agent = (process.env.npm_config_user_agent ?? "npm").split("/")[0]

@@ -14,6 +14,7 @@ import { Plans } from './collections/Plans'
 import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { db } from './db'
+import { extraCollections, extraEndpoints } from './extensions'
 import { Site } from './globals/Site'
 import { seed } from './seed'
 
@@ -33,7 +34,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Features, Plans, Reviews, Faq, Leads, Media, Users],
+  collections: [Features, Plans, Reviews, Faq, Leads, ...extraCollections, Media, Users],
+  endpoints: extraEndpoints,
   globals: [Site],
   editor: lexicalEditor(),
   // Admin panel in Russian (users can switch to English in their account)

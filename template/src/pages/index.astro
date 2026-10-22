@@ -25,6 +25,7 @@ import { Faq } from "@/components/site/faq"
 import { FeatureIcon } from "@/components/site/feature-icon"
 import { MobileMenu } from "@/components/site/mobile-menu"
 import { OrderDialog } from "@/components/site/order-dialog"
+import { PlanAction } from "@/components/site/plan-action"
 import { Reveal } from "@/components/site/reveal"
 import { ReviewCard } from "@/components/site/review-card"
 import { ThemeToggle } from "@/components/site/theme-toggle"
@@ -157,12 +158,12 @@ const { site, features, plans, reviews, faq } = await getContent()
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <OrderDialog
+                  <PlanAction
                     client:visible
-                    label="Выбрать"
                     plan={plan.name}
-                    variant={plan.popular ? "default" : "outline"}
-                    className="w-full"
+                    planId={plan.id}
+                    amount={plan.amount}
+                    popular={plan.popular}
                   />
                 </CardFooter>
               </Card>

@@ -19,5 +19,35 @@
     "cms:build": "npm --prefix cms run build",
     "cms:start": "npm --prefix cms run start"
   },
-  "append": ["AGENTS.md", "README.md", "PROMT.md", ".gitignore"]
+  "append": [
+    "AGENTS.md",
+    "README.md",
+    "PROMT.md",
+    ".gitignore"
+  ],
+  "pays": {
+    "yookassa": {
+      "title": "ЮKassa — карты, СБП, SberPay (Россия)",
+      "env": [
+        "YOOKASSA_SHOP_ID=",
+        "YOOKASSA_SECRET_KEY=",
+        "# Receipts under 54-FZ via \"Чеки от ЮKassa\": true + VAT code (1 — без НДС)",
+        "YOOKASSA_RECEIPTS=false",
+        "YOOKASSA_VAT_CODE=1"
+      ]
+    },
+    "stripe": {
+      "title": "Stripe — карты (для клиентов за рубежом)",
+      "env": [
+        "STRIPE_SECRET_KEY=",
+        "STRIPE_WEBHOOK_SECRET=",
+        "STRIPE_CURRENCY=rub"
+      ]
+    }
+  },
+  "payAppend": [
+    "AGENTS.md",
+    "README.md",
+    "PROMT.md"
+  ]
 }

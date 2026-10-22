@@ -50,6 +50,23 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres # баз
 
 Запуск: `npm run cms` и `npm run dev` в двух терминалах, подробности — в `PAYLOAD.md` проекта. Без `--cms` (или с `--cms=none`) сайт остаётся статическим, тексты — в `src/data/site.ts`.
 
+## Онлайн-оплата по желанию
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --pay=yookassa   # ЮKassa (Россия)
+npm create lightwebsiteui@latest my-site -- --cms=payload --pay=stripe     # Stripe Checkout
+```
+
+Работает поверх Payload:
+
+1. У тарифов с суммой появляется кнопка «Оплатить».
+2. CMS создаёт заказ и платёж. Цена берётся только из CMS.
+3. Покупатель возвращается на страницу `/thanks`.
+4. Вебхук и сама страница перепроверяют статус через API провайдера.
+5. Заказы видны в админке.
+
+Сначала — тестовые ключи. Подробности — в `PAYMENTS.md` проекта.
+
 ## Структура шаблона
 
 ```

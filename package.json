@@ -1,8 +1,8 @@
 {
   "name": "create-lightwebsiteui",
-  "version": "4.3.0",
-  "description": "Website starter in one command: Astro + React + Tailwind CSS + shadcn/ui + Lucide icons + Motion animations, optional Payload CMS (SQLite or PostgreSQL), ready-made landing page, dark theme, GitHub Pages deploy.",
-  "keywords": ["create", "starter", "template", "astro", "react", "tailwindcss", "shadcn", "shadcn-ui", "lucide", "motion", "animation", "payload", "cms", "landing-page", "website"],
+  "version": "4.4.0",
+  "description": "Website starter in one command: Astro + React + Tailwind CSS + shadcn/ui + Lucide icons + Motion animations, optional Payload CMS (SQLite or PostgreSQL) and online payment (YooKassa or Stripe), ready-made landing page, dark theme, GitHub Pages deploy.",
+  "keywords": ["create", "starter", "template", "astro", "react", "tailwindcss", "shadcn", "shadcn-ui", "lucide", "motion", "animation", "payload", "cms", "yookassa", "stripe", "payments", "landing-page", "website"],
   "homepage": "https://si0683.github.io/LightWebsiteUi/",
   "repository": { "type": "git", "url": "git+https://github.com/si0683/LightWebsiteUi.git" },
   "bugs": { "url": "https://github.com/si0683/LightWebsiteUi/issues" },

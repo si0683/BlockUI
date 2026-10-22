@@ -6,7 +6,10 @@ import * as fallback from "./site"
 export type Content = {
   site: typeof fallback.site
   features: typeof fallback.features
-  plans: typeof fallback.plans
+  plans: ((typeof fallback.plans)[number] & {
+    id?: string | number
+    amount?: number
+  })[]
   reviews: typeof fallback.reviews
   faq: typeof fallback.faq
 }
@@ -35,8 +38,10 @@ export async function getContent(): Promise<Content> {
       api<Content["site"]>("globals/site?depth=0"),
       list<Content["features"][number]>("features"),
       list<{
+        id: string | number
         name: string
         price: string
+        amount?: number | null
         text?: string
         popular?: boolean
         items?: { text: string }[]
@@ -52,6 +57,8 @@ export async function getContent(): Promise<Content> {
       },
       features,
       plans: plans.map((plan) => ({
+        id: plan.id,
+        amount: plan.amount ?? undefined,
         name: plan.name,
         price: plan.price,
         text: plan.text ?? "",

@@ -159,6 +159,10 @@ export interface Plan {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Пусто — кнопка «Оплатить» не показывается (работает с --pay)
+   */
+  amount?: number | null;
   popular?: boolean | null;
   order?: number | null;
   updatedAt: string;
@@ -369,6 +373,7 @@ export interface PlansSelect<T extends boolean = true> {
         text?: T;
         id?: T;
       };
+  amount?: T;
   popular?: T;
   order?: T;
   updatedAt?: T;

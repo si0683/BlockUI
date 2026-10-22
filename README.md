@@ -41,6 +41,15 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres # Postgr
 
 Adds [Payload CMS 3](https://payloadcms.com) (Next.js) in `cms/`: Russian admin panel, collections for every block of the demo page (site settings, features, pricing, reviews, FAQ), leads from the order form, demo content seeded on first start. The site reads content over the REST API (`src/data/content.ts`, falls back to `src/data/site.ts` when the CMS is down) and posts leads to it (`src/lib/leads.ts`). Run `npm run cms` + `npm run dev`; details in the project's `PAYLOAD.md`. Without `--cms` (or `--cms=none`) the site stays static with texts in `src/data/site.ts`.
 
+## Optional online payment
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --pay=yookassa   # YooKassa (Russia)
+npm create lightwebsiteui@latest my-site -- --cms=payload --pay=stripe     # Stripe Checkout
+```
+
+Works on top of Payload: plans with an amount get a "Pay" button, the CMS creates the order (price from the CMS only) and the payment, the buyer returns to `/thanks`, webhooks and the thanks page re-check the status with the provider API, orders are listed in the admin panel. Test keys first; details in the project's `PAYMENTS.md`.
+
 ## Template structure
 
 ```
