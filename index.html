@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
   <title>LightWebsiteUi — стек для сайта одной командой</title>
   <meta name="description" content="npm create lightwebsiteui — проект на Astro, React, Tailwind CSS, shadcn/ui, Lucide и Motion со всеми зависимостями.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%237c3aed'/><stop offset='.55' stop-color='%23ec4899'/><stop offset='1' stop-color='%23f59e0b'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f0f0f'/><path d='M10 8h4v12h8v4H10z' fill='%23fff'/></svg>">
   <script>
     // Theme before the first paint: saved choice, otherwise the system setting
     (function () {
@@ -18,49 +20,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
+    /* Monochrome like shadcn/ui: white or #0F0F0F, contrast does the work instead of colour */
     :root {
-      --c1: #8b5cf6; --c2: #ec4899; --c3: #f59e0b;
-      --bg: #faf8ff; --surface: #ffffff; --text: #1b1530; --muted: #5f5878;
-      --line: rgba(27, 21, 48, 0.1); --term: #17122a;
-      --grad: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+      --bg: #ffffff; --surface: #ffffff; --soft: #f4f4f5; --text: #0f0f0f; --muted: #6b6b70;
+      --line: #e6e6e8; --term: #0f0f0f; --term-text: #fafafa; --accent: #0f0f0f; --on-accent: #ffffff;
       color-scheme: light;
     }
     :root[data-theme="dark"] {
-      --bg: #08060f; --surface: #151027; --text: #f3effd; --muted: #a69fc2;
-      --line: rgba(243, 239, 253, 0.1); --term: #0d0a18;
+      --bg: #0f0f0f; --surface: #161616; --soft: #1c1c1c; --text: #fafafa; --muted: #9a9aa0;
+      --line: #262626; --term: #1c1c1c; --term-text: #fafafa; --accent: #fafafa; --on-accent: #0f0f0f;
       color-scheme: dark;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { height: 100%; }
-    body { margin: 0; display: grid; place-items: center; font: 400 14px/1.4 Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); }
-    a { color: var(--c1); }
+    body { margin: 0; display: grid; place-items: center; font: 400 14px/1.45 Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); transition: background 0.2s, color 0.2s; }
+    a { color: var(--text); text-underline-offset: 3px; text-decoration-color: var(--muted); }
+    a:hover { text-decoration-color: currentColor; }
     main { width: min(680px, 100% - 32px); padding: 10px 0; }
-    .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
-    .logo b { width: 22px; height: 22px; border-radius: 6px; background: var(--grad); }
+    .top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+    .logo b { width: 22px; height: 22px; border-radius: 6px; background: var(--accent); position: relative; }
+    .logo b::after { content: ""; position: absolute; inset: 6px 6px 6px 6px; border-radius: 2px; background: var(--on-accent); clip-path: polygon(0 0, 35% 0, 35% 65%, 100% 65%, 100% 100%, 0 100%); }
     .top .end { margin-left: auto; display: flex; gap: 6px; }
-    .btn { display: grid; place-items: center; height: 28px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: 600 12.5px/1 Inter, sans-serif; text-decoration: none; cursor: pointer; }
-    h1 { font-size: clamp(21px, 3.2vw, 26px); line-height: 1.2; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 4px; }
-    .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .lead { color: var(--muted); margin: 0 0 10px; }
-    h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 6px; }
-    ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 6px; }
-    li { counter-increment: s; display: grid; grid-template-columns: 22px 1fr; gap: 3px 10px; align-items: center; min-width: 0; }
-    li::before { content: counter(s); grid-row: span 2; align-self: start; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--grad); color: #fff; font-weight: 700; font-size: 12px; }
+    .btn { display: grid; place-items: center; height: 30px; padding: 0 11px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: 500 12.5px/1 Inter, sans-serif; text-decoration: none; cursor: pointer; transition: background 0.15s; }
+    .btn:hover { background: var(--soft); }
+    h1 { font-size: clamp(22px, 3.4vw, 28px); line-height: 1.15; font-weight: 700; letter-spacing: -0.035em; margin: 0 0 6px; }
+    .grad { color: var(--muted); }
+    .lead { color: var(--muted); margin: 0 0 14px; }
+    h2 { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 8px; }
+    ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+    li { counter-increment: s; display: grid; grid-template-columns: 22px 1fr; gap: 4px 10px; align-items: center; min-width: 0; }
+    li::before { content: counter(s); grid-row: span 2; align-self: start; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--soft); color: var(--text); font-weight: 600; font-size: 11.5px; }
     li.one::before { grid-row: auto; }
     li b { font-weight: 600; }
-    .cmd { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 3px 3px 3px 12px; border-radius: 8px; background: var(--term); color: #f3effd; }
+    .cmd { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 4px 4px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--term); color: var(--term-text); }
     .cmd code { flex: 1; min-width: 0; font: 12.5px/1.5 'JetBrains Mono', monospace; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
-    .cmd button { flex: none; padding: 5px 9px; border: 0; border-radius: 6px; background: #fff; color: #17122a; font: 600 12px/1 Inter, sans-serif; cursor: pointer; }
-    .note { color: var(--muted); font-size: 12.5px; margin: 6px 0 10px; }
+    .cmd code::before { content: "$ "; opacity: 0.45; }
+    .cmd button { flex: none; padding: 5px 9px; border: 0; border-radius: 6px; background: var(--term-text); color: var(--term); font: 600 12px/1 Inter, sans-serif; cursor: pointer; }
+    .note { color: var(--muted); font-size: 12.5px; margin: 8px 0 14px; }
     code { font: 12px 'JetBrains Mono', monospace; }
-    table { width: 100%; border-collapse: collapse; }
-    td { padding: 3px 0; font-size: 13.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .note code, td code { padding: 1px 4px; border-radius: 4px; background: var(--soft); }
+    table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--line); }
+    td { padding: 4px 0; font-size: 13.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
     td:first-child { width: 150px; font-weight: 600; padding-right: 8px; }
     td:last-child { color: var(--muted); }
-    td:first-child a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--c1) 45%, transparent); text-underline-offset: 3px; transition: color 0.2s, text-decoration-color 0.2s; }
-    td:first-child a:hover { color: var(--c1); text-decoration-color: currentColor; }
-    footer { margin-top: 8px; color: var(--muted); font-size: 12px; }
+    td a { color: inherit; }
+    footer { margin-top: 10px; color: var(--muted); font-size: 12px; }
+    footer a { color: var(--muted); }
+    /* Phones: a narrower first column keeps the page on one screen */
+    @media (max-width: 480px) { td:first-child { width: 104px; } }
   </style>
 </head>
 <body>
