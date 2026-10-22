@@ -1,6 +1,6 @@
 # AGENTS.md — rules for AI coding agents
 
-LightWebsiteUi (since 4.0.0) is a **project starter**, not a runtime library: the npm package `create-lightwebsiteui` copies `template/` (Astro + React + Tailwind CSS + shadcn/ui + Lucide) into a new folder and runs `npm install`.
+LightWebsiteUi (since 4.0.0) is a **project starter**, not a runtime library: the npm package `create-lightwebsiteui` copies `template/` (Astro + React + Tailwind CSS + shadcn/ui + Lucide + Motion) into a new folder and runs `npm install`.
 
 - `bin/create.mjs` — the CLI. Node ≥ 22.12, **no dependencies** (only `node:` modules). npm never publishes `.gitignore`, so the template keeps it as `template/_gitignore` and the CLI renames it.
 - `template/` — a working Astro project. Work on it in place: `cd template && npm install && npm run dev` (node_modules, dist, .astro and package-lock.json are git-ignored and excluded from the package).

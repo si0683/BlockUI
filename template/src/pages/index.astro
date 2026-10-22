@@ -25,6 +25,7 @@ import { Faq } from "@/components/site/faq"
 import { FeatureIcon } from "@/components/site/feature-icon"
 import { MobileMenu } from "@/components/site/mobile-menu"
 import { OrderDialog } from "@/components/site/order-dialog"
+import { Reveal } from "@/components/site/reveal"
 import { ReviewCard } from "@/components/site/review-card"
 import { ThemeToggle } from "@/components/site/theme-toggle"
 import { faq, features, plans, reviews, site } from "@/data/site"
@@ -34,6 +35,7 @@ import { faq, features, plans, reviews, site } from "@/data/site"
 // Each React component in .astro renders separately: compose parts that share
 // context (Avatar, Dialog, Tabs, Accordion...) inside a .tsx file, see components/site/.
 // For the same reason asChild does not work here: style a link with buttonVariants().
+// Animations: <Reveal client:visible> (Motion) fades blocks in on scroll.
 ---
 
 <Layout title={`${site.name} — ${site.tagline}`} description={site.description}>
@@ -94,93 +96,115 @@ import { faq, features, plans, reviews, site } from "@/data/site"
     </section>
 
     <section id="services" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-20">
-      <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
-        Что вы получите
-      </h2>
+      <Reveal client:visible>
+        <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+          Что вы получите
+        </h2>
+      </Reveal>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {features.map((item) => (
-          <Card className="transition-shadow hover:shadow-lg">
-            <CardHeader>
-              <span class="mb-2 grid size-10 place-items-center rounded-lg bg-accent text-accent-foreground">
-                <FeatureIcon name={item.icon} className="size-5" />
-              </span>
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.text}</CardDescription>
-            </CardHeader>
-          </Card>
+        {features.map((item, i) => (
+          <Reveal client:visible delay={(i % 3) * 0.08} lift className="h-full">
+            <Card className="h-full transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <span class="mb-2 grid size-10 place-items-center rounded-lg bg-accent text-accent-foreground">
+                  <FeatureIcon name={item.icon} className="size-5" />
+                </span>
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.text}</CardDescription>
+              </CardHeader>
+            </Card>
+          </Reveal>
         ))}
       </div>
     </section>
 
     <section id="pricing" class="scroll-mt-20 bg-muted/50 py-20">
       <div class="mx-auto max-w-6xl px-4">
-        <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
-          Тарифы
-        </h2>
+        <Reveal client:visible>
+          <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+            Тарифы
+          </h2>
+        </Reveal>
         <div class="grid gap-4 md:grid-cols-3">
-          {plans.map((plan) => (
-            <Card className={plan.popular ? "ring-2 ring-primary" : ""}>
-              <CardHeader>
-                {plan.popular && (
-                  <CardAction>
-                    <Badge>Популярный</Badge>
-                  </CardAction>
-                )}
-                <CardTitle>{plan.name}</CardTitle>
-                <CardDescription>{plan.text}</CardDescription>
-                <p class="pt-2 text-3xl font-bold">{plan.price}</p>
-              </CardHeader>
-              <CardContent className="grow">
-                <ul class="grid gap-2 text-sm">
-                  {plan.items.map((item) => (
-                    <li class="flex gap-2">
-                      <CheckIcon className="size-4 shrink-0 text-primary" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <OrderDialog
-                  client:visible
-                  label="Выбрать"
-                  plan={plan.name}
-                  variant={plan.popular ? "default" : "outline"}
-                  className="w-full"
-                />
-              </CardFooter>
-            </Card>
+          {plans.map((plan, i) => (
+            <Reveal client:visible delay={i * 0.08} lift className="h-full">
+              <Card
+                className={
+                  plan.popular ? "h-full ring-2 ring-primary" : "h-full"
+                }
+              >
+                <CardHeader>
+                  {plan.popular && (
+                    <CardAction>
+                      <Badge>Популярный</Badge>
+                    </CardAction>
+                  )}
+                  <CardTitle>{plan.name}</CardTitle>
+                  <CardDescription>{plan.text}</CardDescription>
+                  <p class="pt-2 text-3xl font-bold">{plan.price}</p>
+                </CardHeader>
+                <CardContent className="grow">
+                  <ul class="grid gap-2 text-sm">
+                    {plan.items.map((item) => (
+                      <li class="flex gap-2">
+                        <CheckIcon className="size-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <OrderDialog
+                    client:visible
+                    label="Выбрать"
+                    plan={plan.name}
+                    variant={plan.popular ? "default" : "outline"}
+                    className="w-full"
+                  />
+                </CardFooter>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
 
     <section id="reviews" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-20">
-      <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
-        Отзывы
-      </h2>
+      <Reveal client:visible>
+        <h2 class="mb-10 text-center text-3xl font-bold tracking-tight">
+          Отзывы
+        </h2>
+      </Reveal>
       <div class="grid gap-4 md:grid-cols-3">
-        {reviews.map((review) => (
-          <ReviewCard {...review} />
+        {reviews.map((review, i) => (
+          <Reveal client:visible delay={i * 0.08}>
+            <ReviewCard {...review} />
+          </Reveal>
         ))}
       </div>
     </section>
 
     <section id="faq" class="mx-auto max-w-3xl scroll-mt-20 px-4 pb-20">
-      <h2 class="mb-6 text-center text-3xl font-bold tracking-tight">
-        Вопросы
-      </h2>
-      <Faq client:visible items={faq} />
+      <Reveal client:visible>
+        <h2 class="mb-6 text-center text-3xl font-bold tracking-tight">
+          Вопросы
+        </h2>
+      </Reveal>
+      <Reveal client:visible>
+        <Faq client:visible items={faq} />
+      </Reveal>
     </section>
 
     <section class="px-4 pb-20">
-      <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 rounded-3xl bg-brand px-6 py-14 text-center text-white">
-        <h2 class="text-3xl font-bold tracking-tight">Готовы начать?</h2>
-        <p class="max-w-xl text-white/85">
-          Расскажите о задаче — предложим решение и сроки в тот же день.
-        </p>
-        <OrderDialog client:visible variant="secondary" />
-      </div>
+      <Reveal client:visible className="mx-auto max-w-6xl">
+        <div class="flex flex-col items-center gap-4 rounded-3xl bg-brand px-6 py-14 text-center text-white">
+          <h2 class="text-3xl font-bold tracking-tight">Готовы начать?</h2>
+          <p class="max-w-xl text-white/85">
+            Расскажите о задаче — предложим решение и сроки в тот же день.
+          </p>
+          <OrderDialog client:visible variant="secondary" />
+        </div>
+      </Reveal>
     </section>
   </main>
 

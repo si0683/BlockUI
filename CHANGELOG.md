@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.0 — 2026-10-22
+
+- Motion 14 (`motion/react`) added to the template: `Reveal` component fades blocks in on scroll (with a cascade and hover lift), used on the demo page; respects reduced motion.
+- Docs: Motion section in the template README, rules in `template/AGENTS.md`.
+
 ## 4.0.0 — 2026-10-22
 
 LightWebsiteUi is now a project starter instead of a CDN library.

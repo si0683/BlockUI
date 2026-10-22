@@ -1,6 +1,6 @@
 # LightWebsiteUi
 
-**Стартер сайта одной командой:** Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · TypeScript.
+**Стартер сайта одной командой:** Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · Motion · TypeScript.
 
 [English](README.md) · [Сайт](https://si0683.github.io/LightWebsiteUi/)
 
@@ -27,6 +27,7 @@ npx github:si0683/LightWebsiteUi my-site
 | [Tailwind CSS 4](https://tailwindcss.com) | стили, через `@tailwindcss/vite` |
 | [shadcn/ui](https://ui.shadcn.com) | 19 компонентов уже в проекте, остальные — `npx shadcn@latest add` |
 | [Lucide](https://lucide.dev) | 1600+ иконок, `lucide-react` |
+| [Motion](https://motion.dev) | анимации React (`motion/react`), готовый `Reveal` — появление блоков при прокрутке |
 | TypeScript, ESLint, Prettier | строгие типы, линтер, сортировка классов Tailwind |
 
 А ещё: готовый лендинг (шапка, мобильное меню, первый экран, преимущества, тарифы, отзывы, FAQ, окно заявки, подвал), все тексты в одном файле `src/data/site.ts`, светлая/тёмная тема без мигания, фиолетово-розово-янтарная палитра, `AGENTS.md` для нейросетей и выкладка на GitHub Pages.
@@ -38,7 +39,7 @@ src/
   pages/index.astro       главная
   layouts/main.astro      <head>, скрипт темы
   data/site.ts            все тексты страницы
-  components/site/        блоки сайта (меню, заявка, FAQ, отзывы, тема)
+  components/site/        блоки сайта (меню, заявка, FAQ, отзывы, тема, Reveal)
   components/ui/          компоненты shadcn/ui
   styles/global.css       Tailwind + цвета темы
 .github/workflows/deploy.yml

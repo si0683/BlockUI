@@ -1,7 +1,7 @@
 # Мой сайт
 
 Создан командой `npm create lightwebsiteui` — стек [LightWebsiteUi](https://github.com/si0683/LightWebsiteUi):
-**Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · TypeScript**.
+**Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · Motion · TypeScript**.
 
 ## Команды
 
@@ -21,7 +21,7 @@ src/
   pages/index.astro       главная страница (каждый файл в pages/ — отдельный адрес)
   layouts/main.astro      общий <head>, тёмная тема без мигания
   data/site.ts            ВСЕ тексты демо-страницы: меняйте здесь
-  components/site/        блоки сайта: меню, окно заявки, FAQ, отзывы, тема
+  components/site/        блоки сайта: меню, окно заявки, FAQ, отзывы, тема, Reveal
   components/ui/          компоненты shadcn/ui (свои файлы, можно править)
   styles/global.css       Tailwind + цвета темы (--primary и др.), text-brand / bg-brand
 public/                   картинки и файлы «как есть» (favicon.svg)
@@ -45,10 +45,35 @@ npx shadcn@latest add calendar
 ```tsx
 import { HeartIcon } from "lucide-react"
 
-<HeartIcon className="size-5 text-primary" />
+;<HeartIcon className="size-5 text-primary" />
 ```
 
 Все иконки: https://lucide.dev/icons
+
+## Анимации Motion
+
+[Motion](https://motion.dev) (бывший Framer Motion) — анимации React-компонентов.
+Готовый `Reveal` плавно показывает блок при прокрутке:
+
+```astro
+<Reveal client:visible delay={0.1} lift>
+  <Card>…</Card>
+</Reveal>
+```
+
+Свои анимации:
+
+```tsx
+import { motion } from "motion/react"
+
+;<motion.div
+  initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  whileHover={{ scale: 1.05 }}
+/>
+```
+
+Документация: https://motion.dev/docs/react
 
 ## Astro + React: три правила
 

@@ -1,6 +1,6 @@
 # LightWebsiteUi
 
-**A website starter in one command:** Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · TypeScript.
+**A website starter in one command:** Astro 7 · React 19 · Tailwind CSS 4 · shadcn/ui · Lucide · Motion · TypeScript.
 
 [Русская версия](README.ru.md) · [Website](https://si0683.github.io/LightWebsiteUi/)
 
@@ -27,6 +27,7 @@ Options: `--no-install` (skip `npm install`), `--no-git` (skip `git init`). pnpm
 | [Tailwind CSS 4](https://tailwindcss.com) | styling, via `@tailwindcss/vite` |
 | [shadcn/ui](https://ui.shadcn.com) | 19 components ready, add more with `npx shadcn@latest add` |
 | [Lucide](https://lucide.dev) | 1,600+ icons, `lucide-react` |
+| [Motion](https://motion.dev) | animations for React (`motion/react`), ready `Reveal` for scroll-in blocks |
 | TypeScript, ESLint, Prettier | strict types, lint, Tailwind class sorting |
 
 Plus: a ready landing page (header, mobile menu, hero, features, pricing, reviews, FAQ, order dialog, footer) with all texts in one file `src/data/site.ts`, light/dark theme without flicker, a violet-pink-amber theme, `AGENTS.md` for AI assistants and a GitHub Pages workflow.
@@ -38,7 +39,7 @@ src/
   pages/index.astro       landing page
   layouts/main.astro      <head>, theme script
   data/site.ts            all page texts
-  components/site/        site blocks (menu, order dialog, FAQ, reviews, theme toggle)
+  components/site/        site blocks (menu, order dialog, FAQ, reviews, theme toggle, Reveal)
   components/ui/          shadcn/ui components
   styles/global.css       Tailwind + theme tokens
 .github/workflows/deploy.yml
