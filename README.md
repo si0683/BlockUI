@@ -16,7 +16,23 @@ The command copies the template, installs every dependency and creates a git rep
 npx github:si0683/LightWebsiteUi my-site
 ```
 
-Options: `--no-install` (skip `npm install`), `--no-git` (skip `git init`). pnpm, yarn and bun work too (`pnpm create lightwebsiteui`).
+pnpm, yarn and bun work too (`pnpm create lightwebsiteui`). Without options the installer asks in the terminal; with options it installs right away. Options go after `--`:
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --db=sqlite --pay=yookassa --2fa --shop --1c
+```
+
+| Option | What it adds | Needs |
+|---|---|---|
+| `--cms=none\|payload` | [Payload CMS](https://payloadcms.com) admin panel in `cms/`: site content and leads | — |
+| `--db=sqlite\|postgres` | CMS database: SQLite (default) or PostgreSQL | `--cms=payload` |
+| `--pay=none\|yookassa\|stripe` | online payment: YooKassa (Russia) or Stripe | `--cms=payload` |
+| `--2fa`, `--2fa=required` | admin sign-in with an authenticator code: optional or for everyone | `--cms=payload` |
+| `--shop` | shop: catalog, product pages, cart, orders | `--cms=payload` |
+| `--1c` | exchange with 1C: catalog, prices, stock, orders | `--shop` |
+| `--no-install`, `--no-git` | skip `npm install`, skip `git init` | — |
+
+Each option is described below.
 
 ## What you get
 

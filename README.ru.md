@@ -16,7 +16,23 @@ npm run dev
 npx github:si0683/LightWebsiteUi my-site
 ```
 
-Ключи: `--no-install` (без `npm install`), `--no-git` (без `git init`). Работает и с pnpm, yarn, bun (`pnpm create lightwebsiteui`).
+Работает и с pnpm, yarn, bun (`pnpm create lightwebsiteui`). Без ключей установщик задаёт вопросы в терминале, с ключами — ставит сразу. Ключи пишутся после `--`:
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --db=sqlite --pay=yookassa --2fa --shop --1c
+```
+
+| Ключ | Что делает | Нужно |
+|---|---|---|
+| `--cms=none\|payload` | админка [Payload CMS](https://payloadcms.com) в `cms/`: контент сайта и заявки | — |
+| `--db=sqlite\|postgres` | база CMS: SQLite (по умолчанию) или PostgreSQL | `--cms=payload` |
+| `--pay=none\|yookassa\|stripe` | онлайн-оплата: ЮKassa (Россия) или Stripe | `--cms=payload` |
+| `--2fa`, `--2fa=required` | вход в админку с кодом из приложения: по желанию или для всех | `--cms=payload` |
+| `--shop` | магазин: каталог, карточки, корзина, заказы | `--cms=payload` |
+| `--1c` | обмен с 1С: каталог, цены, остатки, заказы | `--shop` |
+| `--no-install`, `--no-git` | без `npm install`, без `git init` | — |
+
+Подробно о каждой опции — в разделах ниже.
 
 ## Что внутри
 
@@ -133,7 +149,7 @@ AGENTS.md / CLAUDE.md     правила для нейросетей
 > **1.** SaaS «ЗаписьПро» — онлайн-запись для салонов красоты. Аудитория — владельцы небольших салонов, 25–45 лет, ведут запись в тетради. Цель — регистрация на 14-дневный пробный период.
 > **2.** Публичные: `/`, `/pricing`, `/login`, `/register`. Кабинет: `/app` — календарь записей, `/app/masters` — мастера, `/app/settings` — салон и ссылка для клиентов. Публичная страница записи `/s/[slug]`.
 > **3.** Вход по коду на почту; оплата ЮKassa (тарифы 990 ₽ и 2490 ₽ в месяц); уведомления о записи в Telegram; Яндекс Метрика с целью «регистрация».
-> **4.** PostgreSQL, хостинг на VPS через Docker.
+> **4.** Payload CMS с PostgreSQL (`--cms=payload --db=postgres`), оплата ЮKassa (`--pay=yookassa`), вход в админку с кодом для всех (`--2fa=required`); хостинг на VPS через Docker.
 > **5.** Минимализм, как у Linear, основной цвет #7c3aed, обе темы, сдержанные анимации.
 > **6.** Тексты напиши сам; юридическое — ИП Иванов И. И., ИНН 000000000000, политика нужна.
 
