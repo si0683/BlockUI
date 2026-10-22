@@ -8,7 +8,8 @@ Created with `npm create lightwebsiteui`.
 ## Structure
 
 - `src/pages/*.astro` — pages (file = URL). `src/layouts/main.astro` — `<html>`, `<head>`, theme script.
-- `src/data/site.ts` — page texts. Put content here, not inline in markup.
+- `src/data/site.ts` — page texts. Put content here, not inline in markup. Pages get it through `getContent()` from `src/data/content.ts` (the seam a CMS replaces).
+- `src/lib/leads.ts` — `sendLead()`: where the order form goes (no backend by default; with `--cms=payload` it posts to Payload).
 - `src/components/site/*.tsx` — site blocks built from shadcn parts (menu, order dialog, FAQ, review card, theme toggle) and `Reveal` (scroll-in animation).
 - `src/components/ui/*.tsx` — shadcn/ui components. Add new ones with `npx shadcn@latest add <name>` (never write them by hand); edit them only when the design requires it.
 - `src/styles/global.css` — Tailwind import, theme tokens (`:root` light, `.dark` dark), utilities `text-brand` / `bg-brand`.

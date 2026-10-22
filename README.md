@@ -32,6 +32,15 @@ Options: `--no-install` (skip `npm install`), `--no-git` (skip `git init`). pnpm
 
 Plus: a ready landing page (header, mobile menu, hero, features, pricing, reviews, FAQ, order dialog, footer) with all texts in one file `src/data/site.ts`, light/dark theme without flicker, a violet-pink-amber theme, `AGENTS.md` for AI assistants and a GitHub Pages workflow.
 
+## Optional CMS: Payload
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload               # SQLite (default)
+npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres # PostgreSQL (Docker locally)
+```
+
+Adds [Payload CMS 3](https://payloadcms.com) (Next.js) in `cms/`: Russian admin panel, collections for every block of the demo page (site settings, features, pricing, reviews, FAQ), leads from the order form, demo content seeded on first start. The site reads content over the REST API (`src/data/content.ts`, falls back to `src/data/site.ts` when the CMS is down) and posts leads to it (`src/lib/leads.ts`). Run `npm run cms` + `npm run dev`; details in the project's `PAYLOAD.md`. Without `--cms` (or `--cms=none`) the site stays static with texts in `src/data/site.ts`.
+
 ## Template structure
 
 ```

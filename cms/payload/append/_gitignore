@@ -1,0 +1,3 @@
+
+# Example settings are committed, real ones (.env) are not
+!.env.example

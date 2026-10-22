@@ -21,6 +21,8 @@ src/
   pages/index.astro       главная страница (каждый файл в pages/ — отдельный адрес)
   layouts/main.astro      общий <head>, тёмная тема без мигания
   data/site.ts            ВСЕ тексты демо-страницы: меняйте здесь
+  data/content.ts         откуда страница берёт контент (здесь — из site.ts; с --cms=payload — из CMS)
+  lib/leads.ts            куда уходят заявки с формы — подключите свой сервис
   components/site/        блоки сайта: меню, окно заявки, FAQ, отзывы, тема, Reveal
   components/ui/          компоненты shadcn/ui (свои файлы, можно править)
   styles/global.css       Tailwind + цвета темы (--primary и др.), text-brand / bg-brand

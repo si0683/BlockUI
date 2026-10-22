@@ -4,3 +4,5 @@ coverage/
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+# Payload CMS (--cms=payload) has its own tooling
+cms/

@@ -30,6 +30,8 @@ jobs:
         env:
           SITE_URL: https://${{ github.repository_owner }}.github.io
           BASE_PATH: /${{ github.event.repository.name }}
+          # With --cms=payload: the CMS address (Settings → Secrets and variables → Actions → Variables)
+          PUBLIC_CMS_URL: ${{ vars.PUBLIC_CMS_URL }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist

@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { sendLead } from "@/lib/leads"
 
 interface Props {
   label?: string
@@ -30,16 +31,40 @@ export function OrderDialog({
   className,
 }: Props) {
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(false)
 
-  function submit(event: SubmitEvent<HTMLFormElement>) {
+  async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
-    // Send the form to your backend here, for example:
-    // fetch("/api/order", { method: "POST", body: new FormData(event.currentTarget) })
-    setSent(true)
+    const form = new FormData(event.currentTarget)
+    // Honeypot: people never see this field, spam bots fill it in
+    if (form.get("website")) return setSent(true)
+    setSending(true)
+    setError(false)
+    try {
+      // src/lib/leads.ts decides where the lead goes
+      await sendLead({
+        name: String(form.get("name")),
+        phone: String(form.get("phone")),
+        message: String(form.get("message") ?? ""),
+        plan,
+      })
+      setSent(true)
+    } catch {
+      setError(true)
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
-    <Dialog onOpenChange={(open) => open && setSent(false)}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) return
+        setSent(false)
+        setError(false)
+      }}
+    >
       <DialogTrigger asChild>
         <Button variant={variant} size={size} className={className}>
           {label}
@@ -81,9 +106,21 @@ export function OrderDialog({
               <Label htmlFor="order-message">Комментарий</Label>
               <Textarea id="order-message" name="message" rows={3} />
             </div>
-            <Button type="submit" size="lg">
+            <input
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+            />
+            {error && (
+              <p className="text-sm text-destructive">
+                Не удалось отправить. Попробуйте ещё раз или позвоните нам.
+              </p>
+            )}
+            <Button type="submit" size="lg" disabled={sending}>
               <SendIcon data-icon="inline-start" />
-              Отправить
+              {sending ? "Отправляю…" : "Отправить"}
             </Button>
           </form>
         )}

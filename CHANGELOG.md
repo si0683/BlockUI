@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0 — 2026-10-22
+
+- Optional Payload CMS: `--cms=none|payload` and `--db=sqlite|postgres` (or interactive questions). Adds `cms/` — Payload 3.91 on Next.js 16 with a Russian admin panel, collections for the demo page (site settings, features, plans, reviews, FAQ), leads with public create only and a honeypot, media and users; demo content seeded on first start; CORS/CSRF from `SITE_URL`; SQLite file or PostgreSQL with `docker-compose.yml`. The installer writes `cms/.env` with a random secret and the site `.env` with `PUBLIC_CMS_URL`, installs both packages; `npm run cms`, `PAYLOAD.md`.
+- Site seams: `src/data/content.ts` (`getContent()`) and `src/lib/leads.ts` (`sendLead()`); the order dialog now sends leads, shows sending/error states and has a honeypot field. With the CMS the site reads the REST API and falls back to `src/data/site.ts` when it is down.
+- The site tooling ignores `cms/`; the Pages workflow passes `PUBLIC_CMS_URL` from repository variables.
+
 ## 4.2.1 — 2026-10-22
 
 - `PROMT.md` is now copy-paste ready: the whole file is the prompt (works in an AI chat without files and with unfilled fields); usage, the filled-in example and tips moved to README.ru.md.

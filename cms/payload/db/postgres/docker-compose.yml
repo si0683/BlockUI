@@ -1,0 +1,17 @@
+# Local PostgreSQL for the CMS: `docker compose up -d` (stop: `docker compose down`).
+# Matches DATABASE_URL in .env: postgres://payload:payload@localhost:5432/payload
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: payload
+      POSTGRES_PASSWORD: payload
+      POSTGRES_DB: payload
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

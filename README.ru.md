@@ -32,6 +32,24 @@ npx github:si0683/LightWebsiteUi my-site
 
 А ещё: готовый лендинг (шапка, мобильное меню, первый экран, преимущества, тарифы, отзывы, FAQ, окно заявки, подвал), все тексты в одном файле `src/data/site.ts`, светлая/тёмная тема без мигания, фиолетово-розово-янтарная палитра, `AGENTS.md` для нейросетей и выкладка на GitHub Pages.
 
+## CMS по желанию: Payload
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload               # база SQLite (по умолчанию)
+npm create lightwebsiteui@latest my-site -- --cms=payload --db=postgres # база PostgreSQL (локально в Docker)
+```
+
+Добавляет [Payload CMS 3](https://payloadcms.com) (Next.js) в папку `cms/`:
+
+- админка на русском;
+- коллекции под все блоки демо-страницы: настройки сайта, преимущества, тарифы, отзывы, вопросы;
+- заявки с формы;
+- демо-контент, который записывается в базу при первом запуске.
+
+Сайт берёт контент через REST API (`src/data/content.ts`). Если CMS недоступна, он берёт тексты из `src/data/site.ts`. Заявки уходят в CMS (`src/lib/leads.ts`).
+
+Запуск: `npm run cms` и `npm run dev` в двух терминалах, подробности — в `PAYLOAD.md` проекта. Без `--cms` (или с `--cms=none`) сайт остаётся статическим, тексты — в `src/data/site.ts`.
+
 ## Структура шаблона
 
 ```

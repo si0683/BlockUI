@@ -28,7 +28,7 @@ import { OrderDialog } from "@/components/site/order-dialog"
 import { Reveal } from "@/components/site/reveal"
 import { ReviewCard } from "@/components/site/review-card"
 import { ThemeToggle } from "@/components/site/theme-toggle"
-import { faq, features, plans, reviews, site } from "@/data/site"
+import { getContent } from "@/data/content"
 
 // React components without client:* render to plain HTML (no JavaScript).
 // Add client:load (or client:visible) only where the component must react to clicks.
@@ -36,6 +36,9 @@ import { faq, features, plans, reviews, site } from "@/data/site"
 // context (Avatar, Dialog, Tabs, Accordion...) inside a .tsx file, see components/site/.
 // For the same reason asChild does not work here: style a link with buttonVariants().
 // Animations: <Reveal client:visible> (Motion) fades blocks in on scroll.
+
+// Page content: src/data/site.ts, or Payload CMS when created with --cms=payload
+const { site, features, plans, reviews, faq } = await getContent()
 ---
 
 <Layout title={`${site.name} — ${site.tagline}`} description={site.description}>

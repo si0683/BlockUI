@@ -1,0 +1,23 @@
+{
+  "title": "Payload",
+  "description": "Payload CMS 3 (Next.js) in cms/: admin panel, REST API, site content and leads",
+  "dbs": {
+    "sqlite": {
+      "title": "SQLite — один файл, без установки",
+      "package": "@payloadcms/db-sqlite",
+      "url": "file:./cms.db"
+    },
+    "postgres": {
+      "title": "PostgreSQL — для боевых проектов (локально через Docker)",
+      "package": "@payloadcms/db-postgres",
+      "url": "postgres://payload:payload@localhost:5432/payload"
+    }
+  },
+  "version": "3.91.0",
+  "scripts": {
+    "cms": "npm --prefix cms run dev",
+    "cms:build": "npm --prefix cms run build",
+    "cms:start": "npm --prefix cms run start"
+  },
+  "append": ["AGENTS.md", "README.md", "PROMT.md", ".gitignore"]
+}
