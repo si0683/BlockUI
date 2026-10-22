@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/main.astro"
+import { CartLink } from "@/components/shop/cart-link"
+import { ThemeToggle } from "@/components/site/theme-toggle"
+import { getContent } from "@/data/content"
+
+interface Props {
+  title: string
+  description?: string
+}
+
+// Shop pages: header with the catalog link and the cart, the page body, a short footer
+const { title, description } = Astro.props
+const { site } = await getContent()
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<Layout
+  title={`${title} — ${site.name}`}
+  description={description ?? site.description}
+>
+  <header class="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4">
+      <a href={`${base}/`} class="font-semibold">
+        {site.name}
+      </a>
+      <nav class="flex gap-5 text-sm text-muted-foreground">
+        <a
+          href={`${base}/catalog/`}
+          class="transition-colors hover:text-foreground"
+        >
+          Каталог
+        </a>
+      </nav>
+      <div class="ml-auto flex items-center gap-1">
+        <ThemeToggle client:load />
+        <CartLink client:load href={`${base}/cart/`} />
+      </div>
+    </div>
+  </header>
+  <main class="mx-auto min-h-[60svh] max-w-6xl px-4 py-10">
+    <slot />
+  </main>
+  <footer class="border-t">
+    <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-muted-foreground">
+      {`© ${new Date().getFullYear()} ${site.name} · ${site.phone}`}
+    </div>
+  </footer>
+</Layout>

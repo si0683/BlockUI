@@ -44,6 +44,7 @@ for (let i = 0; i < args.length; i++) {
   if (option) options[option[1]] = option[2] ?? args[++i]
   // --2fa alone means "optional"; --2fa=required makes the code mandatory for everyone
   else if (/^--2fa(=|$)/.test(arg)) options.twofa = arg.includes("=") ? arg.slice(6) : "optional"
+  else if (arg === "--shop") options.shop = true
   else if (arg.startsWith("-")) flags.add(arg)
   else target ??= arg
 }
@@ -52,13 +53,14 @@ if (flags.has("-h") || flags.has("--help")) {
   console.log(`
 ${bold("create-lightwebsiteui")} ${dim(version)}
 
-  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --2fa[=required] --no-install --no-git]")}
+  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --2fa[=required] --shop --no-install --no-git]")}
 
   --cms=<name>   ${cmsList.map((c) => c.name).join(" | ")}  (default: none)
   --db=<name>    with --cms=payload: sqlite | postgres  (default: sqlite)
   --pay=<name>   with --cms=payload: none | yookassa | stripe  (default: none)
   --2fa[=mode]   with --cms=payload: code from an authenticator app for the admin panel;
                  optional (what --2fa means) | required | none
+  --shop         with --cms=payload: catalog, product pages, cart, shop orders
   --no-install   do not run npm install
   --no-git       do not run git init
 `)
@@ -110,6 +112,15 @@ if (cms.twofa) {
 } else if (options.twofa && options.twofa !== "none") {
   fail("2FA работает только вместе с CMS: добавьте --cms=payload")
 }
+if (cms.shop && options.shop === undefined && rl) {
+  options.shop = (await choose("Магазин (каталог, корзина, заказы):", [
+    { name: "no", title: "не нужен" },
+    { name: "yes", title: "добавить" },
+  ])) === "yes"
+} else if (!cms.shop && options.shop) {
+  fail("Магазин работает только вместе с CMS: добавьте --cms=payload")
+}
+const shop = Boolean(cms.shop && options.shop)
 rl?.close()
 
 const root = resolve(target)
@@ -201,6 +212,14 @@ if (cms.name !== "none") {
       appendFileSync(join(root, file), readFileSync(join(dir, "twofa", "append", file), "utf8"))
     }
   }
+  // Shop: categories, products and shop orders in the CMS; catalog, cart and order pages on the site
+  if (shop) {
+    cpSync(join(dir, "shop", "app"), app, { recursive: true })
+    cpSync(join(dir, "shop", "site"), root, { recursive: true })
+    for (const file of cms.shop.append ?? []) {
+      appendFileSync(join(root, file), readFileSync(join(dir, "shop", "append", file), "utf8"))
+    }
+  }
   pkg.scripts = { ...pkg.scripts, ...cms.scripts }
 }
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")
@@ -209,8 +228,9 @@ console.log(`${green("✔")} Проект создан: ${bold(root)}`)
 if (cms.name !== "none") console.log(`${green("✔")} CMS: ${cms.title}, база: ${db.name}`)
 if (pay && pay.name !== "none") console.log(`${green("✔")} Оплата: ${pay.title} — ключи в cms/.env, см. PAYMENTS.md`)
 if (twofa && twofa.name !== "none") console.log(`${green("✔")} 2FA: ${twofa.title}`)
+if (shop) console.log(`${green("✔")} ${cms.shop.title} — см. SHOP.md`)
 // Options that add collections, fields or admin components need fresh types and the admin import map
-const addons = (pay && pay.name !== "none") || (twofa && twofa.name !== "none")
+const addons = (pay && pay.name !== "none") || (twofa && twofa.name !== "none") || shop
 
 // ---------- install ----------
 const agent = (process.env.npm_config_user_agent ?? "npm").split("/")[0]

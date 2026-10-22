@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.6.0 — 2026-10-22
+
+- Optional shop: `--shop` together with `--cms=payload` (or an interactive question). CMS: categories, products (price, old price, stock, photos, attributes, 1C id), shop orders with `/api/shop-orders/checkout` (prices and stock from the CMS, reservation, honeypot, return URL check) and `/status`; demo catalog and a "Каталог" menu link on first start. Site: catalog with categories, product pages, a localStorage cart, checkout and the order page; with `--pay` the order is paid online.
+- The base CMS now owns the payment interface, a no-op provider and `syncPayment`, shared by plan orders and shop orders; new seam `src/addons/shop.ts`.
+
 ## 4.5.0 — 2026-10-22
 
 - Optional two-factor sign-in to the admin panel: `--2fa` (each user turns it on) or `--2fa=required` (mandatory), with `--cms=payload`, or an interactive question. Plugin payload-totp 3.0.6: 6-digit codes from an authenticator app, lockout after wrong codes, Russian UI; `TOTP_REQUIRED` / `TOTP_ISSUER` in `cms/.env`; `npm run reset-2fa -- email` for a lost phone; the PAYLOAD.md section.

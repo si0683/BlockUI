@@ -16,6 +16,7 @@ import { Users } from './collections/Users'
 import { db } from './db'
 import { paymentCollections } from './addons/payments'
 import { securityPlugins } from './addons/security'
+import { shopCollections, shopSeed } from './addons/shop'
 import { Site } from './globals/Site'
 import { seed } from './seed'
 
@@ -37,7 +38,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Features, Plans, Reviews, Faq, Leads, ...paymentCollections, Media, Users],
+  collections: [Features, Plans, Reviews, Faq, Leads, ...paymentCollections, ...shopCollections, Media, Users],
   globals: [Site],
   editor: lexicalEditor(),
   // Admin panel in Russian (users can switch to English in their account)
@@ -54,5 +55,8 @@ export default buildConfig({
   // Must stay the last plugins (payload-totp wraps the access of everything before it)
   plugins: [...securityPlugins],
   // Demo content of the site template on the first start (empty database)
-  onInit: seed,
+  onInit: async (payload) => {
+    await seed(payload)
+    await shopSeed(payload)
+  },
 })

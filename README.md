@@ -59,6 +59,15 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --2fa=required   # man
 
 The admin panel asks for a 6-digit code from an authenticator app after the password ([payload-totp](https://github.com/GeorgeHulpoi/payload-totp)); wrong codes lock the account like wrong passwords; `npm run reset-2fa -- email` in `cms/` for a lost phone. The site's public reads and leads keep working.
 
+## Optional shop
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --shop                  # orders go to a manager
+npm create lightwebsiteui@latest my-site -- --cms=payload --shop --pay=yookassa   # with online payment
+```
+
+Categories and products (price, old price, stock, photos, attributes) in the admin panel; `/catalog/`, category and product pages, a cart in the browser and `/order/` with the status. Checkout recalculates prices and checks stock in the CMS, reserves the goods and, with `--pay`, sends the buyer to the payment page. Details in the project's `SHOP.md`.
+
 ## Template structure
 
 ```

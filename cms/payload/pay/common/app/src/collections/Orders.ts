@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto'
 import type { CollectionConfig, PayloadRequest } from 'payload'
 
 import { provider } from '../payments/provider'
+import { syncPayment } from '../payments/sync'
 import type { PaymentStatus } from '../payments/types'
 
 // Allowed site addresses (SITE_URL): CORS and where buyers may return after paying
@@ -18,29 +19,6 @@ async function readBody(req: PayloadRequest): Promise<Record<string, unknown>> {
   } catch {
     return {}
   }
-}
-
-/** Finds the order of a payment, asks the provider for the real status and saves it */
-async function syncPayment(req: PayloadRequest, paymentId: string) {
-  const { docs } = await req.payload.find({
-    collection: 'orders',
-    where: { paymentId: { equals: paymentId } },
-    limit: 1,
-    overrideAccess: true,
-  })
-  const order = docs[0]
-  if (!order) return null
-  const payment = await provider.getPayment(paymentId)
-  if (payment.status === order.status) return order
-  return req.payload.update({
-    collection: 'orders',
-    id: order.id,
-    data: {
-      status: payment.status,
-      ...(payment.status === 'paid' ? { paidAt: new Date().toISOString() } : {}),
-    },
-    overrideAccess: true,
-  })
 }
 
 // Orders of paid plans. Only the endpoints below create and update them;
@@ -190,14 +168,16 @@ export const Orders: CollectionConfig = {
           limit: 1,
           overrideAccess: true,
         })
-        let order = docs[0]
+        const order = docs[0]
         if (!order) return json({ error: 'Not found' }, 404)
+        let status = order.status
         // No webhook yet (e.g. local development)? Ask the provider directly.
-        if (order.status === 'pending' && order.paymentId && provider.configured()) {
-          order = (await syncPayment(req, order.paymentId).catch(() => null)) ?? order
+        if (status === 'pending' && order.paymentId && provider.configured()) {
+          const synced = await syncPayment(req, order.paymentId).catch(() => null)
+          status = (synced?.status as typeof status) ?? status
         }
         return json({
-          status: order.status as PaymentStatus,
+          status: status as PaymentStatus,
           plan: order.planName,
           amount: order.amount,
           currency: order.currency,

@@ -74,5 +74,13 @@
     "scripts": {
       "reset-2fa": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/reset-2fa.ts"
     }
+  },
+  "shop": {
+    "title": "Магазин: каталог, корзина, заказы",
+    "append": [
+      "AGENTS.md",
+      "README.md",
+      "PROMT.md"
+    ]
   }
 }

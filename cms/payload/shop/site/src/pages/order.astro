@@ -1,0 +1,12 @@
+---
+import ShopLayout from "@/layouts/shop.astro"
+import { OrderView } from "@/components/shop/order-view"
+import { CMS_URL } from "@/data/shop"
+
+// The buyer comes here after checkout (or back from the payment page): /order/?order=<token>
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+---
+
+<ShopLayout title="Заказ">
+  <OrderView client:load cmsUrl={CMS_URL} home={`${base}/catalog/`} />
+</ShopLayout>

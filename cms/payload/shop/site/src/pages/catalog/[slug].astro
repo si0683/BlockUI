@@ -1,0 +1,43 @@
+---
+import ShopLayout from "@/layouts/shop.astro"
+import Catalog from "@/components/shop/catalog.astro"
+import { getCategories, getProducts, type Category } from "@/data/shop"
+
+// One page per category; products of its subcategories are shown too
+export async function getStaticPaths() {
+  const [categories, products] = await Promise.all([
+    getCategories(),
+    getProducts(),
+  ])
+  const childrenOf = (id: Category["id"]): Category["id"][] => [
+    id,
+    ...categories
+      .filter((category) => category.parent === id)
+      .flatMap((category) => childrenOf(category.id)),
+  ]
+  return categories.map((category) => {
+    const ids = childrenOf(category.id)
+    return {
+      params: { slug: category.slug },
+      props: {
+        category,
+        categories,
+        products: products.filter(
+          (product) => product.category && ids.includes(product.category.id)
+        ),
+      },
+    }
+  })
+}
+
+const { category, categories, products } = Astro.props
+---
+
+<ShopLayout title={category.name}>
+  <Catalog
+    title={category.name}
+    categories={categories}
+    products={products}
+    current={category}
+  />
+</ShopLayout>

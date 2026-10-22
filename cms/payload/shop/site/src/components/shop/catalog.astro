@@ -1,0 +1,51 @@
+---
+import ProductCard from "@/components/shop/product-card.astro"
+import type { Category, Product } from "@/data/shop"
+
+interface Props {
+  title: string
+  categories: Category[]
+  products: Product[]
+  current?: Category
+}
+
+// Category chips + product grid, shared by /catalog/ and /catalog/<category>/
+const { title, categories, products, current } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+const chip =
+  "rounded-full border px-4 py-1.5 text-sm transition-colors hover:bg-muted"
+---
+
+<h1 class="mb-6 text-3xl font-bold tracking-tight">{title}</h1>
+{categories.length > 0 && (
+  <nav class="mb-8 flex flex-wrap gap-2">
+    <a
+      href={`${base}/catalog/`}
+      class:list={[chip, !current && "bg-primary text-primary-foreground"]}
+    >
+      Все товары
+    </a>
+    {categories.map((category) => (
+      <a
+        href={`${base}/catalog/${category.slug}/`}
+        class:list={[
+          chip,
+          current?.id === category.id && "bg-primary text-primary-foreground",
+        ]}
+      >
+        {category.name}
+      </a>
+    ))}
+  </nav>
+)}
+{products.length ? (
+  <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+    {products.map((product) => (
+      <ProductCard product={product} />
+    ))}
+  </div>
+) : (
+  <p class="py-16 text-center text-muted-foreground">
+    Товаров пока нет. Добавьте их в админке или загрузите из 1С.
+  </p>
+)}

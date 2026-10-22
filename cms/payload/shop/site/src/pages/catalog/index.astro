@@ -1,0 +1,14 @@
+---
+import ShopLayout from "@/layouts/shop.astro"
+import Catalog from "@/components/shop/catalog.astro"
+import { getCategories, getProducts } from "@/data/shop"
+
+const [categories, products] = await Promise.all([
+  getCategories(),
+  getProducts(),
+])
+---
+
+<ShopLayout title="Каталог">
+  <Catalog title="Каталог" categories={categories} products={products} />
+</ShopLayout>
