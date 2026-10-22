@@ -46,6 +46,10 @@ src/
 AGENTS.md / CLAUDE.md     rules for AI assistants
 ```
 
+## Build it with AI
+
+[PROMT.md](https://raw.githubusercontent.com/si0683/LightWebsiteUi/main/PROMT.md) is a fill-in brief for AI assistants (Claude Code, Cursor, Codex…): describe your site, web app, service or SaaS — type, pages, features, design — then tell the assistant in the project folder: *"Read PROMT.md and AGENTS.md and build the project from the «Промт» section. Start with a plan and questions."* The file is also copied into every new project. (The brief is in Russian.)
+
 ## Developing this repository
 
 ```bash

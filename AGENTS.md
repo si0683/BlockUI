@@ -11,3 +11,4 @@ LightWebsiteUi (since 4.0.0) is a **project starter**, not a runtime library: th
 - Versions: `version` in package.json + CHANGELOG.md + tag `vX.Y.Z`. Published tags are never changed.
 - `index.html` in the root is the GitHub Pages landing (static, no build): Russian, light/dark theme, violet-pink-amber palette.
 - Old tags v1.0.0–v3.2.1 hold the former CDN library (`blockui.js` / `lightwebsiteui.js`). Lesson repos (CreateSite01PROMT and the lesson sites) pin them through jsDelivr — do not delete those tags.
+- `PROMT.md` (Russian fill-in brief for AI assistants) lives in the root for download and as `template/PROMT.md` in every new project — keep both copies identical and in sync with the template (stack, scripts, file names).

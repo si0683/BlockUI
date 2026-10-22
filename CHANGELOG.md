@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0 — 2026-10-22
+
+- `PROMT.md`: a fill-in brief (in Russian) for building a site, web app, service or SaaS with an AI assistant — type, structure, features, design, quality rules, work stages and acceptance checklist. In the repository root for download and in every new project.
+
 ## 4.1.0 — 2026-10-22
 
 - Motion 14 (`motion/react`) added to the template: `Reveal` component fades blocks in on scroll (with a cascade and hover lift), used on the demo page; respects reduced motion.

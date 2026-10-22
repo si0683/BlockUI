@@ -3,6 +3,8 @@
 Website on **Astro 7 + React 19 + Tailwind CSS 4 + shadcn/ui (radix, style "radix-nova") + lucide-react + Motion + TypeScript**.
 Created with `npm create lightwebsiteui`.
 
+If `PROMT.md` is filled in, it is the user's spec for this project (site, app, SaaS): follow its «Промт» section (plan and questions first, then stages), while the rules below stay in force. An unfilled template (only `«…»` placeholders) is not a task.
+
 ## Structure
 
 - `src/pages/*.astro` — pages (file = URL). `src/layouts/main.astro` — `<html>`, `<head>`, theme script.
