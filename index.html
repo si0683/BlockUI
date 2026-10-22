@@ -57,6 +57,8 @@
     table { width: 100%; border-collapse: collapse; }
     td { padding: 5px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
     td:first-child { width: 128px; font-weight: 600; padding-right: 8px; }
+    td:first-child a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--c1) 45%, transparent); text-underline-offset: 3px; transition: color 0.2s, text-decoration-color 0.2s; }
+    td:first-child a:hover { color: var(--c1); text-decoration-color: currentColor; }
     td:last-child { color: var(--muted); }
     table + h2 { margin-top: 16px; }
     footer { margin-top: 20px; color: var(--muted); font-size: 12.5px; }
@@ -89,14 +91,14 @@
       <div>
         <h2>Что установится</h2>
         <table>
-        <tr><td>Astro 7</td><td>страницы и сборка</td></tr>
-        <tr><td>React 19</td><td>интерактивные компоненты</td></tr>
-        <tr><td>Tailwind CSS 4</td><td>стили классами</td></tr>
-        <tr><td>shadcn/ui</td><td>19 компонентов; ещё — <code>npx shadcn@latest add calendar</code></td></tr>
-        <tr><td>Lucide</td><td>иконки <code>lucide-react</code></td></tr>
-        <tr><td>Motion</td><td>анимации: появление, наведение, переходы</td></tr>
-        <tr><td>CMS</td><td>по желанию Payload (<code>--cms=payload</code>)</td></tr>
-        <tr><td>TypeScript</td><td>плюс ESLint и Prettier</td></tr>
+        <tr><td><a href="https://github.com/withastro/astro" target="_blank" rel="noopener">Astro 7</a></td><td>страницы и сборка</td></tr>
+        <tr><td><a href="https://github.com/facebook/react" target="_blank" rel="noopener">React 19</a></td><td>интерактивные компоненты</td></tr>
+        <tr><td><a href="https://github.com/tailwindlabs/tailwindcss" target="_blank" rel="noopener">Tailwind CSS 4</a></td><td>стили классами</td></tr>
+        <tr><td><a href="https://github.com/shadcn-ui/ui" target="_blank" rel="noopener">shadcn/ui</a></td><td>19 компонентов; ещё — <code>npx shadcn@latest add calendar</code></td></tr>
+        <tr><td><a href="https://github.com/lucide-icons/lucide" target="_blank" rel="noopener">Lucide</a></td><td>иконки <code>lucide-react</code></td></tr>
+        <tr><td><a href="https://github.com/motiondivision/motion" target="_blank" rel="noopener">Motion</a></td><td>анимации: появление, наведение, переходы</td></tr>
+        <tr><td><a href="https://github.com/payloadcms/payload" target="_blank" rel="noopener">CMS</a></td><td>по желанию Payload (<code>--cms=payload</code>)</td></tr>
+        <tr><td><a href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener">TypeScript</a></td><td>плюс ESLint и Prettier</td></tr>
         </table>
         <h2>Команды</h2>
         <table>
