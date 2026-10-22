@@ -1,5 +1,7 @@
 import { APIError, type CollectionConfig } from 'payload'
 
+import { publicCreateCustom } from '../access'
+
 // Leads from the site's order form. Anyone may create one; only signed-in users see them.
 export const Leads: CollectionConfig = {
   slug: 'leads',
@@ -10,6 +12,7 @@ export const Leads: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
+  custom: publicCreateCustom,
   defaultSort: '-createdAt',
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'phone', 'plan', 'status', 'createdAt'] },
   hooks: {

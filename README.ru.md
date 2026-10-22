@@ -67,6 +67,19 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --pay=stripe     # Str
 
 Сначала — тестовые ключи. Подробности — в `PAYMENTS.md` проекта.
 
+## Вход в админку с кодом (2FA)
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --2fa            # каждый включает сам
+npm create lightwebsiteui@latest my-site -- --cms=payload --2fa=required   # обязательно для всех
+```
+
+После пароля админка спрашивает шестизначный код из приложения: Яндекс Ключ, Google Authenticator, Aegis. Сделано плагином [payload-totp](https://github.com/GeorgeHulpoi/payload-totp).
+
+- Неверные коды блокируют вход, как неверный пароль.
+- При потере телефона: `npm run reset-2fa -- почта` в папке `cms/`.
+- Сайт не затронут: чтение контента и заявки работают как раньше.
+
 ## Структура шаблона
 
 ```

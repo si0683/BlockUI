@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-import { publicRead } from '../access'
+import { publicRead, publicReadCustom } from '../access'
 
 export const Plans: CollectionConfig = {
   slug: 'plans',
   labels: { singular: 'Тариф', plural: 'Тарифы' },
   access: publicRead,
+  custom: publicReadCustom,
   defaultSort: 'order',
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'price', 'popular', 'order'], group: 'Сайт' },
   fields: [

@@ -78,7 +78,8 @@ cd cms && npm ci && npm run build && npm run start   # порт 3000
 - В `cms/.env` на сервере укажите:
   - свой `PAYLOAD_SECRET` — длинную случайную строку;
   - `DATABASE_URL`;
-  - `SITE_URL=https://ваш-сайт`.
+  - `SITE_URL=https://ваш-сайт`;
+  - `CMS_URL=https://cms.ваш-сайт` — адрес самой админки. Без него Payload не примет cookie от админки, и правки не сохранятся.
 
 **Сайт** — куда угодно как статический (GitHub Pages: workflow уже есть). В GitHub: Settings → Secrets and variables → Actions → Variables добавьте `PUBLIC_CMS_URL=https://cms.ваш-сайт`.
 

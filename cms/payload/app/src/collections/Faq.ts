@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-import { publicRead } from '../access'
+import { publicRead, publicReadCustom } from '../access'
 
 export const Faq: CollectionConfig = {
   slug: 'faq',
   labels: { singular: 'Вопрос', plural: 'Вопросы и ответы' },
   access: publicRead,
+  custom: publicReadCustom,
   defaultSort: 'order',
   admin: { useAsTitle: 'q', defaultColumns: ['q', 'order'], group: 'Сайт' },
   fields: [

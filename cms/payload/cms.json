@@ -49,5 +49,30 @@
     "AGENTS.md",
     "README.md",
     "PROMT.md"
-  ]
+  ],
+  "twofa": {
+    "package": [
+      "payload-totp",
+      "3.0.6"
+    ],
+    "modes": {
+      "optional": {
+        "title": "по желанию — каждый включает в своём профиле",
+        "required": "false"
+      },
+      "required": {
+        "title": "обязательно для всех — без кода в админку не пустит",
+        "required": "true"
+      }
+    },
+    "append": [
+      "AGENTS.md",
+      "README.md",
+      "PROMT.md",
+      "PAYLOAD.md"
+    ],
+    "scripts": {
+      "reset-2fa": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/reset-2fa.ts"
+    }
+  }
 }

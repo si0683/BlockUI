@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.5.0 — 2026-10-22
+
+- Optional two-factor sign-in to the admin panel: `--2fa` (each user turns it on) or `--2fa=required` (mandatory), with `--cms=payload`, or an interactive question. Plugin payload-totp 3.0.6: 6-digit codes from an authenticator app, lockout after wrong codes, Russian UI; `TOTP_REQUIRED` / `TOTP_ISSUER` in `cms/.env`; `npm run reset-2fa -- email` for a lost phone; the PAYLOAD.md section.
+- Public parts stay public under the plugin: content reads and new leads carry `custom.totp.disableAccessWrapper`.
+- CMS seams are now `src/addons/payments.ts` and `src/addons/security.ts`, so payment and 2FA combine; the installer regenerates types and the admin import map after installing.
+- Fix: the CMS's own origin (`CMS_URL`, default `http://localhost:3000`) is trusted in `csrf`; before, cookies sent from the admin panel with that Origin were ignored, so saving in the browser could fail.
+
 ## 4.4.0 — 2026-10-22
 
 - Optional online payment: `--pay=none|yookassa|stripe` together with `--cms=payload` (or an interactive question). Adds the "Заказы" collection and `/api/orders/pay`, `/api/orders/webhook`, `/api/orders/status` in the CMS; a "Pay" button with a buyer form on plans that have an amount; the `/thanks` page that polls the order status. The price comes only from the CMS, the return URL only to `SITE_URL`, the status only from the provider API; Stripe webhooks are signature-checked. Providers use plain `fetch` (no SDK). Test keys first, `PAYMENTS.md` per provider (test mode, webhooks, receipts under 54-FZ for YooKassa, going live).

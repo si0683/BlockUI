@@ -42,6 +42,8 @@ for (let i = 0; i < args.length; i++) {
   const arg = args[i]
   const option = /^--(cms|db|pay)(?:=(.*))?$/.exec(arg)
   if (option) options[option[1]] = option[2] ?? args[++i]
+  // --2fa alone means "optional"; --2fa=required makes the code mandatory for everyone
+  else if (/^--2fa(=|$)/.test(arg)) options.twofa = arg.includes("=") ? arg.slice(6) : "optional"
   else if (arg.startsWith("-")) flags.add(arg)
   else target ??= arg
 }
@@ -50,11 +52,13 @@ if (flags.has("-h") || flags.has("--help")) {
   console.log(`
 ${bold("create-lightwebsiteui")} ${dim(version)}
 
-  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --no-install --no-git]")}
+  npm create lightwebsiteui@latest ${dim("[folder]")} ${dim("[-- --cms=<name> --db=<name> --pay=<name> --2fa[=required] --no-install --no-git]")}
 
   --cms=<name>   ${cmsList.map((c) => c.name).join(" | ")}  (default: none)
   --db=<name>    with --cms=payload: sqlite | postgres  (default: sqlite)
   --pay=<name>   with --cms=payload: none | yookassa | stripe  (default: none)
+  --2fa[=mode]   with --cms=payload: code from an authenticator app for the admin panel;
+                 optional (what --2fa means) | required | none
   --no-install   do not run npm install
   --no-git       do not run git init
 `)
@@ -96,6 +100,16 @@ if (cms.pays) {
 } else if (options.pay && options.pay !== "none") {
   fail("Онлайн-оплата работает только вместе с CMS: добавьте --cms=payload")
 }
+let twofa
+if (cms.twofa) {
+  const modeList = [{ name: "none", title: "без 2FA" }, ...Object.entries(cms.twofa.modes).map(([name, info]) => ({ name, ...info }))]
+  if (!options.twofa && rl) options.twofa = await choose("Вход в админку с кодом из приложения (2FA):", modeList)
+  options.twofa ||= "none"
+  twofa = modeList.find((m) => m.name === options.twofa)
+  if (!twofa) fail(`Неизвестный режим 2FA «${options.twofa}». Доступны: ${modeList.map((m) => m.name).join(", ")}`)
+} else if (options.twofa && options.twofa !== "none") {
+  fail("2FA работает только вместе с CMS: добавьте --cms=payload")
+}
 rl?.close()
 
 const root = resolve(target)
@@ -136,9 +150,11 @@ if (cms.name !== "none") {
     `DATABASE_URL=${db.url}`,
     `PAYLOAD_SECRET=${randomBytes(24).toString("hex")}`,
     "SITE_URL=http://localhost:4321",
+    "# Address of this CMS (the admin panel); on the server: https://cms.your-site",
+    "CMS_URL=http://localhost:3000",
   ]
   writeFileSync(join(app, ".env"), cmsEnv.join("\n") + "\n")
-  writeFileSync(join(app, ".env.example"), [`DATABASE_URL=${db.url}`, "PAYLOAD_SECRET=change-me", "SITE_URL=http://localhost:4321"].join("\n") + "\n")
+  writeFileSync(join(app, ".env.example"), cmsEnv.join("\n").replace(/PAYLOAD_SECRET=.*/, "PAYLOAD_SECRET=change-me") + "\n")
   const siteEnv = "# Payload CMS address (the site reads content and sends leads there)\nPUBLIC_CMS_URL=http://localhost:3000\n"
   writeFileSync(join(root, ".env"), siteEnv)
   writeFileSync(join(root, ".env.example"), siteEnv)
@@ -163,6 +179,28 @@ if (cms.name !== "none") {
       appendFileSync(join(root, file), readFileSync(join(dir, "pay", "append", file), "utf8"))
     }
   }
+  // Two-factor sign-in to the admin panel: payload-totp plugin
+  if (twofa.name !== "none") {
+    cpSync(join(dir, "twofa", "app"), app, { recursive: true })
+    const [name, ver] = cms.twofa.package
+    const twofaPkg = JSON.parse(readFileSync(appPkgPath, "utf8"))
+    twofaPkg.dependencies = Object.fromEntries(Object.entries({ ...twofaPkg.dependencies, [name]: ver }).sort())
+    twofaPkg.scripts = { ...twofaPkg.scripts, ...cms.twofa.scripts }
+    writeFileSync(appPkgPath, JSON.stringify(twofaPkg, null, 2) + "\n")
+    const twofaEnv = [
+      "",
+      "# Two-factor sign-in (2FA, see PAYLOAD.md): true — every user must set up an authenticator app",
+      `TOTP_REQUIRED=${twofa.required}`,
+      "# Name shown in the authenticator app",
+      `TOTP_ISSUER=${pkg.name}`,
+      "",
+    ].join("\n")
+    appendFileSync(join(app, ".env"), twofaEnv)
+    appendFileSync(join(app, ".env.example"), twofaEnv)
+    for (const file of cms.twofa.append ?? []) {
+      appendFileSync(join(root, file), readFileSync(join(dir, "twofa", "append", file), "utf8"))
+    }
+  }
   pkg.scripts = { ...pkg.scripts, ...cms.scripts }
 }
 writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")
@@ -170,6 +208,9 @@ writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n")
 console.log(`${green("✔")} Проект создан: ${bold(root)}`)
 if (cms.name !== "none") console.log(`${green("✔")} CMS: ${cms.title}, база: ${db.name}`)
 if (pay && pay.name !== "none") console.log(`${green("✔")} Оплата: ${pay.title} — ключи в cms/.env, см. PAYMENTS.md`)
+if (twofa && twofa.name !== "none") console.log(`${green("✔")} 2FA: ${twofa.title}`)
+// Options that add collections, fields or admin components need fresh types and the admin import map
+const addons = (pay && pay.name !== "none") || (twofa && twofa.name !== "none")
 
 // ---------- install ----------
 const agent = (process.env.npm_config_user_agent ?? "npm").split("/")[0]
@@ -182,6 +223,10 @@ if (!flags.has("--no-install")) {
   if (installed && cms.name !== "none") {
     console.log(`\n${dim("…")} Устанавливаю зависимости CMS (cms/)\n`)
     installed = run(pm, ["install"], join(root, "cms"))
+    if (installed && addons) {
+      run(pm, ["run", "generate:types"], join(root, "cms"), true)
+      run(pm, ["run", "generate:importmap"], join(root, "cms"), true)
+    }
   }
   console.log(installed ? `\n${green("✔")} Зависимости установлены` : red("✖ Установка не удалась — запустите её вручную"))
 }
@@ -191,7 +236,9 @@ if (!flags.has("--no-git") && run("git", ["--version"], root, true)) {
 }
 
 const cd = relative(process.cwd(), root) || "."
-const notInstalled = installed ? "" : `\n  ${pm} install${cms.name !== "none" ? ` && ${pm} --prefix cms install` : ""}`
+const notInstalled = installed
+  ? ""
+  : `\n  ${pm} install${cms.name !== "none" ? ` && ${pm} --prefix cms install` : ""}${addons ? ` && ${pm} --prefix cms run generate:types && ${pm} --prefix cms run generate:importmap` : ""}`
 const cmsSteps =
   cms.name === "none"
     ? ""

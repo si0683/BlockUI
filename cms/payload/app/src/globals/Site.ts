@@ -1,10 +1,13 @@
 import type { GlobalConfig } from 'payload'
 
+import { publicReadCustom } from '../access'
+
 // Company details and the menu: one record for the whole site
 export const Site: GlobalConfig = {
   slug: 'site',
   label: 'Настройки сайта',
   access: { read: () => true, update: ({ req }) => Boolean(req.user) },
+  custom: publicReadCustom,
   admin: { group: 'Сайт' },
   fields: [
     { name: 'name', label: 'Название компании', type: 'text', required: true },

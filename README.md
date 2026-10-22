@@ -50,6 +50,15 @@ npm create lightwebsiteui@latest my-site -- --cms=payload --pay=stripe     # Str
 
 Works on top of Payload: plans with an amount get a "Pay" button, the CMS creates the order (price from the CMS only) and the payment, the buyer returns to `/thanks`, webhooks and the thanks page re-check the status with the provider API, orders are listed in the admin panel. Test keys first; details in the project's `PAYMENTS.md`.
 
+## Optional two-factor sign-in
+
+```bash
+npm create lightwebsiteui@latest my-site -- --cms=payload --2fa            # each user turns it on
+npm create lightwebsiteui@latest my-site -- --cms=payload --2fa=required   # mandatory for everyone
+```
+
+The admin panel asks for a 6-digit code from an authenticator app after the password ([payload-totp](https://github.com/GeorgeHulpoi/payload-totp)); wrong codes lock the account like wrong passwords; `npm run reset-2fa -- email` in `cms/` for a lost phone. The site's public reads and leads keep working.
+
 ## Template structure
 
 ```

@@ -14,7 +14,8 @@ import { Plans } from './collections/Plans'
 import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { db } from './db'
-import { extraCollections, extraEndpoints } from './extensions'
+import { paymentCollections } from './addons/payments'
+import { securityPlugins } from './addons/security'
 import { Site } from './globals/Site'
 import { seed } from './seed'
 
@@ -26,6 +27,8 @@ const sites = (process.env.SITE_URL || 'http://localhost:4321')
   .split(',')
   .map((url) => url.trim().replace(/\/$/, ''))
   .filter(Boolean)
+// The CMS's own address: the admin panel sends its requests with this Origin
+const cmsUrl = (process.env.CMS_URL || 'http://localhost:3000').replace(/\/$/, '')
 
 export default buildConfig({
   admin: {
@@ -34,8 +37,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Features, Plans, Reviews, Faq, Leads, ...extraCollections, Media, Users],
-  endpoints: extraEndpoints,
+  collections: [Features, Plans, Reviews, Faq, Leads, ...paymentCollections, Media, Users],
   globals: [Site],
   editor: lexicalEditor(),
   // Admin panel in Russian (users can switch to English in their account)
@@ -46,8 +48,11 @@ export default buildConfig({
   },
   db,
   cors: sites,
-  csrf: sites,
+  // Cookies are accepted only from these origins: the admin panel itself and the sites
+  csrf: [cmsUrl, ...sites],
   sharp,
+  // Must stay the last plugins (payload-totp wraps the access of everything before it)
+  plugins: [...securityPlugins],
   // Demo content of the site template on the first start (empty database)
   onInit: seed,
 })
